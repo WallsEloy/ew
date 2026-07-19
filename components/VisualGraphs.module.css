@@ -43,8 +43,12 @@
 .copyColumn {
   position: relative;
   z-index: 3;
-  display: flex;
+  /* Grid de una sola celda: durante el cambio de escena, la copia saliente y
+     la entrante se apilan en la MISMA celda (cross-fade en su lugar) en vez de
+     colocarse lado a lado, lo que causaba el salto del texto al hacer scroll. */
+  display: grid;
   align-items: center;
+  justify-items: start;
   min-width: 0;
   min-height: 0;
   height: 100%;
@@ -53,6 +57,7 @@
 }
 
 .copy {
+  grid-area: 1 / 1; /* ambas copias comparten celda para que se encimen */
   max-width: 520px;
 }
 
@@ -335,7 +340,11 @@
     right: auto;
     left: 50%;
     z-index: 4;
-    display: block;
+    /* Grid de una sola celda para que las copias se encimen durante la
+       transición (evita que la tarjeta salte al apilarlas verticalmente). */
+    display: grid;
+    align-items: start;
+    justify-items: stretch;
     width: calc(100% - 36px);
     max-width: 360px;
     height: auto;
