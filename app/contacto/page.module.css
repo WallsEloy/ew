@@ -7,8 +7,16 @@
   justify-content: center;
   background: #17181c;
   color: #fff;
-  padding-top: 6rem; /* deja pasar el nav fijo transparente */
+  /* En móvil el espaciador global del layout ya reserva el nav; el padding
+     superior solo hace falta en desktop (nav fijo sin espaciador). */
+  padding-top: 0;
   padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-top: 6rem;
+  }
 }
 
 .card {

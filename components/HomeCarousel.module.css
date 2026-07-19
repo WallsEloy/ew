@@ -500,13 +500,13 @@
 
 @media (max-width: 768px), (orientation: portrait) {
   .floatingMemoji {
-    top: 25%;
+    top: 21%;
     left: 18%;
     width: clamp(160px, 52vw, 225px);
   }
 
   .floatingMemojiRight {
-    top: 58%;
+    top: 54%;
     bottom: auto;
     left: 82%;
     width: clamp(170px, 55vw, 235px);
@@ -565,6 +565,17 @@
      imagen pintara sobre el título durante la transición del track. */
   .imageStage {
     will-change: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .scrollSection {
+    height: calc(100dvh - 116px);
+    margin-top: 116px;
+  }
+
+  .stickyScene {
+    height: calc(100dvh - 116px);
   }
 }
 

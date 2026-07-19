@@ -22,7 +22,7 @@ export default function Home() {
   const profile = profiles[current];
 
   return (
-    <div className="pt-[60px] md:pt-[120px]">
+    <div className="md:pt-[120px]">
       {/* 1. SECCIÓN: Botones para cambiar entre perfiles (esto normalmente sería un menú lateral o búsqueda) */}
       <div className={styles.buttonsContainer}>
         {profiles.map((p, i) => (

@@ -19,6 +19,9 @@ export default function RootLayout({ children }) {
         className="antialiased"
       >
         <Navbar />
+        {/* Espaciador solo móvil: reserva la altura del nav fijo (116px) para que
+            empuje el contenido hacia abajo y no lo tape. En desktop se oculta. */}
+        <div aria-hidden="true" className="md:hidden h-[116px]" />
         {children}
       </body>
     </html>
