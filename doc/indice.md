@@ -8,6 +8,7 @@ Bienvenido al índice central de documentación del proyecto **EW Portfolio Stud
 
 *   **[Infraestructura en la Nube (cloud.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/cloud.md)**: Vista general de la arquitectura cloud, base de datos serverless, pasarela de pago Stripe, y el listado consolidado de variables de entorno (.env) necesarias.
 *   **[Reglas de IA y Estilo (claude.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/claude.md)**: Normas estéticas premium, pautas de diseño (HSL, animaciones, etc.) y reglas de desarrollo para asistentes de inteligencia artificial.
+*   **[Integración de Memojis (Memoji.md)](./Memoji.md)**: Conversión MOV→MP4, chroma key por canvas, transparencia, posicionamiento, interacción y verificación de nuevos Memojis animados.
 
 ---
 

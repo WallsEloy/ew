@@ -14,6 +14,99 @@ import { defaultHomeSlides } from "../data/homeSlides";
 
 const SCROLL_SLIDE_PHASE_START = 0.2;
 
+function ChromaKeyMemoji({ src }) {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d", { willReadFrequently: true });
+    if (!video || !canvas || !context) return undefined;
+
+    let frameRequest;
+    let stopped = false;
+    let drawingStarted = false;
+
+    const drawFrame = () => {
+      if (stopped) return;
+
+      if (video.readyState >= 2) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = frame.data;
+
+        for (let index = 0; index < pixels.length; index += 4) {
+          const darkestEdge = Math.max(
+            pixels[index],
+            pixels[index + 1],
+            pixels[index + 2],
+          );
+
+          if (darkestEdge <= 6) {
+            pixels[index + 3] = 0;
+          } else if (darkestEdge < 18) {
+            pixels[index + 3] = Math.round(((darkestEdge - 6) / 12) * 255);
+          }
+        }
+
+        context.putImageData(frame, 0, 0);
+      }
+
+      if ("requestVideoFrameCallback" in video) {
+        frameRequest = video.requestVideoFrameCallback(drawFrame);
+      } else {
+        frameRequest = window.requestAnimationFrame(drawFrame);
+      }
+    };
+
+    const startDrawing = () => {
+      if (drawingStarted || stopped) return;
+      drawingStarted = true;
+      drawFrame();
+    };
+    video.addEventListener("loadeddata", startDrawing, { once: true });
+    video.addEventListener("playing", startDrawing, { once: true });
+    if (video.readyState >= 2) startDrawing();
+    video.play().then(startDrawing).catch(() => undefined);
+
+    return () => {
+      stopped = true;
+      video.removeEventListener("loadeddata", startDrawing);
+      video.removeEventListener("playing", startDrawing);
+      if ("cancelVideoFrameCallback" in video && frameRequest) {
+        video.cancelVideoFrameCallback(frameRequest);
+      } else if (frameRequest) {
+        window.cancelAnimationFrame(frameRequest);
+      }
+    };
+  }, [src]);
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        className={styles.memojiSource}
+        src={src}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      />
+      <canvas
+        ref={canvasRef}
+        className={styles.memojiVideo}
+        width="256"
+        height="192"
+        aria-hidden="true"
+      />
+    </>
+  );
+}
+
 export default function HomeCarousel({ slides }) {
   // El contenido llega por prop (desde Supabase). Fallback al seed por defecto.
   const slidesData =
@@ -188,15 +281,7 @@ export default function HomeCarousel({ slides }) {
             aria-expanded={isMessageOpen}
             aria-controls="memoji-message-panel"
           >
-            <video
-              className={styles.memojiVideo}
-              src="/perfil/IMG_1327.webm"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-            />
+            <ChromaKeyMemoji src="/perfil/IMG_1327-mobile.mp4" />
           </button>
         </motion.div>
 
@@ -215,15 +300,7 @@ export default function HomeCarousel({ slides }) {
             aria-expanded={isMessageOpen}
             aria-controls="memoji-message-panel"
           >
-            <video
-              className={styles.memojiVideo}
-              src="/perfil/IMG_1329.webm"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-            />
+            <ChromaKeyMemoji src="/perfil/IMG_1329-mobile.mp4" />
           </button>
         </motion.div>
 

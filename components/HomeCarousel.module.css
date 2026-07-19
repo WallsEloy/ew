@@ -100,7 +100,7 @@
   transform: translateX(-50%);
   background: transparent;
   pointer-events: auto;
-  animation: memojiFloat 5.8s ease-in-out infinite;
+  animation: memojiFloat 7.2s ease-in-out infinite;
   will-change: transform;
 }
 
@@ -140,6 +140,16 @@
   background: transparent;
   object-fit: contain;
   filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.32));
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.memojiSource {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .messagePanel {
@@ -262,11 +272,11 @@
 @keyframes memojiFloat {
   0%,
   100% {
-    transform: translate3d(-50%, 0, 0) rotate(-1.5deg);
+    transform: translate3d(-50%, 0, 0) rotate(-0.75deg);
   }
 
   50% {
-    transform: translate3d(-50%, -18px, 0) rotate(1.5deg);
+    transform: translate3d(-50%, -9px, 0) rotate(0.75deg);
   }
 }
 
