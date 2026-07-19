@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   motion,
@@ -10,67 +9,17 @@ import {
   useTransform,
 } from "framer-motion";
 import styles from "./HomeCarousel.module.css";
+import { defaultHomeSlides } from "../data/homeSlides";
 
-const slidesData = [
-  {
-    id: 0,
-    title: "Galerias",
-    logoText: "HUMANS",
-    buttonText: "ver",
-    image: "/p-1Mesa-de-trabajo-1.png",
-    rightTitle: "OnlyFans",
-    rightText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.",
-    rightColor: "#00aff0",
-  },
-  {
-    id: 1,
-    title: "Proyectos",
-    logoText: "PROJECTS",
-    buttonText: "descubrir",
-    image: "/p-2Mesa-de-trabajo-1.png",
-    rightTitle: "Exclusive",
-    rightText:
-      "Explora la exclusiva colección de nuestros mejores proyectos, cada uno elaborado con el máximo cuidado y atención al detalle para inspirar tu creatividad.",
-    rightColor: "#ff0055",
-  },
-  {
-    id: 2,
-    title: "Eventos",
-    logoText: "EVENTS",
-    buttonText: "asistir",
-    image: "/p-3Mesa-de-trabajo-1.png",
-    rightTitle: "VIP Pass",
-    rightText:
-      "Únete a nosotros en nuestros próximos eventos y experimenta de primera mano la atmósfera vibrante de nuestra comunidad enfocada en el arte.",
-    rightColor: "#ffd700",
-  },
-  {
-    id: 3,
-    title: "Shopping",
-    logoText: "STORE",
-    buttonText: "comprar",
-    image: "/p-4Mesa-de-trabajo-1.png",
-    rightTitle: "Merch",
-    rightText:
-      "Adquiere la última mercancía de nuestras colecciones. Ediciones limitadas disponibles solo para miembros registrados. No te quedes sin la tuya.",
-    rightColor: "#ff4500",
-  },
-  {
-    id: 4,
-    title: "Contacto",
-    logoText: "CONTACT",
-    buttonText: "escribir",
-    image: "/p-6Mesa-de-trabajo-1.png",
-    rightTitle: "Let's Talk",
-    rightText:
-      "Ponte en contacto con nuestro equipo para consultas de prensa, colaboraciones o cualquier otra pregunta relacionada con nuestro trabajo.",
-    rightColor: "#00fa9a",
-  },
-];
+const SCROLL_SLIDE_PHASE_START = 0.2;
 
-export default function HomeCarousel() {
+export default function HomeCarousel({ slides }) {
+  // El contenido llega por prop (desde Supabase). Fallback al seed por defecto.
+  const slidesData =
+    Array.isArray(slides) && slides.length > 0 ? slides : defaultHomeSlides;
   const sectionRef = useRef(null);
+  const scrollBaseIndexRef = useRef(0);
+  const scrollStepRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isScrollMode, setIsScrollMode] = useState(false);
@@ -81,22 +30,26 @@ export default function HomeCarousel() {
     offset: ["start start", "end end"],
   });
 
-  const transitionRange = prefersReducedMotion ? [0, 0.12] : [0, 0.82];
-  const initialOpacity = useTransform(scrollYProgress, transitionRange, [1, 0]);
+  const transitionRange = prefersReducedMotion ? [0, 0.04] : [0, 0.18];
+  const initialOpacity = useTransform(
+    scrollYProgress,
+    prefersReducedMotion ? [0, 0.02] : [0, 0.08],
+    [1, 0],
+  );
   const imageX = useTransform(scrollYProgress, transitionRange, ["0vw", "-20vw"]);
   const imageScale = useTransform(scrollYProgress, transitionRange, [1, 1.12]);
   const detailOpacity = useTransform(
     scrollYProgress,
-    prefersReducedMotion ? [0.02, 0.12] : [0.28, 0.72],
+    prefersReducedMotion ? [0.015, 0.04] : [0.08, 0.17],
     [0, 1],
   );
   const detailX = useTransform(
     scrollYProgress,
-    prefersReducedMotion ? [0.02, 0.12] : [0.25, 0.72],
+    prefersReducedMotion ? [0.015, 0.04] : [0.07, 0.17],
     [80, 0],
   );
-  const detailTitleY = useTransform(scrollYProgress, [0.3, 0.7], [24, 0]);
-  const detailBodyY = useTransform(scrollYProgress, [0.38, 0.78], [32, 0]);
+  const detailTitleY = useTransform(scrollYProgress, [0.08, 0.16], [24, 0]);
+  const detailBodyY = useTransform(scrollYProgress, [0.1, 0.18], [32, 0]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(
@@ -111,6 +64,31 @@ export default function HomeCarousel() {
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     const nextScrollMode = isDesktop && progress > 0.015;
+
+    if (nextScrollMode && !isScrollMode) {
+      scrollBaseIndexRef.current = activeIndex;
+      scrollStepRef.current = 0;
+    }
+
+    if (nextScrollMode) {
+      const slideProgress = Math.max(
+        0,
+        (progress - SCROLL_SLIDE_PHASE_START) /
+          (1 - SCROLL_SLIDE_PHASE_START),
+      );
+      const nextStep = Math.min(
+        slidesData.length - 1,
+        Math.floor(slideProgress * (slidesData.length - 1) + 0.0001),
+      );
+
+      if (nextStep !== scrollStepRef.current) {
+        scrollStepRef.current = nextStep;
+        setActiveIndex(
+          (scrollBaseIndexRef.current + nextStep) % slidesData.length,
+        );
+      }
+    }
+
     setIsScrollMode((current) =>
       current === nextScrollMode ? current : nextScrollMode,
     );
@@ -133,7 +111,7 @@ export default function HomeCarousel() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isScrollMode]);
+  }, [isScrollMode, slidesData.length]);
 
   useEffect(() => {
     if (isScrollMode) return undefined;
@@ -145,10 +123,14 @@ export default function HomeCarousel() {
     }, 5000);
 
     return () => window.clearInterval(interval);
-  }, [isScrollMode]);
+  }, [isScrollMode, slidesData.length]);
 
   const selectSlide = (index) => {
-    if (!isScrollMode) setActiveIndex(index);
+    if (isScrollMode) {
+      scrollBaseIndexRef.current =
+        (index - scrollStepRef.current + slidesData.length) % slidesData.length;
+    }
+    setActiveIndex(index);
   };
 
   return (
@@ -214,12 +196,11 @@ export default function HomeCarousel() {
                     scale: isDesktop ? imageScale : 1,
                   }}
                 >
-                  <Image
+                  <img
                     src={slide.image}
                     alt={slide.title}
-                    fill
-                    priority={index === 0}
-                    sizes="(min-width: 769px) 60vw, 100vw"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchPriority={index === 0 ? "high" : "auto"}
                     className={styles.heroImage}
                   />
                 </motion.div>
@@ -257,9 +238,32 @@ export default function HomeCarousel() {
                 <motion.p className={styles.description} style={{ y: detailBodyY }}>
                   {slide.rightText}
                 </motion.p>
-                <motion.button type="button" style={{ y: detailBodyY }}>
-                  {slide.buttonText}
-                </motion.button>
+                <motion.div
+                  className={styles.editorialActions}
+                  style={{ y: detailBodyY }}
+                >
+                  <button type="button">{slide.buttonText}</button>
+                  <div
+                    className={styles.editorialDots}
+                    aria-label="Seleccionar imagen del carrusel"
+                  >
+                    {slidesData.map((dotSlide, dotIndex) => (
+                      <button
+                        key={dotSlide.id}
+                        type="button"
+                        onClick={() => selectSlide(dotIndex)}
+                        disabled={!isScrollMode || activeIndex !== index}
+                        className={`${styles.dot} ${
+                          activeIndex === dotIndex ? styles.activeDot : ""
+                        }`}
+                        aria-label={`Ir a slide ${dotIndex + 1}`}
+                        aria-current={
+                          activeIndex === dotIndex ? "true" : undefined
+                        }
+                      />
+                    ))}
+                  </div>
+                </motion.div>
               </motion.div>
             </article>
           ))}

@@ -114,8 +114,8 @@ export default function Navbar() {
             <button onClick={() => toggleDropdown('diseno')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Diseño</button>
             {renderDropdown('diseno', [
               { label: 'Gráfico', href: '/diseno' },
-              { label: 'Web', href: '/diseno' }
-              
+              { label: 'Web', href: '/diseno' },
+              { label: 'Coding', href: '/coding' }
             ])}
           </div>
           <div className="relative px-2 lg:px-4">
@@ -170,7 +170,8 @@ export default function Navbar() {
                 <button onClick={() => toggleDropdown('diseno')} className={mobileNavItemClass}>Diseño</button>
                 {renderDropdown('diseno', [
                   { label: 'Gráfico', href: '/diseno' },
-                  { label: 'Web', href: '/diseno' }
+                  { label: 'Web', href: '/diseno' },
+                  { label: 'Coding', href: '/coding' }
                 ], true)}
               </div>
               <div className="w-full flex flex-col items-center border-b border-[#222]">

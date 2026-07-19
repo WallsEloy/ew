@@ -1,0 +1,396 @@
+.section {
+  position: relative;
+  width: 100%;
+  background: #050505;
+  color: #f7f5fa;
+}
+
+.desktopScene {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 50%, rgba(3, 105, 161, 0.08), transparent 34%),
+    #08090b;
+}
+
+.ambient {
+  position: absolute;
+  top: 13%;
+  right: 4%;
+  width: 48vw;
+  height: 74vh;
+  border-radius: 50%;
+  background: rgba(2, 132, 199, 0.08);
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(320px, 40vw) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  width: min(100%, 1480px);
+  height: 100%;
+  margin: 0 auto;
+  padding: clamp(88px, 11vh, 120px) clamp(48px, 7vw, 108px) 48px;
+  box-sizing: border-box;
+}
+
+.copyColumn {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  padding-right: clamp(36px, 5vw, 80px);
+  transform: none;
+}
+
+.copy {
+  max-width: 520px;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #35d07f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.32em;
+}
+
+.counter {
+  margin: 0 0 18px;
+  color: #85818c;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.18em;
+}
+
+.copy h2 {
+  margin: 0;
+  font-size: clamp(3.5rem, 6.2vw, 6.8rem);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+
+.description {
+  max-width: 42ch;
+  margin: 34px 0 0;
+  color: #c8c4ce;
+  font-size: clamp(1rem, 1.45vw, 1.24rem);
+  line-height: 1.75;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 38px;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress span {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  border-radius: 999px;
+  background: #d0d0d0;
+  transition: transform 300ms ease, background 300ms ease, box-shadow 300ms ease;
+}
+
+.progress .progressActive {
+  transform: scale(1.3);
+  background: #00aff0;
+  box-shadow: 0 0 12px #00aff0;
+}
+
+.graphButton {
+  padding: 10px 32px;
+  border: 2px solid #fde047;
+  border-radius: 999px;
+  background: linear-gradient(#facc15, #ca8a04);
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(202, 138, 4, 0.8);
+  cursor: pointer;
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.graphButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(234, 179, 8, 0.9);
+}
+
+.graphButton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.graphColumn {
+  --scene-accent: #35d07f;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  isolation: isolate;
+}
+
+.graphField {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(240%, 1780px);
+  min-width: 240%;
+  height: 190dvh;
+  flex: 0 0 auto;
+  animation: gravityDrift 9s ease-in-out infinite;
+  transform-origin: 55% 46%;
+  will-change: transform;
+}
+
+.graphSpinner {
+  width: 100%;
+  height: 100%;
+  animation: graphSlowSpin 95s linear infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.graphColumn::before {
+  position: absolute;
+  width: 70%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  border-radius: 50%;
+  content: "";
+  box-shadow: 0 0 90px rgba(3, 105, 161, 0.08);
+  opacity: 0.45;
+}
+
+.graph {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+}
+
+.edges line {
+  vector-effect: non-scaling-stroke;
+}
+
+.node,
+.activeNode {
+  vector-effect: non-scaling-stroke;
+}
+
+.node {
+  stroke: #1d4ed8;
+  stroke-width: 2px;
+}
+
+.activeNode {
+  stroke: #078f57;
+  stroke-width: 2.5px;
+  animation:
+    nodeGravityPulse 3.8s ease-in-out infinite,
+    individualGravity 5.6s ease-in-out var(--gravity-delay, 0s) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.gravityNode:not(.activeNode) {
+  animation: individualGravity 5.6s ease-in-out var(--gravity-delay, 0s) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes gravityDrift {
+  0%,
+  100% {
+    transform: translate(7%, -9%);
+  }
+
+  45% {
+    transform: translate(4.5%, -5.8%);
+  }
+
+  72% {
+    transform: translate(6%, -7%);
+  }
+}
+
+@keyframes graphSlowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes individualGravity {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  48% {
+    translate: 3.2px -4px;
+  }
+
+  72% {
+    translate: -1.8px 2.2px;
+  }
+}
+
+@keyframes nodeGravityPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+    filter: brightness(1.18);
+  }
+}
+
+.mobileScenes {
+  display: none;
+}
+
+@media (min-width: 769px) and (orientation: landscape) {
+  .section {
+    height: 600dvh;
+  }
+
+  .desktopScene {
+    position: sticky;
+    top: 0;
+  }
+}
+
+@media (max-width: 1000px) and (min-width: 769px) and (orientation: landscape) {
+  .layout {
+    grid-template-columns: 42% 58%;
+    padding-inline: 48px;
+  }
+
+  .copy h2 {
+    font-size: clamp(3rem, 6vw, 4.3rem);
+  }
+}
+
+@media (max-width: 768px), (orientation: portrait) {
+  .desktopScene {
+    display: none;
+  }
+
+  .mobileScenes {
+    display: block;
+    padding: 88px 20px 72px;
+    background:
+      radial-gradient(circle at 70% 8%, rgba(3, 105, 161, 0.12), transparent 26%),
+      #08090b;
+  }
+
+  .mobileHeader {
+    margin-bottom: 56px;
+  }
+
+  .mobileHeader h2 {
+    margin: 0;
+    font-size: clamp(2.7rem, 14vw, 4.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+  }
+
+  .mobileCard {
+    padding: 34px 0 46px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mobileCopy h3 {
+    margin: 0;
+    font-size: clamp(2.2rem, 11vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .mobileCopy > p:last-child {
+    margin: 20px 0 0;
+    color: #c8c4ce;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .mobileGraph {
+    height: min(90vw, 430px);
+    margin-top: 22px;
+    border-radius: 24px;
+    background: radial-gradient(circle, rgba(3, 105, 161, 0.1), transparent 65%);
+  }
+
+  .mobileGraph .graph {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+
+  .graphField {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    animation: none;
+    transform: none;
+  }
+
+  .graphSpinner {
+    animation: none;
+  }
+
+  .copyColumn {
+    transform: none;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress span {
+    transition-duration: 1ms;
+  }
+
+  .graphField,
+  .graphSpinner,
+  .activeNode,
+  .gravityNode {
+    animation: none;
+  }
+}

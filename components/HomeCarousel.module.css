@@ -120,7 +120,7 @@
 
 .initialCopy > h2 {
   margin: 0 0 80px;
-  transform: translateY(-80px);
+  transform: translateY(-48px);
   color: white;
   font-size: 2.25rem;
   font-weight: 700;
@@ -145,7 +145,7 @@
 }
 
 .initialAction button,
-.editorialCopy button {
+.editorialActions > button {
   border: 2px solid #fde047;
   border-radius: 999px;
   background: linear-gradient(#facc15, #ca8a04);
@@ -173,6 +173,9 @@
 
 .imageStage {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   transform-origin: center center;
@@ -181,7 +184,11 @@
 }
 
 .heroImage {
-  object-fit: contain;
+  display: block;
+  width: auto;
+  max-width: none;
+  height: 100dvh;
+  object-fit: cover;
   filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.45));
 }
 
@@ -258,14 +265,31 @@
   line-height: 1.75;
 }
 
-.editorialCopy button {
+.editorialActions > button {
   padding: 10px 38px;
   pointer-events: auto;
 }
 
+.editorialActions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.editorialDots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.editorialDots .dot {
+  padding: 0;
+}
+
 @media (min-width: 769px) and (orientation: landscape) {
   .scrollSection {
-    height: 200dvh;
+    height: 600dvh;
   }
 
   .stickyScene {
