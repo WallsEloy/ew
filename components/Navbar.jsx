@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -27,6 +29,10 @@ export default function Navbar() {
     };
   }, [dropdownRef]);
 
+  if (pathname && pathname.startsWith('/dashboard')) {
+    return null;
+  }
+
   const navItemClass = "nav-link bg-transparent font-normal italic text-[11px] sm:text-[13px] md:text-[14px] hover:font-bold hover:scale-110 hover:brightness-150 transition-all duration-200 inline-block no-underline border-none focus:outline-none";
   
   // Custom class for mobile links specifically
@@ -46,10 +52,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-[99999] bg-black font-sans text-white border-b border-[#111]" ref={dropdownRef}>
+    <nav className="fixed top-0 left-0 w-full z-[99999] bg-transparent font-sans text-white" ref={dropdownRef}>
       
       {/* Top section: Buttons */}
-      <div className="w-full flex justify-end px-[6%] py-1 z-20 relative bg-black">
+      <div className="w-full flex justify-end px-[6%] py-1 z-20 relative">
         <div className="flex">
           <button className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-l-full border-t-0 border-b-0 border-l-0 border-r-[2px] border-solid border-[#0090c0] text-[13px] hover:opacity-80 transition-all tracking-wide">Registro</button>
           <button className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-r-full border-none text-[13px] hover:opacity-80 transition-all tracking-wide">login</button>
@@ -58,31 +64,22 @@ export default function Navbar() {
 
       {/* Middle Line Section */}
       <div className="relative w-full flex items-center justify-center my-1 z-[60]" style={{ height: '12px', minHeight: '12px' }}>
-        
-        {/* Left Line */}
-        <div className="flex-1 bg-white w-full border border-white" style={{ height: '12px', minHeight: '12px', backgroundColor: 'white' }}></div>
-        
-        {/* Inner Text on the white line */}
-        <div className="flex items-center justify-center bg-white text-black text-[9.5px] font-black tracking-[0.5em] px-8 border border-white" style={{ height: '12px', minHeight: '12px', backgroundColor: 'white' }}>
-           <span className="mr-[30px] pr-2">e l o y</span>
-           <span className="ml-[30px] pl-2">w a l l s</span>
-        </div>
-        
-        {/* Right Line */}
-        <div className="flex-1 bg-white w-full border border-white" style={{ height: '12px', minHeight: '12px', backgroundColor: 'white' }}></div>
 
-        {/* Center Logo (Cuts the line with black background) */}
-        <Link href="/" className="absolute left-1/2 -translate-x-1/2 bg-black px-4 py-1 flex items-center justify-center z-[3] hover:scale-105 transition-transform">
-          <img 
-            src="/SVG/ew.svg" 
-            alt="Logo" 
-            className="h-[26px] md:h-[30px] object-contain transform scale-[1.3]" 
+        {/* Continuous thin white line crossing the full width, behind the logo */}
+        <div className="w-full self-start bg-white" style={{ height: '10px', marginTop: '1.5px' }}></div>
+
+        {/* Center Logo sits on top of the line (no black box, so the line crosses through it) */}
+        <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-[3] hover:scale-105 transition-transform">
+          <img
+            src="/SVG/ew.svg"
+            alt="Logo"
+            className="h-[26px] md:h-[30px] object-contain transform scale-[1.3]"
           />
         </Link>
       </div>
 
       {/* Links Section (Below the white line) */}
-      <div className="w-full flex justify-between items-center z-10 px-4 sm:px-6 py-1 bg-black relative">
+      <div className="w-full flex justify-between items-center z-10 px-4 sm:px-6 py-1 relative">
         
         {/* Mobile Hamburger Icon (Left Side) */}
         <div className={`${styles.mobileHamburger} flex-none flex items-center justify-center pl-2`}>
