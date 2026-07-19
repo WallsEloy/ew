@@ -2,6 +2,9 @@
 
 Este documento sirve como guía de contexto, estilo y reglas de desarrollo para **Claude**, **Antigravity** o cualquier otro agente de IA que colabore en el desarrollo de este repositorio.
 
+> [!NOTE]
+> Este documento cubre específicamente las reglas de codificación y diseño de IA. Para una vista de toda la arquitectura y guías del sistema, consulta el **[Índice General de Documentación (indice.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/indice.md)**.
+
 ---
 
 ## 🎯 Contexto del Proyecto

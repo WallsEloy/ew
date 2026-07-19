@@ -2,6 +2,9 @@
 
 Este documento detalla la arquitectura de infraestructura en la nube, servicios de backend, integraciones de terceros y la configuración de despliegue para el proyecto **EW Portfolio Studio / Instagram 2026 Enhanced**.
 
+> [!NOTE]
+> Este documento cubre específicamente los detalles de la infraestructura cloud. Para explorar otras secciones, consulta el **[Índice General de Documentación (indice.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/indice.md)**.
+
 ---
 
 ## 🏛️ Arquitectura de la Nube

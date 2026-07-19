@@ -2,6 +2,9 @@
 
 Bienvenido a la documentación principal de **EW Portfolio Studio / Instagram 2026 Enhanced**, una aplicación web premium desarrollada con **Next.js** y optimizada para ofrecer una experiencia visual interactiva e inmersiva.
 
+> [!IMPORTANT]
+> **¿Buscas algo específico?** Consulta primero el **[Índice General de Documentación (indice.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/indice.md)** para localizar rápidamente cualquier sección o guía técnica del proyecto.
+
 ---
 
 ## 📂 Documentación del Proyecto
