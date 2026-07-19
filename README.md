@@ -20,6 +20,7 @@ Hemos creado una carpeta dedicada a almacenar la documentación detallada del pr
 *   **[Sección 5: Integración de Pagos con Stripe](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/05_pasarela_pagos.md)**: Flujos de compra única, suscripciones y control de webhooks.
 *   **[Sección 6: Despliegue y Mantenimiento Cloud](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/06_despliegue_cloud.md)**: Configuración en Vercel, variables de entorno y comandos útiles.
 *   **[Sección 7: Guía de Desarrollo para Asistentes de IA](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/07_guia_desarrollo_ia.md)**: Criterios visuales, interactividad, animaciones y buenas prácticas.
+*   **[Sección 8: Autenticación con Clerk](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/08_autenticacion_clerk.md)**: Autenticación segura de usuarios, control de sesiones, protección de rutas y webhooks.
 
 ---
 
