@@ -39,3 +39,6 @@ Thumbs.db
 
 # videos pesados de /contacto (se sirven en local; no versionar ~1.4GB)
 /public/Videos/
+
+# carpeta fuente del landing (tiene su propio .git; assets ya movidos a public/)
+/landing_page_project - copia/

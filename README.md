@@ -27,7 +27,7 @@ Hemos creado una carpeta dedicada a almacenar la documentación detallada del pr
 
 ### 🗓️ Sesiones de desarrollo
 
-La bitácora cronológica se encuentra en [`doc/sesiones/`](doc/sesiones/README.md). El registro más reciente es la [sesión del 2026-07-19](doc/sesiones/2026-07-19.md), dedicada al Home controlado por scroll y al módulo de Grafos visuales.
+La bitácora cronológica se encuentra en [`doc/sesiones/`](doc/sesiones/README.md). El registro más reciente es la [sesión del 2026-07-19](doc/sesiones/2026-07-19.md), dedicada al Home controlado por scroll, el módulo de Grafos visuales, el rediseño del Navbar (trazo continuo transparente) y la nueva página de Contacto con tarjeta digital y foto de perfil giratoria.
 
 ---
 

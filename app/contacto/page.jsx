@@ -149,9 +149,11 @@ const VCARD =
 
 // Foto de perfil como tarjeta que gira: alterna la foto y video(s) (muteados).
 // Para sumar más videos, agrégalos al array y el flip mostrará "el siguiente".
+// Cada video usa .webm (ligero, Chrome/Firefox/Edge) con fallback .MOV (Safari).
 const PROFILE_MEDIA = [
   { type: "image", src: "/Imagenes/428646700_2628303167349157_8166977006435626776_n.jpg" },
-  { type: "video", src: "/perfil/IMG_1327.MOV" },
+  { type: "video", sources: ["/perfil/IMG_1327.webm", "/perfil/IMG_1327.MOV"] },
+  { type: "video", sources: ["/perfil/IMG_1329.webm", "/perfil/IMG_1329.MOV"] },
 ];
 const HALF = 260; // ms de medio giro (coincide con la transición CSS de .perfilInner)
 // Los primeros giros son rápidos (dinámicos) y luego el intervalo se va ampliando
@@ -233,7 +235,6 @@ export default function ContactPage() {
   const renderProfileMedia = (media) =>
     media.type === "video" ? (
       <video
-        src={media.src}
         muted
         autoPlay
         loop
@@ -241,7 +242,15 @@ export default function ContactPage() {
         ref={(el) => {
           if (el) el.muted = true; // asegura autoplay sin sonido
         }}
-      />
+      >
+        {media.sources.map((src) => (
+          <source
+            key={src}
+            src={src}
+            type={src.endsWith(".webm") ? "video/webm" : "video/quicktime"}
+          />
+        ))}
+      </video>
     ) : (
       <img src={media.src} alt="Eloy Walls" />
     );

@@ -30,7 +30,7 @@ Bienvenido al índice central de documentación del proyecto **EW Portfolio Stud
 
 Las decisiones y cambios realizados en cada jornada se registran en el [índice de sesiones](./sesiones/README.md).
 
-- [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding y recuperación de la caché de Next.js.
+- [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding, rediseño del Navbar (trazo continuo transparente), página de Contacto (tarjeta digital, stories y foto de perfil giratoria) y recuperación de la caché de Next.js.
 
 ---
 
