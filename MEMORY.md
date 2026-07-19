@@ -77,6 +77,39 @@ Reinicio limpio del dev server:
 
 ## Otras trampas conocidas
 
+## Nombres de la navegación móvil
+
+Para evitar confundir los dos navegadores del formato móvil, usar siempre estos
+nombres en solicitudes, documentación y cambios de código:
+
+### 1. Navbar Superior Móvil
+
+Es la barra oscura fija de la parte superior. Contiene:
+
+- Menú hamburguesa a la izquierda.
+- Isotipo EW en el centro.
+- Círculo de inicio de sesión o registro a la derecha.
+
+Se implementa principalmente en `components/Navbar.jsx`. Sus estilos móviles
+están en `components/Navbar.module.css`, especialmente `.linksSection`,
+`.mobileHamburger`, `.mobileCenterLogo` y `.mobileAuthCircle`.
+
+### 2. Dock Inferior Móvil
+
+Es el navegador flotante con forma de pastilla situado en la parte inferior de
+la pantalla. Contiene los accesos a Diseño, Eventos, Galería, Coding y Contacto.
+
+Se implementa en `components/Navbar.jsx` y sus estilos están en
+`components/Navbar.module.css`, dentro de las reglas correspondientes al
+navegador inferior móvil.
+
+### Regla de comunicación
+
+- Decir **Navbar Superior Móvil** para cambios en la barra de arriba.
+- Decir **Dock Inferior Móvil** para cambios en la pastilla de abajo.
+- Si se dice solamente “nav móvil”, confirmar cuál de los dos se quiere editar
+  antes de realizar un cambio que pueda afectar a ambos.
+
 ### Tailwind v4: MIGRADO a la sintaxis v4 (2026-07-18)
 **Estado actual:** `app/globals.css` ya usa `@import "tailwindcss";` + `@config
 "../tailwind.config.js";`. El **Preflight y el tema por defecto están ACTIVOS** y

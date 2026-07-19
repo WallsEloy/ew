@@ -25,7 +25,7 @@
   }
 
   .linksSection {
-    height: 116px;
+    height: 94px;
     padding: 0 28px !important;
     border-bottom: 8px solid #efefef;
     background: #111112;
@@ -60,9 +60,9 @@
 
   .mobileAuthCircle {
     display: block;
-    width: 64px;
-    height: 64px;
-    flex: 0 0 64px;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
     margin-left: auto;
     border: 3px solid transparent;
     border-radius: 50%;

@@ -56,7 +56,8 @@
 .dots {
   position: absolute;
   bottom: 25%;
-  left: 33%;
+  left: auto;
+  right: 57%;
   z-index: 60;
   display: flex;
   align-items: center;
@@ -522,6 +523,12 @@
     border-radius: 22px;
   }
 
+  .dots {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
   .initialCopy {
     top: auto;
     bottom: 31%;
@@ -570,12 +577,12 @@
 
 @media (max-width: 767px) {
   .scrollSection {
-    height: calc(100dvh - 116px);
-    margin-top: 116px;
+    height: calc(100dvh - 94px);
+    margin-top: 94px;
   }
 
   .stickyScene {
-    height: calc(100dvh - 116px);
+    height: calc(100dvh - 94px);
   }
 }
 

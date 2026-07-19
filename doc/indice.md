@@ -33,6 +33,10 @@ Las decisiones y cambios realizados en cada jornada se registran en el [índice 
 
 - [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding, rediseño del Navbar (trazo continuo transparente), página de Contacto (tarjeta digital, stories y foto de perfil giratoria) y recuperación de la caché de Next.js.
 
+## ✅ Tareas futuras
+
+- [Protección de la Galería](./tareas/README.md): medidas pendientes de disuasión, marcas de agua y control de acceso para las imágenes.
+
 ---
 
 > [!TIP]

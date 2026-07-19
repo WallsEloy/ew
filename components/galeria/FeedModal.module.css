@@ -44,11 +44,79 @@
   margin: 20px auto 40px auto; /* Lo centra horizontalmente y da espacio ABAJO para notar la curvatura */
   width: 90%;
   max-width: 500px; /* Ancho máximo para que no se vea enorme en PC */
-  background: #000;
-  border: 1px solid #333; /* Borde explícito para trazar claramente el límite de la tarjeta */
+  background: transparent;
+  border: 0;
   border-radius: 20px; /* Bordes redondeados en todas las esquinas */
-  overflow: hidden; /* Corta las esquinas de la foto para respetar el radio del borde */
   position: relative; /* Clave para posicionar el contador de likes encima de la foto */
+  perspective: 1400px;
+  cursor: pointer;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 720ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.cardFlipped {
+  transform: rotateY(180deg);
+}
+
+.cardFace {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #333;
+  border-radius: 20px;
+  background: #000;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cardFront {
+  position: relative;
+}
+
+.cardBack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 32px;
+  transform: rotateY(180deg);
+  text-align: center;
+  background: radial-gradient(circle at 50% 42%, #262626 0%, #080808 62%, #000 100%);
+  pointer-events: none;
+}
+
+.cardFlipped .cardFront {
+  pointer-events: none;
+}
+
+.cardFlipped .cardBack {
+  pointer-events: auto;
+}
+
+.cardBackLogo {
+  width: min(22%, 88px);
+  height: auto;
+  opacity: 0.5;
+}
+
+.cardBack p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(17px, 2vw, 23px);
+}
+
+.cardBack span {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 /* 5. IMAGEN DEL POST: Ocupa todo el contenedor */
@@ -93,12 +161,22 @@
 .actionBtn {
   background: transparent;
   border: none;
-  font-size: 24px;
+  color: #fff;
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
   transition: transform 0.1s ease-in-out;
+}
+
+.actionBtn svg {
+  display: block;
+  width: 25px;
+  height: 25px;
+}
+
+.likedAction {
+  color: #ff3040;
 }
 
 .actionBtn:active {
@@ -190,13 +268,25 @@
     height: min(76dvh, 700px);
     min-height: 0;
     margin: 0;
-    display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.7fr);
-    border-color: rgba(255, 255, 255, 0.2);
     border-radius: 24px;
     scroll-snap-align: center;
     scroll-snap-stop: always;
     box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  }
+
+  .cardInner,
+  .cardFace {
+    height: 100%;
+  }
+
+  .cardFace {
+    border-color: rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+  }
+
+  .cardFront {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.7fr);
   }
 
   .postImg {
