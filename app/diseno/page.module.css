@@ -1,0 +1,15 @@
+/* 1. SECCIÓN: Contenedor de Botones de Perfiles */
+/* Determina cómo se alinean los botones superiores y su espaciado relativo */
+.buttonsContainer {
+  display: flex;
+  gap: 10px; /* Distancia entre botón y botón */
+  padding: 20px 20px 20px; /* Separación respecto a los bordes de la pantalla */
+}
+
+/* 2. DISEÑO: Estilo Individual de cada Botón de Perfil */
+.profileButton {
+  padding: 6px 12px;
+  border-radius: 20px; /* Bordes redondeados tipo píldora */
+  border: none;
+  cursor: pointer;
+}

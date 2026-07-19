@@ -1,0 +1,67 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - button "Registro" [ref=e5]
+      - button "login" [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e9]:
+        - generic [ref=e10]: e l o y
+        - generic [ref=e11]: w a l l s
+      - link [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img "Logo" [ref=e14]
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - button "Galerias" [ref=e18]
+        - button "Diseño" [ref=e20]
+        - button "Grow" [ref=e22]
+      - generic [ref=e23]:
+        - button "Eventos" [ref=e25]
+        - button "Shoping" [ref=e27]
+        - link "Contacto" [ref=e29] [cursor=pointer]:
+          - /url: /contacto
+  - main [ref=e30]:
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - button "Ir a slide 1" [ref=e33] [cursor=pointer]
+        - button "Ir a slide 2" [ref=e34] [cursor=pointer]
+        - button "Ir a slide 3" [ref=e35] [cursor=pointer]
+        - button "Ir a slide 4" [ref=e36] [cursor=pointer]
+        - button "Ir a slide 5" [ref=e37] [cursor=pointer]
+      - generic:
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - heading "Galerias" [level=2] [ref=e40]
+            - button "ver" [ref=e42]
+          - generic:
+            - img "Galerias"
+          - heading "OnlyFans" [level=3] [ref=e45]
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - heading "Proyectos" [level=2] [ref=e48]
+            - button "descubrir" [ref=e50]
+          - generic:
+            - img "Proyectos"
+          - heading "Exclusive" [level=3] [ref=e53]
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - heading "Eventos" [level=2] [ref=e56]
+            - button "asistir" [ref=e58]
+          - generic:
+            - img "Eventos"
+          - heading "VIP Pass" [level=3] [ref=e61]
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - heading "Shopping" [level=2] [ref=e64]
+            - button "comprar" [ref=e66]
+          - generic:
+            - img "Shopping"
+          - heading "Merch" [level=3] [ref=e69]
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - heading "Contacto" [level=2] [ref=e72]
+            - button "escribir" [ref=e74]
+          - generic:
+            - img "Contacto"
+          - heading "Let's Talk" [level=3] [ref=e77]
+  - alert [ref=e78]

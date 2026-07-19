@@ -1,0 +1,29 @@
+/* 1. LAYOUT PRINCIPAL: Contenedor que forma la cuadrícula */
+.gridContainer {
+  display: grid;
+  /* Determina cuántas columnas de fotos hay por fila (actualmente 3 iguales) */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px; /* Separación en píxeles entre cada foto */
+}
+
+/* 2. ASPECTO DE LA FOTO: Contenedor de cada imagen en la cuadrícula */
+.postItem {
+  cursor: pointer;
+  /* Controla qué tan altas/anchas son las fotos (modo retrato 4:5 de Instagram) */
+  aspect-ratio: 4 / 5;
+  border-radius: 8px; /* Bordes redondeados para cada foto */
+  overflow: hidden;
+}
+
+/* 3. IMAGEN: Control para que la imagen llene el contenedor sin deformarse */
+.postImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Centrar y recortar el excedente en lugar de aplastar la foto */
+}
+
+/* 4. POST HORIZONTAL: Ocupa las 3 columnas completas del CSS Grid */
+.postHorizontal {
+  grid-column: span 3; /* Rompe la regla de la cuadrícula y abarca 3 columnas */
+  aspect-ratio: 16 / 9; /* Relación de aspecto panorámica más apaisada */
+}

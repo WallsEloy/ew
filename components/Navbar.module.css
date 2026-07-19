@@ -1,0 +1,65 @@
+/* Navbar Component Specific Styles */
+
+.navbarContainer {
+  /* Enforce navbar layer and background */
+}
+
+/* Hardcode responsive breakpoints to ensure navbar behaves correctly */
+@media (min-width: 768px) {
+  .desktopLinks {
+    display: flex !important;
+  }
+  .mobileHamburger {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopLinks {
+    display: none !important;
+  }
+  .mobileHamburger {
+    display: flex !important;
+  }
+}
+
+/* Unique CSS specifically for user's custom hambur.svg */
+.customHamburIcon {
+  display: block;
+  width: 35px;
+  height: 25px;
+  background-image: url("/SVG/hambur.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Dropdown specific styles */
+.dropdownMenu {
+  background-color: #ffffff !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dropdownItem {
+  color: #000000 !important;
+  border-bottom: 1px solid #f0f0f0;
+  text-decoration: none !important;
+  border-radius: 50px !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  color: #ffffff !important;
+  background-color: #000000 !important;
+  transform: scale(1.05) !important;
+}

@@ -1,0 +1,62 @@
+[     385ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:32365
+[   33067ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:180
+[   89773ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:180
+[   90017ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:180
+[   90534ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:180
+[   91223ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=1xuj0:0
+[   91305ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=1xuj0:0
+[   91324ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=1xuj0:0
+[   91366ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/:0
+[   91584ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///./node_modules/react-dom/cjs/react-dom.development.js:29834
+[   91615ms] Error: Cannot find module './638.js'
+Require stack:
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\webpack-runtime.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\pages\_document.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\require.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\load-components.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\build\utils.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\dev\hot-middleware.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\lib\router-server.js
+- C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\lib\start-server.js
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1420:15)
+    at <unknown> (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\require-hook.js:55:36)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+    at mod.require (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:152:16)
+    at __webpack_require__.f.require (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\webpack-runtime.js:198:28)
+    at <unknown> (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\webpack-runtime.js:162:22)
+    at <unknown> (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\app\page.js:1:7523)
+    at Object.<anonymous> (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\.next\server\app\page.js:1:7571)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+    at mod.require (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:152:16)
+    at requirePage (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\require.js:109:84)
+    at <unknown> (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\load-components.js:74:84)
+    at async loadComponentsImpl (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\load-components.js:74:26)
+    at async DevServer.findPageComponentsImpl (file://C:\REPOS\EloyWasll dashboard\portafolio STUDIO\EW\node_modules\next\dist\server\next-server.js:675:36)
+[   91615ms] [LOG] [HMR] connected @ webpack-internal:///./node_modules/next/dist/client/dev/error-overlay/websocket.js:45
+[  239739ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///./node_modules/next/dist/client/dev/error-overlay/hot-dev-client.js:198
+[  239940ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///./node_modules/next/dist/client/dev/error-overlay/hot-dev-client.js:198
+[  239950ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///./node_modules/next/dist/client/dev/error-overlay/hot-dev-client.js:299
+[  240399ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///./node_modules/next/dist/client/dev/error-overlay/hot-dev-client.js:299
+[  241014ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/css/app/layout.css?v=1784427077329:0
+[  241027ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/chunks/app-pages-internals.js:0
+[  241027ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/chunks/main-app.js?v=1784427077329:0
+[  241027ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/_next/static/chunks/app/page.js:0

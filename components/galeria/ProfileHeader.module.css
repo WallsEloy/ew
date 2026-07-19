@@ -1,0 +1,76 @@
+/* Wrapper global de la cabecera en fila */
+.headerWrapper {
+  display: flex;
+  align-items: flex-start; /* Todo se alinea arriba */
+  padding: 15px 20px;
+}
+
+/* 2. AVATAR: Columna Izquierda */
+.avatarContainer {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  padding: 3px;
+  background: #962fbf;
+  flex-shrink: 0;
+  margin-right: 30px; /* Separación con la columna derecha */
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 3. CONTENIDO DERECHO: Nombre, Stats y Biografía */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Esto hace que el texto abarque el área restante a la derecha */
+}
+
+/* --- LOGO --- */
+.profileLogo {
+  max-width: 120px; /* Tamaño máximo para que el logo no sea gigante */
+  height: auto;
+  margin-bottom: 15px; /* Separación con el nombre */
+  display: block;
+}
+
+/* --- NOMBRE (Arriba de los números) --- */
+.profileName {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 15px 0; /* Empuja los números hacia abajo */
+}
+
+/* --- ESTADÍSTICAS --- */
+.statsContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px; /* Separación entre los 3 bloques de stat */
+  margin-bottom: 15px; /* Empuja la biografía hacia abajo */
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.statNumber {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #fff;
+}
+
+/* --- BIOGRAFÍA --- */
+.bioText {
+  font-size: 14px;
+  line-height: 1.3;
+}

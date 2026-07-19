@@ -1,0 +1,67 @@
+- generic [active] [ref=f10e1]:
+  - navigation [ref=f10e2]:
+    - generic [ref=f10e4]:
+      - button "Registro" [ref=f10e5]
+      - button "login" [ref=f10e6]
+    - generic [ref=f10e7]:
+      - generic [ref=f10e9]:
+        - generic [ref=f10e10]: e l o y
+        - generic [ref=f10e11]: w a l l s
+      - link [ref=f10e13] [cursor=pointer]:
+        - /url: /
+        - img "Logo" [ref=f10e14]
+    - generic [ref=f10e15]:
+      - generic [ref=f10e16]:
+        - button "Galerias" [ref=f10e18]
+        - button "Diseño" [ref=f10e20]
+        - button "Grow" [ref=f10e22]
+      - generic [ref=f10e23]:
+        - button "Eventos" [ref=f10e25]
+        - button "Shoping" [ref=f10e27]
+        - link "Contacto" [ref=f10e29] [cursor=pointer]:
+          - /url: /contacto
+  - main [ref=f10e30]:
+    - generic [ref=f10e31]:
+      - generic [ref=f10e32]:
+        - button "Ir a slide 1" [ref=f10e33] [cursor=pointer]
+        - button "Ir a slide 2" [ref=f10e34] [cursor=pointer]
+        - button "Ir a slide 3" [ref=f10e35] [cursor=pointer]
+        - button "Ir a slide 4" [ref=f10e36] [cursor=pointer]
+        - button "Ir a slide 5" [ref=f10e37] [cursor=pointer]
+      - generic:
+        - generic [ref=f10e38]:
+          - generic [ref=f10e39]:
+            - heading "Galerias" [level=2] [ref=f10e40]
+            - button "ver" [ref=f10e42]
+          - generic:
+            - img "Galerias"
+          - heading "OnlyFans" [level=3] [ref=f10e45]
+        - generic [ref=f10e46]:
+          - generic [ref=f10e47]:
+            - heading "Proyectos" [level=2] [ref=f10e48]
+            - button "descubrir" [ref=f10e50]
+          - generic:
+            - img "Proyectos"
+          - heading "Exclusive" [level=3] [ref=f10e53]
+        - generic [ref=f10e54]:
+          - generic [ref=f10e55]:
+            - heading "Eventos" [level=2] [ref=f10e56]
+            - button "asistir" [ref=f10e58]
+          - generic:
+            - img "Eventos"
+          - heading "VIP Pass" [level=3] [ref=f10e61]
+        - generic [ref=f10e62]:
+          - generic [ref=f10e63]:
+            - heading "Shopping" [level=2] [ref=f10e64]
+            - button "comprar" [ref=f10e66]
+          - generic:
+            - img "Shopping"
+          - heading "Merch" [level=3] [ref=f10e69]
+        - generic [ref=f10e70]:
+          - generic [ref=f10e71]:
+            - heading "Contacto" [level=2] [ref=f10e72]
+            - button "escribir" [ref=f10e74]
+          - generic:
+            - img "Contacto"
+          - heading "Let's Talk" [level=3] [ref=f10e77]
+  - alert [ref=f10e78]
