@@ -502,14 +502,14 @@
   .floatingMemoji {
     top: 25%;
     left: 18%;
-    width: clamp(132px, 42vw, 190px);
+    width: clamp(160px, 52vw, 225px);
   }
 
   .floatingMemojiRight {
     top: 58%;
     bottom: auto;
     left: 82%;
-    width: clamp(142px, 45vw, 205px);
+    width: clamp(170px, 55vw, 235px);
   }
 
   .messagePanel {
@@ -531,6 +531,11 @@
     width: 90%;
     align-items: center;
     text-align: center;
+    /* Promueve el texto a su propia capa GPU para que, con z-index 55 (> 40
+       de la imagen), quede SIEMPRE por encima durante la transición del track
+       y no parpadee detrás de la imagen. */
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .initialAction {
@@ -539,8 +544,10 @@
     align-items: center;
   }
 
+  /* En móvil se muestran solo el título y el botón del carrusel:
+     se ocultan el texto amarillo (h3), el bloque derecho y el editorial. */
   .initialAction h3,
-  .initialRightCopy > p,
+  .initialRightCopy,
   .editorialCopy {
     display: none;
   }
@@ -551,6 +558,13 @@
 
   .imageAnchor {
     width: 100vw;
+  }
+
+  /* En móvil la imagen no se anima (imageX/imageScale son solo de escritorio),
+     así que se retira su promoción de capa: eso evitaba que la capa GPU de la
+     imagen pintara sobre el título durante la transición del track. */
+  .imageStage {
+    will-change: auto;
   }
 }
 
