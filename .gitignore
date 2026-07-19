@@ -42,3 +42,9 @@ Thumbs.db
 
 # carpeta fuente del landing (tiene su propio .git; assets ya movidos a public/)
 /landing_page_project - copia/
+
+# experimentos de formato de los memojis en public/perfil (se usan solo los
+# .mp4/.webm/.MOV; los formatos de imagen animada son pruebas y no se versionan)
+/public/perfil/*.apng
+/public/perfil/*.png
+/public/perfil/*.webp
