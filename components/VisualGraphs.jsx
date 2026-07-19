@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -134,25 +134,13 @@ function GraphArtwork({ scene, compact = false, reducedMotion = false }) {
 export default function VisualGraphs() {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isDesktop, setIsDesktop] = useState(false);
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(
-      "(min-width: 769px) and (orientation: landscape)",
-    );
-    const syncViewport = () => setIsDesktop(mediaQuery.matches);
-    syncViewport();
-    mediaQuery.addEventListener("change", syncViewport);
-    return () => mediaQuery.removeEventListener("change", syncViewport);
-  }, []);
-
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (!isDesktop) return;
     const nextIndex = Math.min(
       visualGraphScenes.length - 1,
       Math.floor(progress * visualGraphScenes.length + 0.0001),
@@ -168,7 +156,7 @@ export default function VisualGraphs() {
         <div className={styles.ambient} aria-hidden="true" />
         <div className={styles.layout}>
           <div className={styles.copyColumn} aria-live="polite">
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="sync" initial={false}>
               <motion.div
                 key={activeScene.id}
                 className={styles.copy}
@@ -208,24 +196,6 @@ export default function VisualGraphs() {
         </div>
       </div>
 
-      <div className={styles.mobileScenes}>
-        <header className={styles.mobileHeader}>
-          <p className={styles.eyebrow}>GRAFOS VISUALES</p>
-          <h2>Ideas conectadas</h2>
-        </header>
-        {visualGraphScenes.map((scene, index) => (
-          <article key={scene.id} className={styles.mobileCard}>
-            <div className={styles.mobileCopy}>
-              <p className={styles.counter}>{String(index + 1).padStart(2, "0")} / 05</p>
-              <h3>{scene.title}</h3>
-              <p>{scene.text}</p>
-            </div>
-            <div className={styles.mobileGraph}>
-              <GraphArtwork scene={scene} compact reducedMotion />
-            </div>
-          </article>
-        ))}
-      </div>
     </section>
   );
 }

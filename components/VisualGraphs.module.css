@@ -309,77 +309,93 @@
 }
 
 @media (max-width: 768px), (orientation: portrait) {
+  .section {
+    height: 600dvh;
+  }
+
   .desktopScene {
-    display: none;
+    position: sticky;
+    top: 0;
+    display: block;
   }
 
   .mobileScenes {
+    display: none;
+  }
+
+  .layout {
     display: block;
-    padding: 88px 20px 72px;
-    background:
-      radial-gradient(circle at 70% 8%, rgba(3, 105, 161, 0.12), transparent 26%),
-      #08090b;
-  }
-
-  .mobileHeader {
-    margin-bottom: 56px;
-  }
-
-  .mobileHeader h2 {
-    margin: 0;
-    font-size: clamp(2.7rem, 14vw, 4.6rem);
-    line-height: 0.95;
-    letter-spacing: -0.05em;
-  }
-
-  .mobileCard {
-    padding: 34px 0 46px;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .mobileCopy h3 {
-    margin: 0;
-    font-size: clamp(2.2rem, 11vw, 3.5rem);
-    line-height: 1;
-    letter-spacing: -0.045em;
-  }
-
-  .mobileCopy > p:last-child {
-    margin: 20px 0 0;
-    color: #c8c4ce;
-    font-size: 1rem;
-    line-height: 1.65;
-  }
-
-  .mobileGraph {
-    height: min(90vw, 430px);
-    margin-top: 22px;
-    border-radius: 24px;
-    background: radial-gradient(circle, rgba(3, 105, 161, 0.1), transparent 65%);
-  }
-
-  .mobileGraph .graph {
     width: 100%;
-    height: 100%;
-    max-height: none;
-  }
-
-  .graphField {
-    width: 100%;
-    min-width: 0;
-    height: 100%;
-    animation: none;
-    transform: none;
-  }
-
-  .graphSpinner {
-    animation: none;
+    padding: 82px 18px 24px;
   }
 
   .copyColumn {
-    transform: none;
+    position: absolute;
+    top: 50%;
+    right: auto;
+    left: 50%;
+    z-index: 4;
+    display: block;
+    width: calc(100% - 36px);
+    max-width: 360px;
+    height: auto;
+    padding: 25px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 26px;
+    background: rgba(5, 7, 10, 0.76);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+    backdrop-filter: blur(18px);
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
   }
 
+  .copy {
+    max-width: none;
+    text-align: center;
+  }
+
+  .copy h2 {
+    margin: 0;
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+
+  .description {
+    max-width: 30ch;
+    margin-top: 22px;
+    margin-inline: auto;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .controls {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 26px;
+  }
+
+  .graphButton {
+    padding-inline: 25px;
+  }
+
+  .graphColumn {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .graphField {
+    width: 165%;
+    min-width: 165%;
+    height: 108dvh;
+    animation: gravityDrift 9s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .graphSpinner {
+    animation: graphSlowSpin 95s linear infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

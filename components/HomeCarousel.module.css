@@ -490,16 +490,16 @@
 
 @media (max-width: 768px), (orientation: portrait) {
   .floatingMemoji {
-    top: 29%;
-    left: 72%;
-    width: clamp(96px, 30vw, 150px);
+    top: 25%;
+    left: 18%;
+    width: clamp(132px, 42vw, 190px);
   }
 
   .floatingMemojiRight {
-    top: 47%;
+    top: 58%;
     bottom: auto;
-    left: 78%;
-    width: clamp(90px, 27vw, 138px);
+    left: 82%;
+    width: clamp(142px, 45vw, 205px);
   }
 
   .messagePanel {
@@ -513,9 +513,11 @@
   }
 
   .initialCopy {
-    top: 15%;
+    top: auto;
+    bottom: 31%;
     left: 5%;
     right: 5%;
+    z-index: 55;
     width: 90%;
     align-items: center;
     text-align: center;
