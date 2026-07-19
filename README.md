@@ -25,6 +25,10 @@ Hemos creado una carpeta dedicada a almacenar la documentación detallada del pr
 *   **[Sección 7: Guía de Desarrollo para Asistentes de IA](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/07_guia_desarrollo_ia.md)**: Criterios visuales, interactividad, animaciones y buenas prácticas.
 *   **[Sección 8: Autenticación con Clerk](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/08_autenticacion_clerk.md)**: Autenticación segura de usuarios, control de sesiones, protección de rutas y webhooks.
 
+### 🗓️ Sesiones de desarrollo
+
+La bitácora cronológica se encuentra en [`doc/sesiones/`](doc/sesiones/README.md). El registro más reciente es la [sesión del 2026-07-19](doc/sesiones/2026-07-19.md), dedicada al Home controlado por scroll y al módulo de Grafos visuales.
+
 ---
 
 ## 🛠️ Tecnologías Principales

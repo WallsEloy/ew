@@ -26,5 +26,13 @@ Bienvenido al índice central de documentación del proyecto **EW Portfolio Stud
 
 ---
 
+## 🗓️ Bitácora de sesiones (`doc/sesiones/`)
+
+Las decisiones y cambios realizados en cada jornada se registran en el [índice de sesiones](./sesiones/README.md).
+
+- [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding y recuperación de la caché de Next.js.
+
+---
+
 > [!TIP]
 > Si eres una IA colaborando en este proyecto, te recomendamos revisar primero la **[Sección 7 (Guía de Desarrollo IA)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/07_guia_desarrollo_ia.md)** y las **[Reglas de IA y Estilo (claude.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/claude.md)** antes de realizar cualquier cambio en el código.

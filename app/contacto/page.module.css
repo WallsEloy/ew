@@ -1,0 +1,374 @@
+/* Tarjeta de presentación digital — portado de landing_page_project */
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: #17181c;
+  color: #fff;
+  padding-top: 6rem; /* deja pasar el nav fijo transparente */
+  padding-bottom: 3rem;
+}
+
+.card {
+  width: 92%;
+  max-width: 420px;
+  margin-top: 1rem;
+  padding: 2rem 1.5rem;
+  border-radius: 40px;
+  background: linear-gradient(180deg, #1f2125, #141518);
+  box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+/* Foto de perfil giratoria (flip 3D foto <-> video) */
+.perfilFlip {
+  width: 155px;
+  height: 155px;
+  margin: 0 auto;
+  perspective: 1000px;
+  cursor: pointer;
+  outline: none;
+}
+.perfilInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.26s ease-in-out;
+  transform-style: preserve-3d;
+}
+.perfilFace {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 7px solid #8a2eff;
+  overflow: hidden;
+  background-color: #222;
+}
+.perfilFace img,
+.perfilFace video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.name {
+  margin-top: 1rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+.role {
+  color: #9a9a9a;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.btnPurple {
+  background: linear-gradient(90deg, #8a2eff, #c000ff);
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  color: #fff;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.descAgencia {
+  color: #cfcfcf;
+  font-size: 0.9rem;
+  margin: 0 0 3.3rem;
+  text-align: justify;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.socialRow {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.6rem 0 2rem;
+}
+.socialIcon {
+  width: 55px;
+  height: 55px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #2a2c30, #1a1b1e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.04);
+  font-size: 1.4rem;
+  transition: 0.3s ease;
+}
+.socialIcon .icon {
+  width: 50px;
+  height: 50px;
+}
+.socialIcon:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 18px rgba(138, 46, 255, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, #3a3c40, #26272a);
+}
+
+.btnGreen {
+  background: linear-gradient(90deg, #2bff4e, #13c93b);
+  padding: 1rem 2.5rem;
+  border-radius: 30px;
+  color: #000;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-bottom: 3.4rem;
+}
+
+.asesoria {
+  color: #cfcfcf;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* STORIES TIPO INSTAGRAM */
+.storiesRow {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  margin-top: 0;
+  padding: 17px;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 0;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 60%);
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #8a2eff #1f2125;
+}
+.storiesRow::-webkit-scrollbar {
+  height: 4px;
+}
+.storiesRow::-webkit-scrollbar-track {
+  background: #1f2125;
+  border-radius: 999px;
+}
+.storiesRow::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #8a2eff, #c000ff);
+  border-radius: 999px;
+}
+
+.story {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.8;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+}
+.storyCircle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #222;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.45);
+}
+.storyLabel {
+  font-size: 0.8rem;
+  color: #f5f5f5;
+}
+.story.active {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+.story.active .storyCircle {
+  outline: 3px solid #8a2eff;
+  outline-offset: 3px;
+}
+.story.active .storyLabel {
+  font-weight: 600;
+}
+
+/* OVERLAY VIDEO FULLSCREEN */
+.storyOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+.storyWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 0 1rem;
+}
+.storyProgress {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  display: flex;
+  gap: 4px;
+  padding: 0 8px;
+}
+.progressSegment {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #8a2eff, #c000ff);
+  border-radius: 999px;
+}
+.storyWrapper video {
+  width: 100%;
+  max-height: 80vh;
+  border-radius: 24px;
+  background: #000;
+  display: block;
+}
+.closeStory {
+  position: absolute;
+  top: -40px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  color: #fff;
+  padding: 0.45rem 0.8rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* ACORDEONES */
+.section {
+  background: linear-gradient(180deg, #2a2c30, #1a1b1e);
+  padding: 1rem;
+  margin: 10px 0;
+  border-radius: 22px;
+  cursor: pointer;
+  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.04);
+  transition: 0.3s ease;
+}
+.section h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.section.active {
+  border: 1px solid #8a2eff;
+  transform: scale(1.01);
+  box-shadow: 0 0 20px rgba(138, 46, 255, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.08);
+}
+.section.active .content {
+  max-height: 400px;
+  padding-top: 1rem;
+}
+
+/* BOTÓN GUARDAR CONTACTO */
+.btnContact {
+  background: linear-gradient(180deg, #2a2c30, #1a1b1e);
+  border: 2px solid #8a2eff;
+  padding: 1rem 2rem;
+  border-radius: 22px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  display: inline-block;
+  margin-top: 1rem;
+  transition: 0.3s ease;
+}
+.btnContact:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(138, 46, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, #34363a, #1e1f22);
+}
+
+.pie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+.logoEw {
+  width: 250px;
+  margin-top: -1rem;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* RESPONSIVE DESKTOP */
+@media (min-width: 1024px) {
+  .card {
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 3rem;
+    text-align: left;
+  }
+  .leftColumn {
+    text-align: center;
+  }
+  .perfilFlip {
+    width: 200px;
+    height: 200px;
+  }
+  .name {
+    font-size: 2.4rem;
+  }
+  .role {
+    font-size: 1.2rem;
+  }
+  .btnPurple,
+  .btnGreen {
+    font-size: 1.2rem;
+    padding: 1.2rem 3rem;
+  }
+  .socialIcon {
+    width: 65px;
+    height: 65px;
+    font-size: 1.6rem;
+  }
+  .section h3 {
+    font-size: 1.4rem;
+  }
+  .content {
+    font-size: 1.1rem;
+  }
+  .storyWrapper {
+    max-width: 520px;
+  }
+}

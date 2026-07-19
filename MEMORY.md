@@ -77,21 +77,27 @@ Reinicio limpio del dev server:
 
 ## Otras trampas conocidas
 
-### Tailwind v4 con directivas v3 (falta Preflight)
-El proyecto tiene **Tailwind v4** instalado pero `app/globals.css` usa las
-directivas viejas (`@tailwind base; @tailwind components; @tailwind utilities;`).
-Con eso **no se aplica el Preflight** (reset base) y aparecen defaults del
-navegador:
-- Los `<button>` conservan borde nativo `outset` (se ve como línea fina/bisel).
-- Falta `box-sizing: border-box` global → `w-full` + padding **desborda**
-  (`content-box`: ancho = 100% + padding), empujando elementos fuera de pantalla.
+### Tailwind v4: MIGRADO a la sintaxis v4 (2026-07-18)
+**Estado actual:** `app/globals.css` ya usa `@import "tailwindcss";` + `@config
+"../tailwind.config.js";`. El **Preflight y el tema por defecto están ACTIVOS** y
+todas las utilidades estándar funcionan (`p-4`, `gap-4`, `grid-cols-2`, `text-sm`,
+colores como `text-gray-400`, etc.).
 
-**Reglas:**
-- Para bugs de bordes o desbordes en este repo, sospechar primero del Preflight
-  faltante.
-- Arreglo puntual (bajo riesgo): resetear en el elemento — `border-none`,
-  `box-border`, etc.
-- Arreglo de raíz (mayor riesgo): migrar `globals.css` a `@import "tailwindcss";`.
-  Reactiva Preflight en TODO el sitio (resetea también márgenes de títulos, listas,
-  bordes) → **verificar página por página** antes de hacerlo, porque puede mover el
-  layout hecho a mano.
+**Historia (por qué se migró):** antes el archivo tenía las directivas v3
+(`@tailwind base/components/utilities`). Con Tailwind v4 eso hacía que **no se
+cargara el tema**, así que:
+- Las utilidades numéricas/de escala (`pt-24`, `px-4`, `gap-4`, `text-sm`,
+  `text-gray-400`…) **no se generaban** (resolvían a nada). Solo funcionaban los
+  valores arbitrarios (`px-[6%]`, `bg-[#111]`, `text-[13px]`) y utilidades básicas.
+- Sin Preflight: los `<button>` conservaban borde nativo `outset` (línea fina) y no
+  había `box-sizing: border-box` global → `w-full` + padding desbordaba.
+
+La migración arregló todo eso de raíz. Se verificó página por página con Playwright
+(home, dashboard, galería, diseño) — sin regresiones; el navbar incluso mejoró
+(los `px-5 py-1` que antes valían 0 ahora dan el padding que el código pedía).
+
+**Reglas ahora:**
+- Usar utilidades Tailwind normales con confianza (ya se generan).
+- Si algo del layout heredado se ve raro, recordar que el sitio se diseñó ANTES de
+  tener Preflight/tema; puede necesitar ajuste puntual.
+- `app/contacto/page.jsx` ha sido implementado y restaurado exitosamente, resolviendo el error de compilación preexistente y habilitando la validación del build.

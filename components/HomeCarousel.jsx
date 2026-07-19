@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
+  AnimatePresence,
   motion,
   useMotionValueEvent,
   useReducedMotion,
@@ -23,6 +24,9 @@ export default function HomeCarousel({ slides }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isScrollMode, setIsScrollMode] = useState(false);
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const [messageText, setMessageText] = useState("");
+  const [messageSent, setMessageSent] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -64,6 +68,8 @@ export default function HomeCarousel({ slides }) {
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     const nextScrollMode = isDesktop && progress > 0.015;
+
+    if (nextScrollMode) setIsMessageOpen(false);
 
     if (nextScrollMode && !isScrollMode) {
       scrollBaseIndexRef.current = activeIndex;
@@ -166,6 +172,120 @@ export default function HomeCarousel({ slides }) {
             />
           ))}
         </motion.div>
+
+        <motion.div
+          className={`${styles.floatingMemoji} ${isScrollMode ? styles.memojiHidden : ""}`}
+          style={{ opacity: isDesktop ? initialOpacity : 1 }}
+        >
+          <button
+            type="button"
+            className={styles.memojiTrigger}
+            onClick={() => {
+              setIsMessageOpen(true);
+              setMessageSent(false);
+            }}
+            aria-label="Abrir mensaje"
+            aria-expanded={isMessageOpen}
+            aria-controls="memoji-message-panel"
+          >
+            <video
+              className={styles.memojiVideo}
+              src="/perfil/IMG_1327.webm"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
+          </button>
+        </motion.div>
+
+        <motion.div
+          className={`${styles.floatingMemoji} ${styles.floatingMemojiRight} ${isScrollMode ? styles.memojiHidden : ""}`}
+          style={{ opacity: isDesktop ? initialOpacity : 1 }}
+        >
+          <button
+            type="button"
+            className={styles.memojiTrigger}
+            onClick={() => {
+              setIsMessageOpen(true);
+              setMessageSent(false);
+            }}
+            aria-label="Abrir mensaje desde el segundo emoji"
+            aria-expanded={isMessageOpen}
+            aria-controls="memoji-message-panel"
+          >
+            <video
+              className={styles.memojiVideo}
+              src="/perfil/IMG_1329.webm"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
+          </button>
+        </motion.div>
+
+        <AnimatePresence>
+          {isMessageOpen && (
+            <motion.aside
+              id="memoji-message-panel"
+              className={styles.messagePanel}
+              initial={{ opacity: 0, x: -22, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -16, scale: 0.97 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              aria-label="Enviar un mensaje"
+            >
+              <button
+                type="button"
+                className={styles.messageClose}
+                onClick={() => setIsMessageOpen(false)}
+                aria-label="Cerrar mensaje"
+              >
+                ×
+              </button>
+              <p className={styles.messageEyebrow}>MENSAJE DIRECTO</p>
+              <h2>¿Qué tienes en mente?</h2>
+              <p className={styles.messageIntro}>
+                Déjame una idea, una colaboración o simplemente un saludo.
+              </p>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (!messageText.trim()) return;
+                  setMessageSent(true);
+                }}
+              >
+                <label htmlFor="memoji-message">Tu mensaje</label>
+                <textarea
+                  id="memoji-message"
+                  value={messageText}
+                  maxLength={280}
+                  placeholder="Escribe aquí..."
+                  onChange={(event) => {
+                    setMessageText(event.target.value);
+                    setMessageSent(false);
+                  }}
+                />
+                <div className={styles.messageMeta}>
+                  <span>{messageText.length} / 280</span>
+                  <button type="submit">Enviar</button>
+                </div>
+              </form>
+              {messageSent && (
+                <motion.p
+                  className={styles.messageConfirmation}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  Vista previa enviada. Aún no se guarda información.
+                </motion.p>
+              )}
+            </motion.aside>
+          )}
+        </AnimatePresence>
 
         <div
           className={styles.track}

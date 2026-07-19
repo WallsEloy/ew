@@ -49,7 +49,7 @@
   inset: 25% 20% 30%;
   z-index: 10;
   border: 15px solid white;
-  background: white;
+  background: transparent;
   pointer-events: none;
 }
 
@@ -90,6 +90,186 @@
   box-shadow: 0 0 12px #00aff0;
 }
 
+.floatingMemoji {
+  position: absolute;
+  top: clamp(88px, 12vh, 132px);
+  left: 42%;
+  z-index: 55;
+  width: clamp(130px, 15vw, 240px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: transparent;
+  pointer-events: auto;
+  animation: memojiFloat 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.memojiHidden {
+  pointer-events: none;
+}
+
+.floatingMemojiRight {
+  top: auto;
+  bottom: 20%;
+  left: 58%;
+  width: clamp(150px, 17vw, 270px);
+  pointer-events: auto;
+  animation-delay: -2.4s;
+}
+
+.memojiTrigger {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.memojiTrigger:focus-visible {
+  outline: 2px solid #00aff0;
+  outline-offset: 6px;
+}
+
+.memojiVideo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.32));
+}
+
+.messagePanel {
+  position: absolute;
+  top: 17%;
+  left: clamp(28px, 6vw, 92px);
+  z-index: 70;
+  width: min(32vw, 410px);
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 28px;
+  background: rgba(8, 8, 12, 0.9);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.58), 0 0 38px rgba(0, 175, 240, 0.08);
+  backdrop-filter: blur(22px);
+}
+
+.messageClose {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.messageEyebrow {
+  margin: 0 0 12px;
+  color: #00aff0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+}
+
+.messagePanel h2 {
+  max-width: 9ch;
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.messageIntro {
+  margin: 18px 0 24px;
+  color: #b8b8c2;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.messagePanel label {
+  display: block;
+  margin-bottom: 9px;
+  color: #f5f5f7;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.messagePanel textarea {
+  display: block;
+  width: 100%;
+  min-height: 118px;
+  padding: 15px 16px;
+  resize: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 17px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.055);
+  color: #fff;
+  font: inherit;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.messagePanel textarea:focus {
+  border-color: #00aff0;
+  box-shadow: 0 0 0 3px rgba(0, 175, 240, 0.13);
+}
+
+.messageMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.messageMeta span {
+  color: #797985;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.messageMeta button {
+  padding: 9px 28px;
+  border: 2px solid #fde047;
+  border-radius: 999px;
+  background: linear-gradient(#facc15, #ca8a04);
+  color: #000;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(202, 138, 4, 0.65);
+  cursor: pointer;
+}
+
+.messageConfirmation {
+  margin: 17px 0 0;
+  color: #35d07f;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+@keyframes memojiFloat {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translate3d(-50%, -18px, 0) rotate(1.5deg);
+  }
+}
+
 .track {
   position: absolute;
   inset: 0;
@@ -110,38 +290,42 @@
 
 .initialCopy {
   position: absolute;
-  top: 18%;
-  left: 33%;
+  top: 35%;
+  left: 23%;
   z-index: 30;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  width: 18vw;
 }
 
 .initialCopy > h2 {
-  margin: 0 0 80px;
-  transform: translateY(-48px);
+  margin: 0;
   color: white;
-  font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .initialAction {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin-top: 100px;
-  margin-left: 40px;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 24px;
+  margin-left: 0;
 }
 
 .initialAction h3 {
   margin: 0;
   color: #eab308;
-  font-size: 1.5rem;
-  letter-spacing: 0.2em;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 
 .initialAction button,
@@ -159,7 +343,13 @@
 }
 
 .initialAction button {
-  padding: 8px 80px;
+  padding: 10px 54px;
+  transition: all 0.2s ease-in-out;
+}
+
+.initialAction button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(250, 204, 21, 0.6);
 }
 
 .imageAnchor {
@@ -299,6 +489,44 @@
 }
 
 @media (max-width: 768px), (orientation: portrait) {
+  .floatingMemoji {
+    top: 29%;
+    left: 72%;
+    width: clamp(96px, 30vw, 150px);
+  }
+
+  .floatingMemojiRight {
+    top: 47%;
+    bottom: auto;
+    left: 78%;
+    width: clamp(90px, 27vw, 138px);
+  }
+
+  .messagePanel {
+    top: auto;
+    right: 18px;
+    bottom: 22px;
+    left: 18px;
+    width: auto;
+    padding: 24px;
+    border-radius: 22px;
+  }
+
+  .initialCopy {
+    top: 15%;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .initialAction {
+    margin-top: 16px;
+    margin-left: 0;
+    align-items: center;
+  }
+
   .initialAction h3,
   .initialRightCopy > p,
   .editorialCopy {
@@ -318,5 +546,9 @@
   .track,
   .dot {
     transition-duration: 1ms;
+  }
+
+  .floatingMemoji {
+    animation: none;
   }
 }
