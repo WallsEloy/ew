@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -9,9 +9,20 @@ import {
   useScroll,
 } from "framer-motion";
 import { graphEdges, visualGraphScenes } from "../data/visualGraphs";
+import { defaultGraphsConfig, mergeGraphsConfig } from "../data/graphsConfig";
 import styles from "./VisualGraphs.module.css";
 
 const nodeMap = (nodes) => new Map(nodes.map((node) => [node.id, node]));
+
+// Combina la config editable (solo texto + cantidad) con la geometría de las
+// escenas por defecto (se reciclan por índice si hay más escenas que defaults).
+function buildScenes(config) {
+  const texts = config?.scenes?.length ? config.scenes : defaultGraphsConfig.scenes;
+  return texts.map((t, index) => {
+    const base = visualGraphScenes[index % visualGraphScenes.length];
+    return { ...base, id: `g${index}`, title: t.title, text: t.text };
+  });
+}
 
 const applyActiveGravity = (scene) => {
   const activeNodes = scene.nodes.filter((node) => scene.activeNodes.includes(node.id));
@@ -134,7 +145,24 @@ function GraphArtwork({ scene, compact = false, reducedMotion = false }) {
 export default function VisualGraphs() {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  // Escenas renderizadas: se inicializan con los defaults (sin parpadeo) y se
+  // reemplazan con la config guardada (texto + cantidad) al montar.
+  const [scenes, setScenes] = useState(visualGraphScenes);
   const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/graphs")
+      .then((r) => r.json())
+      .then((data) => {
+        if (active && data?.config) setScenes(buildScenes(mergeGraphsConfig(data.config)));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
@@ -142,13 +170,15 @@ export default function VisualGraphs() {
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     const nextIndex = Math.min(
-      visualGraphScenes.length - 1,
-      Math.floor(progress * visualGraphScenes.length + 0.0001),
+      scenes.length - 1,
+      Math.floor(progress * scenes.length + 0.0001),
     );
     setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
   });
 
-  const activeScene = visualGraphScenes[activeIndex];
+  // Clamp por si la cantidad de escenas se redujo tras cargar la config.
+  const safeIndex = Math.min(activeIndex, scenes.length - 1);
+  const activeScene = scenes[safeIndex];
 
   return (
     <section ref={sectionRef} className={styles.section} aria-labelledby="visual-graphs-title">
@@ -165,16 +195,15 @@ export default function VisualGraphs() {
                 exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
                 transition={{ duration: reducedMotion ? 0.08 : 0.42 }}
               >
-                <p className={styles.eyebrow}>{activeScene.eyebrow}</p>
-                <p className={styles.counter}>
-                  {String(activeIndex + 1).padStart(2, "0")} / {String(visualGraphScenes.length).padStart(2, "0")}
-                </p>
+                <div className={styles.logoContainer}>
+                  <img src="/SVG/ew_white.svg" alt="EW Logo" className={styles.logo} />
+                </div>
                 <h2 id="visual-graphs-title">{activeScene.title}</h2>
                 <p className={styles.description}>{activeScene.text}</p>
                 <div className={styles.controls}>
                   <div className={styles.progress} aria-hidden="true">
-                    {visualGraphScenes.map((scene, index) => (
-                      <span key={scene.id} className={index === activeIndex ? styles.progressActive : ""} />
+                    {scenes.map((scene, index) => (
+                      <span key={scene.id} className={index === safeIndex ? styles.progressActive : ""} />
                     ))}
                   </div>
                   <button type="button" className={styles.graphButton}>Explorar</button>

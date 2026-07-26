@@ -577,12 +577,12 @@
 
 @media (max-width: 767px) {
   .scrollSection {
-    height: calc(100dvh - 94px);
-    margin-top: 94px;
+    height: calc(100dvh - 76px);
+    margin-top: 76px;
   }
 
   .stickyScene {
-    height: calc(100dvh - 94px);
+    height: calc(100dvh - 76px);
   }
 }
 

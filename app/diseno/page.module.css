@@ -13,3 +13,9 @@
   border: none;
   cursor: pointer;
 }
+
+@media (min-width: 768px) {
+  .designGrid > div {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}

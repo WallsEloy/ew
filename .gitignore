@@ -10,11 +10,13 @@
 /.next/
 /.next.*/
 /out/
+/.migration/
 
 # production
 /build
 
 # debug
+.next-dev.*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -37,8 +39,12 @@ Thumbs.db
 # playwright MCP artifacts (screenshots, console/page dumps)
 .playwright-mcp/
 
-# videos pesados de /contacto (se sirven en local; no versionar ~1.4GB)
-/public/Videos/
+# assets estáticos: no se versionan (imágenes y videos del portafolio, ~1.6GB).
+# La carpeta vive solo en local; el repositorio conserva únicamente el código.
+/public/
+
+# salida basura de un comando mal escrito en Windows
+/nul
 
 # carpeta fuente del landing (tiene su propio .git; assets ya movidos a public/)
 /landing_page_project - copia/

@@ -34,6 +34,24 @@ no un bug del `.jsx`/`.css`.
 
 ## Reglas para evitar / recuperar este error
 
+### Incidente relacionado: fragmento `72.js` ausente (2026-07-25)
+
+Durante una verificación se ejecutó `next build` y se reemplazó la carpeta `.next`
+mientras una instancia anterior de `next dev` continuaba abierta. El proceso viejo
+siguió intentando cargar su propio mapa de fragmentos y respondió con error 500:
+
+```text
+Cannot find module './72.js'
+Require stack: .next/server/webpack-runtime.js
+```
+
+La compilación nueva era válida; el fallo estaba en el servidor antiguo que seguía
+vivo. Reiniciar ese proceso con la nueva caché devolvió la ruta a HTTP 200.
+
+> Regla principal: `.next` pertenece al proceso de Next.js que está ejecutándose.
+> Nunca ejecutar `next build`, ni mover o limpiar `.next`, mientras `next dev` o
+> `next start` continúe activo en ese mismo directorio.
+
 ### 1. Distinguir "error de código" de "error de entorno"
 - **Error de código / compilación:** aparece en la terminal del `next dev` (texto
   rojo) o como *overlay* de error de Next sobre la página. Ahí sí hay que revisar
@@ -60,10 +78,14 @@ Reinicio limpio del dev server:
    (borrar `.next` es seguro: se regenera solo).
 3. Relanzar: `npm run dev` y esperar a `✓ Ready` / `✓ Compiled`.
 4. **Verificar con recarga real** del navegador y consola en 0 errores.
+5. Verificar al menos una ruta real con HTTP 200; que la terminal muestre `Ready`
+   no basta para confirmar que los fragmentos del servidor están sincronizados.
 
 ### 4. Prevención
 - **Un solo `next dev` por proyecto/puerto.** No levantar varias instancias en el
   mismo puerto (3000): genera builds pisados y 404s.
+- **No ejecutar `next build` y `next dev` al mismo tiempo** dentro de este proyecto.
+  Ambos usan `.next` y pueden invalidar los fragmentos que el otro proceso cargó.
 - **Reiniciar el dev server** si el HMR se comporta raro, tras cambios grandes, o
   si lleva horas corriendo. No confiar indefinidamente en el hot reload.
 - **En Windows, no borrar/mover archivos del proyecto mientras corre `next dev`**

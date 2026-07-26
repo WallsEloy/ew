@@ -25,11 +25,19 @@
   }
 
   .linksSection {
-    height: 94px;
-    padding: 0 28px !important;
-    border-bottom: 8px solid #efefef;
+    height: 76px;
+    padding: 0 22px !important;
+    border-bottom: 6px solid #efefef;
     background: #111112;
     box-sizing: border-box;
+    transition: transform 280ms ease, opacity 220ms ease;
+    will-change: transform;
+  }
+
+  .mobileTopHidden {
+    transform: translateY(-105%);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .desktopLinks {
@@ -46,8 +54,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 42px;
+    width: 54px;
+    height: 36px;
     transform: translate(-50%, -50%);
   }
 
@@ -60,9 +68,9 @@
 
   .mobileAuthCircle {
     display: block;
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
     margin-left: auto;
     border: 3px solid transparent;
     border-radius: 50%;
@@ -78,6 +86,11 @@
 
   .mobileAuthCircleActive {
     border-color: #00aff0;
+  }
+
+  .mobileHamburger .customHamburIcon {
+    width: 30px;
+    height: 21px;
   }
 }
 
@@ -164,6 +177,19 @@
     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(18px);
     box-sizing: border-box;
+    transition:
+      right 260ms ease,
+      left 260ms ease,
+      height 260ms ease,
+      padding 260ms ease,
+      opacity 220ms ease;
+  }
+
+  .mobilePillNavCompact {
+    right: 52px;
+    left: 52px;
+    height: 48px;
+    padding: 4px 7px;
   }
 
   .pillItemWrap {
@@ -191,13 +217,29 @@
     height: 56px;
     border-radius: 50%;
     color: #55565a;
-    transition: color 220ms ease, background 220ms ease, transform 220ms ease;
+    transition: color 220ms ease, background 220ms ease, transform 220ms ease, width 260ms ease, height 260ms ease;
   }
 
   .pillLink svg {
     width: 34px;
     height: 34px;
     fill: currentColor;
+    transition: width 260ms ease, height 260ms ease;
+  }
+
+  .mobilePillNavCompact .pillLink {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mobilePillNavCompact .pillLink svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobilePillNavCompact .pillLink img {
+    width: 21px !important;
+    height: 21px !important;
   }
 
   .pillLink:active {

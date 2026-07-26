@@ -13,3 +13,26 @@
   border: none;
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .buttonsContainer {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .buttonsContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profileButton {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}

@@ -32,10 +32,16 @@ Bienvenido al índice central de documentación del proyecto **EW Portfolio Stud
 Las decisiones y cambios realizados en cada jornada se registran en el [índice de sesiones](./sesiones/README.md).
 
 - [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding, rediseño del Navbar (trazo continuo transparente), página de Contacto (tarjeta digital, stories y foto de perfil giratoria) y recuperación de la caché de Next.js.
+- [Sesión 2026-07-25](./sesiones/2026-07-25.md): reverso de las tarjetas de Galería con ficha técnica de metadatos, holograma circular de referencia y ajuste sin scroll con topes de caracteres.
 
 ## ✅ Tareas futuras
 
 - [Protección de la Galería](./tareas/README.md): medidas pendientes de disuasión, marcas de agua y control de acceso para las imágenes.
+- [Migración a Supabase](./tareas/MIGRACION_SUPABASE.md): inventario, arquitectura, esquema y fases para mover archivos y contenido estructurado.
+
+## 🗄️ Respaldos SQL
+
+- [Índice SQL de Supabase](./SQL/README.md): historial y copia de cada script SQL aplicado al proyecto.
 
 ---
 

@@ -1,0 +1,192 @@
+/* Marco del dashboard: sidebar izquierdo (rail fijo en escritorio, drawer en
+   móvil) + área de contenido. Mobile-first; el breakpoint md (768px) replica
+   el de Tailwind usado en el resto del proyecto. */
+
+.shell {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+/* --- Área de contenido -------------------------------------------------- */
+.content {
+  padding: 1.25rem 1rem 4rem;
+  /* deja hueco para la barra superior móvil (56px) */
+  padding-top: calc(56px + 1.25rem);
+}
+
+/* --- Barra superior (solo móvil) ---------------------------------------- */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.9rem;
+  background: #0d0d0d;
+  border-bottom: 1px solid #1e1e1e;
+  z-index: 40;
+}
+.hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: -0.4rem;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+.hamburger:hover {
+  background: #161616;
+}
+.topbarLogo {
+  height: 24px;
+  width: auto;
+}
+
+/* --- Rail / drawer ------------------------------------------------------ */
+.rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 0.85rem;
+  background: #0d0d0d;
+  border-right: 1px solid #1e1e1e;
+  z-index: 60;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  overflow-y: auto;
+}
+.railOpen {
+  transform: translateX(0);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 50;
+  border: none;
+  cursor: pointer;
+}
+
+/* --- Logo del rail ------------------------------------------------------ */
+.brand {
+  display: block;
+  padding: 0.35rem 0.5rem 1.1rem;
+}
+.brandLogo {
+  height: 34px;
+  width: auto;
+}
+
+/* --- Navegación --------------------------------------------------------- */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.5rem;
+  color: #cfcfcf;
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  transition: background 0.15s, color 0.15s;
+}
+.navItem:hover {
+  background: #161616;
+  color: #fff;
+}
+.navItemActive {
+  background: rgba(0, 175, 240, 0.12);
+  color: #00aff0;
+}
+.navItemDisabled {
+  color: #cfcfcf;
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.navIcon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+}
+.navLabel {
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.soon {
+  flex: 0 0 auto;
+  font-size: 0.6rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid #333;
+  color: #9a9a9a;
+}
+
+/* Subitems (p. ej. Home → Carrusel / Navegadores) */
+.navSub {
+  list-style: none;
+  margin: 0.1rem 0 0.2rem;
+  padding: 0;
+  /* línea guía a la izquierda, alineada con el icono del padre */
+  margin-left: 1.35rem;
+  border-left: 1px solid #1e1e1e;
+}
+.navSubItem {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.7rem;
+  margin-left: 0.4rem;
+  border-radius: 0.5rem;
+  color: #b6b6b6;
+  text-decoration: none;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  transition: background 0.15s, color 0.15s;
+}
+.navSubItem:hover {
+  background: #161616;
+  color: #fff;
+}
+
+/* --- Escritorio (md+) --------------------------------------------------- */
+@media (min-width: 768px) {
+  .topbar {
+    display: none;
+  }
+  .overlay {
+    display: none;
+  }
+  .rail {
+    transform: none;
+    transition: none;
+  }
+  .content {
+    margin-left: 240px;
+    padding: 2rem 2.5rem 4rem;
+  }
+}

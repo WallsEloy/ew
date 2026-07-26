@@ -24,7 +24,10 @@ export default function Home() {
   return (
     <div className="md:pt-[120px]">
       {/* 1. SECCIÓN: Botones para cambiar entre perfiles (esto normalmente sería un menú lateral o búsqueda) */}
-      <div className={styles.buttonsContainer}>
+      <div
+        className={styles.buttonsContainer}
+        aria-label="Seleccionar galería"
+      >
         {profiles.map((p, i) => (
           <button
             key={p.id}
@@ -56,6 +59,7 @@ export default function Home() {
         <FeedModal
           posts={profile.posts}
           startIndex={startIndex}
+          allowImageScroll
           onClose={() => setOpen(false)} // Función para cerrar el modal
         />
       )}

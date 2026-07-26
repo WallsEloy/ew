@@ -4,14 +4,7 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
-
-const pillItems = [
-  { href: '/diseno', label: 'Diseño', icon: 'tools' },
-  { href: '/eventos', label: 'Eventos', icon: 'bell' },
-  { href: '/galeria', label: 'Galería', icon: 'brush' },
-  { href: '/coding', label: 'Coding', icon: 'case' },
-  { href: '/contacto', label: 'Contacto', icon: 'message' },
-];
+import { defaultNavConfig, mergeNavConfig } from '../data/navConfig';
 
 function PillIcon({ name }) {
   if (name === 'tools') {
@@ -62,10 +55,84 @@ export default function Navbar() {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileTopHidden, setIsMobileTopHidden] = useState(false);
+  const [isMobileDockCompact, setIsMobileDockCompact] = useState(false);
   const dropdownRef = useRef(null);
+  const previousScrollY = useRef(0);
+
+  // Config editable desde el dashboard (logos, auth, dock). Se inicializa con
+  // los defaults —idénticos al navbar original— para no parpadear, y se
+  // reemplaza al cargar la config guardada en Supabase.
+  const [config, setConfig] = useState(defaultNavConfig);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/nav-config")
+      .then((r) => r.json())
+      .then((data) => {
+        if (active && data?.config) setConfig(mergeNavConfig(data.config));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    previousScrollY.current = window.scrollY;
+    let frame = null;
+
+    const handleScroll = () => {
+      if (frame) return;
+
+      frame = window.requestAnimationFrame(() => {
+        frame = null;
+        if (!window.matchMedia("(max-width: 767px)").matches) return;
+
+        const currentScrollY = Math.max(0, window.scrollY);
+        const difference = currentScrollY - previousScrollY.current;
+
+        if (currentScrollY <= 8) {
+          setIsMobileTopHidden(false);
+          setIsMobileDockCompact(false);
+        } else if (difference > 6) {
+          setIsMobileTopHidden(true);
+          setIsMobileDockCompact(true);
+          setIsMobileMenuOpen(false);
+        } else if (difference < -6) {
+          setIsMobileTopHidden(false);
+          setIsMobileDockCompact(false);
+        }
+
+        previousScrollY.current = currentScrollY;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) setIsMobileTopHidden(false);
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    setOpenDropdown(null);
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  const { logos, auth, dock } = config;
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name);
+  };
+
+  const closeMobileNavigation = () => {
+    setOpenDropdown(null);
+    setIsMobileMenuOpen(false);
   };
 
   // Close dropdown when clicking outside
@@ -96,7 +163,12 @@ export default function Navbar() {
     return (
       <div className={`${styles.dropdownMenu} ${isMobile ? `${styles.dropdownMenuFlat} relative w-[92%] mt-2` : 'absolute top-full mt-4 min-w-[150px]'} flex flex-col p-2 z-[999] opacity-100 shadow-xl`} style={isMobile ? {} : { left: '50%', transform: 'translateX(-50%)' }}>
         {items.map((item, index) => (
-          <Link key={index} href={item.href} className={`${styles.dropdownItem} py-2 px-4 block text-center text-[13px] ${index < items.length - 1 ? 'mb-1' : ''}`}>
+          <Link
+            key={index}
+            href={item.href}
+            onClick={closeMobileNavigation}
+            className={`${styles.dropdownItem} py-2 px-4 block text-center text-[13px] ${index < items.length - 1 ? 'mb-1' : ''}`}
+          >
             {item.label}
           </Link>
         ))}
@@ -110,8 +182,8 @@ export default function Navbar() {
       {/* Top section: Buttons */}
       <div className={`${styles.topSection} w-full flex justify-end px-[6%] py-1 z-20 relative`}>
         <div className="flex">
-          <button className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-l-full border-t-0 border-b-0 border-l-0 border-r-[2px] border-solid border-[#0090c0] text-[13px] hover:opacity-80 transition-all tracking-wide">Registro</button>
-          <button className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-r-full border-none text-[13px] hover:opacity-80 transition-all tracking-wide">login</button>
+          <Link href={auth.register.href || "#"} className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-l-full border-t-0 border-b-0 border-l-0 border-r-[2px] border-solid border-[#0090c0] text-[13px] hover:opacity-80 transition-all tracking-wide no-underline">{auth.register.label}</Link>
+          <Link href={auth.login.href || "#"} className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-r-full border-none text-[13px] hover:opacity-80 transition-all tracking-wide no-underline">{auth.login.label}</Link>
         </div>
       </div>
 
@@ -125,13 +197,13 @@ export default function Navbar() {
         <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-[3] hover:scale-105 transition-transform">
           {/* Escritorio: logo completo con caligrafía */}
           <img
-            src="/SVG/ew.svg"
+            src={logos.desktop}
             alt="Logo"
             className="hidden md:block h-[30px] object-contain transform scale-[1.3]"
           />
           {/* Móvil: isotipo */}
           <img
-            src="/SVG/ew_isotipo.svg"
+            src={logos.mobileIsotipo}
             alt="Logo"
             className="block md:hidden h-[34px] object-contain"
           />
@@ -139,7 +211,7 @@ export default function Navbar() {
       </div>
 
       {/* Links Section (Below the white line) */}
-      <div className={`${styles.linksSection} w-full flex justify-between items-center z-10 px-4 sm:px-6 py-1 relative`}>
+      <div className={`${styles.linksSection} ${isMobileTopHidden ? styles.mobileTopHidden : ''} w-full flex justify-between items-center z-10 px-4 sm:px-6 py-1 relative`}>
         
         {/* Mobile Hamburger Icon */}
         <div className={`${styles.mobileHamburger} flex-none flex items-center justify-center`}>
@@ -159,11 +231,11 @@ export default function Navbar() {
         </div>
 
         <Link href="/" className={styles.mobileCenterLogo} aria-label="Ir al inicio">
-          <img src="/SVG/ew_isotipo.svg" alt="" />
+          <img src={logos.mobileIsotipo} alt="" />
         </Link>
 
         <Link
-          href="/login"
+          href={auth.login.href || "/login"}
           className={`${styles.mobileAuthCircle} ${pathname === '/login' || pathname === '/register' ? styles.mobileAuthCircleActive : ''}`}
           aria-label="Iniciar sesión o registrarse"
         >
@@ -268,26 +340,40 @@ export default function Navbar() {
                 ], true)}
               </div>
               <div className="w-full flex flex-col items-center">
-                <Link href="/contacto" className={mobileNavItemClass}>Contacto</Link>
+                <Link href="/contacto" onClick={closeMobileNavigation} className={mobileNavItemClass}>Contacto</Link>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      <div className={styles.mobilePillNav} aria-label="Navegación rápida">
-        {pillItems.map((item, index) => {
+      <div
+        className={`${styles.mobilePillNav} ${
+          isMobileDockCompact ? styles.mobilePillNavCompact : ""
+        }`}
+        aria-label="Navegación rápida"
+      >
+        {dock.map((item, index) => {
           const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
           return (
-            <div key={item.href} className={styles.pillItemWrap}>
+            <div key={`${item.href}-${index}`} className={styles.pillItemWrap}>
               {index > 0 && <span className={styles.pillDivider} aria-hidden="true" />}
               <Link
-                href={item.href}
+                href={item.href || '#'}
                 className={`${styles.pillLink} ${isActive ? styles.pillLinkActive : ''}`}
                 aria-label={item.label}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <PillIcon name={item.icon} />
+                {item.iconType === 'image' && item.icon ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={item.icon}
+                    alt=""
+                    style={{ width: '30px', height: '30px', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <PillIcon name={item.icon} />
+                )}
               </Link>
             </div>
           );

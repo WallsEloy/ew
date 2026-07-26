@@ -14,6 +14,30 @@ import { defaultHomeSlides } from "../data/homeSlides";
 
 const SCROLL_SLIDE_PHASE_START = 0.2;
 
+// Texto legible (negro/blanco) según la luminancia del color de fondo.
+function readableTextColor(hex) {
+  const m = String(hex).replace("#", "");
+  if (m.length !== 6) return undefined;
+  const r = parseInt(m.slice(0, 2), 16);
+  const g = parseInt(m.slice(2, 4), 16);
+  const b = parseInt(m.slice(4, 6), 16);
+  if ([r, g, b].some(Number.isNaN)) return undefined;
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? "#000" : "#fff";
+}
+
+// Estilo del botón del slide. Si buttonColor está vacío, se devuelve undefined
+// y el botón conserva el estilo por defecto del tema (amarillo del CSS module).
+function slideButtonStyle(color) {
+  if (!color) return undefined;
+  return {
+    background: color,
+    borderColor: color,
+    color: readableTextColor(color),
+    boxShadow: `0 0 15px ${color}80`,
+  };
+}
+
 function ChromaKeyMemoji({ src }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -381,7 +405,9 @@ export default function HomeCarousel({ slides }) {
                 <h2>{slide.title}</h2>
                 <div className={styles.initialAction}>
                   <h3>{slide.logoText}</h3>
-                  <button type="button">{slide.buttonText}</button>
+                  <button type="button" style={slideButtonStyle(slide.buttonColor)}>
+                    {slide.buttonText}
+                  </button>
                 </div>
               </motion.div>
 
@@ -439,7 +465,9 @@ export default function HomeCarousel({ slides }) {
                   className={styles.editorialActions}
                   style={{ y: detailBodyY }}
                 >
-                  <button type="button">{slide.buttonText}</button>
+                  <button type="button" style={slideButtonStyle(slide.buttonColor)}>
+                    {slide.buttonText}
+                  </button>
                   <div
                     className={styles.editorialDots}
                     aria-label="Seleccionar imagen del carrusel"
