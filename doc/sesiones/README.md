@@ -7,6 +7,7 @@ Este directorio conserva una bitácora cronológica de las sesiones de trabajo d
 | Fecha | Tema principal | Resultado |
 | --- | --- | --- |
 | [2026-07-19](./2026-07-19.md) | Home controlado por scroll, Grafos visuales y ruta Coding | Implementado y verificado |
+| [2026-07-25](./2026-07-25.md) | Reverso de las tarjetas de Galería: ficha de metadatos y holograma | Implementado; falta revisión visual |
 
 ## Criterio de registro
 

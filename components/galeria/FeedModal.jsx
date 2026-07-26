@@ -1,5 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./FeedModal.module.css";
 
@@ -48,11 +49,107 @@ function ShareIcon() {
   );
 }
 
+/*
+ * METADATOS DE EJEMPLO (reverso de la tarjeta).
+ * Sirven para dos cosas: posicionamiento/SEO (título, descripción, palabras clave,
+ * licencia) e información técnica de la pieza (ficha estilo museo/estudio).
+ * Cuando el dashboard alimente los posts, basta con enviar `post.meta` con estas
+ * mismas llaves; si no viene, se muestran los valores de ejemplo de abajo.
+ */
+const META_EJEMPLO = [
+  { label: "Colección", key: "coleccion", value: "Serie urbana · Vol. 03" },
+  { label: "Año", key: "anio", value: "2025" },
+  { label: "Ubicación", key: "ubicacion", value: "Ciudad de México, MX" },
+  { label: "Técnica", key: "tecnica", value: "Fotografía digital · Luz natural" },
+  { label: "Equipo", key: "equipo", value: "Nikon D750 · 50 mm f/1.8" },
+  { label: "Exposición", key: "exposicion", value: "f/2.8 · 1/250 s · ISO 400" },
+  { label: "Formato", key: "formato", value: "3000 × 4000 px · sRGB" },
+  { label: "Licencia", key: "licencia", value: "© Eloy Walls — uso con permiso" },
+];
+
+/*
+ * LÍMITES DE TEXTO.
+ * El reverso NO tiene scroll: todo tiene que caber. Estos topes evitan que un
+ * texto largo desborde la tarjeta; lo que sobra se corta con puntos suspensivos.
+ */
+const LIMITES = {
+  titulo: 46,
+  valor: 38,
+  descripcion: 165,
+  etiquetas: 6,
+};
+
+// Corta a `maximo` caracteres sin partir la tarjeta
+function recortar(texto, maximo) {
+  const limpio = String(texto ?? "").trim();
+  if (limpio.length <= maximo) return limpio;
+  return `${limpio.slice(0, maximo - 1).trimEnd()}…`;
+}
+
+// Saca los hashtags del caption y los reutiliza como palabras clave (útil para SEO)
+function extraerEtiquetas(caption) {
+  if (!caption) return [];
+  return (caption.match(/#[\wÁÉÍÓÚáéíóúÑñ-]+/g) || []).map((tag) => tag.slice(1));
+}
+
+/*
+ * HOLOGRAMA (esquina inferior derecha del reverso).
+ * De momento es una REFERENCIA hecha con CSS: anillos girando, núcleo con
+ * iridiscencia y líneas de barrido. La idea es sustituirlo por la animación de
+ * After Effects: basta con mandar `post.holograma` con la ruta del video
+ * (webm con alfa o mp4) y este componente lo pinta en lugar del placeholder.
+ * Es decorativo: no recibe clics ni lo lee el lector de pantalla.
+ */
+function Holograma({ src, activo }) {
+  return (
+    <div
+      className={`${styles.holograma} ${activo ? styles.hologramaActivo : ""}`}
+      aria-hidden="true"
+    >
+      {src ? (
+        <video
+          className={styles.hologramaMedia}
+          src={src}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      ) : (
+        <>
+          <span className={styles.hologramaHalo} />
+          <span className={styles.hologramaAnillo} />
+          <span className={styles.hologramaAnilloInterno} />
+          <span className={styles.hologramaNucleo} />
+          <span className={styles.hologramaBarrido} />
+        </>
+      )}
+    </div>
+  );
+}
+
 // Sub-componente para manejar el estado individual de cada post (Me gusta)
-function FeedPost({ post, delay, index }) {
+function FeedPost({ post, delay, index, projectHref, allowImageScroll }) {
   const [liked, setLiked] = useState(post.isLiked || false);
   const [likesCount, setLikesCount] = useState(post.likes);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [fillImageHeight, setFillImageHeight] = useState(false);
+  const imageViewportRef = useRef(null);
+  const postTitle = (post.caption || `Publicación ${index + 1}`)
+    .split("#")[0]
+    .trim();
+
+  // Ficha técnica del reverso: usa post.meta si existe, si no los valores de ejemplo
+  const metaRows = META_EJEMPLO.map((row) => ({
+    ...row,
+    value: recortar(post.meta?.[row.key] ?? row.value, LIMITES.valor),
+  }));
+  const etiquetas = (post.meta?.etiquetas || extraerEtiquetas(post.caption)).slice(
+    0,
+    LIMITES.etiquetas,
+  );
+  const referencia =
+    post.meta?.referencia || `EW-${String(index + 1).padStart(3, "0")}`;
 
   const toggleLike = (event) => {
     event?.stopPropagation();
@@ -60,25 +157,75 @@ function FeedPost({ post, delay, index }) {
     setLikesCount(liked ? likesCount - 1 : likesCount + 1);
   };
 
+  const centerImageScroll = () => {
+    const viewport = imageViewportRef.current;
+    if (!viewport) return;
+
+    viewport.scrollTo({
+      left: Math.max(0, (viewport.scrollWidth - viewport.clientWidth) / 2),
+      top: Math.max(0, (viewport.scrollHeight - viewport.clientHeight) / 2),
+      behavior: "instant",
+    });
+  };
+
+  useEffect(() => {
+    if (!allowImageScroll) return undefined;
+    const timer = window.setTimeout(centerImageScroll, 160);
+    return () => window.clearTimeout(timer);
+  }, [allowImageScroll, fillImageHeight, post.image]);
+
+  const handleScrollableImageLoad = (event) => {
+    const image = event.currentTarget;
+    const viewport = image.parentElement;
+    if (!viewport || !image.naturalHeight) return;
+
+    const imageRatio = image.naturalWidth / image.naturalHeight;
+    const viewportRatio = viewport.clientWidth / viewport.clientHeight;
+    setFillImageHeight(imageRatio > viewportRatio);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        centerImageScroll();
+      });
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className={styles.postWrapper}
+      className={`${styles.postWrapper} ${
+        allowImageScroll ? styles.galleryPostWrapper : ""
+      }`}
       onClick={() => setIsFlipped((current) => !current)}
     >
       <div className={`${styles.cardInner} ${isFlipped ? styles.cardFlipped : ""}`}>
         <div
-          className={`${styles.cardFace} ${styles.cardFront}`}
+          className={`${styles.cardFace} ${styles.cardFront} ${
+            allowImageScroll ? styles.galleryCardFront : ""
+          }`}
           aria-hidden={isFlipped}
         >
           {/* 1. Imagen del Post */}
-          <img
-            src={post.image}
-            alt={post.caption || `Publicación ${index + 1}`}
-            className={styles.postImg}
-          />
+          {allowImageScroll ? (
+            <div ref={imageViewportRef} className={styles.imageViewport}>
+              <img
+                src={post.image}
+                alt={post.caption || `Publicación ${index + 1}`}
+                className={`${styles.postImg} ${
+                  fillImageHeight ? styles.postImgFillHeight : ""
+                }`}
+                onLoad={handleScrollableImageLoad}
+              />
+            </div>
+          ) : (
+            <img
+              src={post.image}
+              alt={post.caption || `Publicación ${index + 1}`}
+              className={styles.postImg}
+            />
+          )}
 
           {/* 2. Contenido Inferior (Interacciones) */}
           <div className={styles.postContent}>
@@ -101,6 +248,10 @@ function FeedPost({ post, delay, index }) {
                 <ShareIcon />
               </button>
             </div>
+
+        {allowImageScroll && (
+          <h3 className={styles.postTitle}>{postTitle}</h3>
+        )}
 
         {/* Contador de Likes */}
         <div className={styles.likesText}>
@@ -127,20 +278,91 @@ function FeedPost({ post, delay, index }) {
           </div>
         )}
 
+        {allowImageScroll && (
+          <img
+            src="/SVG/ew_white.svg"
+            alt="EW"
+            className={styles.infoPanelLogo}
+          />
+        )}
+
+        {projectHref && (
+          <Link
+            href={projectHref}
+            className={`${styles.projectButton} ${styles.frontProjectButton}`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            Ver proyecto completo
+          </Link>
+        )}
+
           </div>
         </div>
 
         <div className={`${styles.cardFace} ${styles.cardBack}`} aria-hidden={!isFlipped}>
           <img src="/SVG/ew_white.svg" alt="" className={styles.cardBackLogo} />
-          <p>Información adicional de la publicación.</p>
-          <span>Contenido de referencia</span>
+
+          <div className={styles.metaBody}>
+            {/* Encabezado: referencia + título de la pieza */}
+            <p className={styles.metaEyebrow}>Ficha técnica · {referencia}</p>
+            <h4 className={styles.metaTitle} title={postTitle}>
+              {recortar(postTitle, LIMITES.titulo)}
+            </h4>
+
+            {/* Metadatos en pares etiqueta / valor */}
+            <dl className={styles.metaList}>
+              {metaRows.map((row) => (
+                <div key={row.key} className={styles.metaRow}>
+                  <dt className={styles.metaLabel}>{row.label}</dt>
+                  <dd className={styles.metaValue}>{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {/* Palabras clave: lo que ayuda al posicionamiento */}
+            {etiquetas.length > 0 && (
+              <ul className={styles.metaTags} aria-label="Palabras clave">
+                {etiquetas.map((tag) => (
+                  <li key={tag} className={styles.metaTag}>
+                    #{tag}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* Descripción larga (alt text): accesibilidad + SEO */}
+            {post.caption && (
+              <p className={styles.metaDescription}>
+                {recortar(post.caption, LIMITES.descripcion)}
+              </p>
+            )}
+          </div>
+
+          {/* Holograma de la esquina inferior derecha (ver nota arriba) */}
+          <Holograma src={post.holograma} activo={isFlipped} />
+
+          {projectHref && (
+            <Link
+              href={projectHref}
+              className={styles.projectButton}
+              onClick={(event) => event.stopPropagation()}
+            >
+              Ver proyecto completo
+            </Link>
+          )}
         </div>
       </div>
     </motion.div>
   );
 }
 
-export default function FeedModal({ posts, startIndex, onClose }) {
+export default function FeedModal({
+  posts,
+  startIndex,
+  onClose,
+  projectPathPrefix,
+  allowImageScroll = false,
+}) {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(startIndex);
 
@@ -182,6 +404,9 @@ export default function FeedModal({ posts, startIndex, onClose }) {
 
   const handleDesktopWheel = (event) => {
     if (!window.matchMedia("(min-width: 769px)").matches) return;
+
+    const imageViewport = event.target.closest(`.${styles.imageViewport}`);
+    if (imageViewport?.scrollHeight > imageViewport?.clientHeight) return;
 
     if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
       event.preventDefault();
@@ -259,7 +484,16 @@ export default function FeedModal({ posts, startIndex, onClose }) {
           onScroll={handleScroll}
         >
           {posts.map((post, i) => (
-            <FeedPost key={post.id} post={post} index={i} delay={i * 0.05} />
+            <FeedPost
+              key={post.id}
+              post={post}
+              index={i}
+              delay={i * 0.05}
+              projectHref={
+                projectPathPrefix ? `${projectPathPrefix}/${post.id}` : null
+              }
+              allowImageScroll={allowImageScroll}
+            />
           ))}
         </div>
 
