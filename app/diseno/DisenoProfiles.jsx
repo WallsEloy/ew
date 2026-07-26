@@ -52,6 +52,7 @@ export default function DisenoProfiles({ profiles = [] }) {
         <FeedModal
           posts={profile.posts}
           startIndex={startIndex}
+          galleryName={profile.name}
           projectPathPrefix={`/diseno/proyectos/${profile.id}`}
           onClose={() => setOpen(false)}
         />

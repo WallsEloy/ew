@@ -419,6 +419,19 @@
   justify-content: center;
 }
 
+/* CTA de compra en la cara frontal: crema sobre negro, para que pese más que
+   el botón secundario "Ver proyecto completo" */
+.acquireButton {
+  border-color: rgba(254, 250, 244, 0.92);
+  background: linear-gradient(135deg, #fefaf4, #e4dacb);
+  color: #0b0b0b;
+  box-shadow: 0 8px 24px rgba(254, 250, 244, 0.18);
+}
+
+.acquireButton:hover {
+  box-shadow: 0 12px 28px rgba(254, 250, 244, 0.32);
+}
+
 /* 5. IMAGEN DEL POST: Ocupa todo el contenedor */
 .postImg {
   width: 100%;

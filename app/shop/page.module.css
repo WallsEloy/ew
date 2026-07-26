@@ -1,0 +1,648 @@
+/* SHOP — ficha de compra de una pieza */
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0 clamp(16px, 4vw, 48px) 4rem;
+  background: #17181c;
+  color: #fefaf4;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-top: 6rem;
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+    align-items: start;
+  }
+}
+
+/* --- Columna de la obra --- */
+
+.mediaColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.volver {
+  align-self: flex-start;
+  color: rgba(254, 250, 244, 0.62);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.volver:hover {
+  color: #fefaf4;
+}
+
+/* --- Carrusel de vistas --- */
+
+.carrusel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.escenario {
+  position: relative;
+  border: 1px solid rgba(254, 250, 244, 0.12);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #101114;
+}
+
+.vista {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+/* En móvil el escenario es vertical 9:16, formato de pantalla de teléfono */
+@media (max-width: 768px) {
+  .vista {
+    aspect-ratio: 9 / 16;
+  }
+
+  /* La obra puede crecer: hay alto de sobra y ancho justo */
+  .vistaSala .obra {
+    max-width: 68%;
+    max-height: 42%;
+    margin-bottom: 16%;
+  }
+
+  .vistaEnmarcada .obra {
+    max-height: 76%;
+  }
+}
+
+.obra {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Vista 1 · la obra sola */
+.vistaObra {
+  padding: clamp(14px, 2.4vw, 28px);
+  background: radial-gradient(120% 100% at 50% 0%, #202226, #0c0d0f);
+}
+
+.vistaObra .obra {
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Vista 2 · en pantalla (wallpaper) */
+.vistaPantalla {
+  padding: clamp(18px, 3vw, 40px);
+  background: linear-gradient(180deg, #1c1e22, #0a0b0d);
+}
+
+.vistaPantalla .obra {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 9px solid #1f2126;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(254, 250, 244, 0.14),
+    0 22px 44px rgba(0, 0, 0, 0.55);
+}
+
+/* Vista 3 · enmarcada */
+.vistaEnmarcada {
+  padding: clamp(20px, 3.4vw, 44px);
+  background: linear-gradient(180deg, #26282d, #16171a);
+}
+
+.vistaEnmarcada .obra {
+  object-fit: contain;
+  max-height: 84%;
+  border: clamp(12px, 2vw, 24px) solid #f6f0e6;
+  box-shadow: 0 0 0 8px #4a3a2a, 0 26px 50px rgba(0, 0, 0, 0.55);
+}
+
+/* Vista 4 · detalle del papel */
+.vistaDetalle {
+  background: #0a0b0d;
+}
+
+.vistaDetalle .obra {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  transform: scale(2);
+  transform-origin: 44% 40%;
+  filter: contrast(1.04);
+}
+
+/* Vista 5 · en sala */
+.vistaSala {
+  background: linear-gradient(
+    180deg,
+    #2c2e33 0%,
+    #24262a 68%,
+    #1a1b1e 68.4%,
+    #121315 100%
+  );
+}
+
+.vistaSala .obra {
+  object-fit: contain;
+  max-width: 46%;
+  max-height: 54%;
+  margin-bottom: 12%;
+  border: 10px solid #f6f0e6;
+  box-shadow: 0 0 0 5px #4a3a2a, 0 34px 46px rgba(0, 0, 0, 0.6);
+}
+
+/* Flechas laterales */
+.flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(254, 250, 244, 0.2);
+  border-radius: 50%;
+  background: rgba(12, 13, 15, 0.66);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fefaf4;
+  font-size: 26px;
+  line-height: 1;
+  padding-bottom: 3px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.flecha:hover {
+  background: rgba(254, 250, 244, 0.16);
+  border-color: rgba(254, 250, 244, 0.5);
+}
+
+.flechaPrevia {
+  left: 12px;
+}
+
+.flechaSiguiente {
+  right: 12px;
+}
+
+.vistaNombre {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 5px 12px;
+  border: 1px solid rgba(254, 250, 244, 0.18);
+  border-radius: 999px;
+  background: rgba(12, 13, 15, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.puntos {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(254, 250, 244, 0.28);
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.puntoActivo {
+  background: #fefaf4;
+  transform: scale(1.25);
+}
+
+/* --- Descripción bajo la imagen --- */
+
+.ficha {
+  padding-top: 6px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: rgba(254, 250, 244, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.titulo {
+  margin: 0 0 12px;
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.vistaPie {
+  margin: 0 0 10px;
+  padding-left: 12px;
+  border-left: 2px solid rgba(254, 250, 244, 0.28);
+  color: rgba(254, 250, 244, 0.62);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.descripcion {
+  margin: 0;
+  color: rgba(254, 250, 244, 0.72);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* --- Certificados (acordeones) --- */
+
+.certificados {
+  margin-top: 22px;
+}
+
+.acordeon {
+  border: 1px solid rgba(254, 250, 244, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.acordeon[open] {
+  border-color: rgba(254, 250, 244, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.acordeonCabecera {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.acordeonCabecera::-webkit-details-marker {
+  display: none;
+}
+
+.acordeonTexto {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.acordeonNombre {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.acordeonResumen {
+  color: rgba(254, 250, 244, 0.55);
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.acordeonEstado {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border: 1px solid rgba(254, 250, 244, 0.2);
+  border-radius: 999px;
+  color: rgba(254, 250, 244, 0.5);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.acordeonIncluido {
+  border-color: rgba(254, 250, 244, 0.85);
+  color: #0b0b0b;
+  background: #fefaf4;
+}
+
+.acordeonFlecha {
+  flex: 0 0 auto;
+  color: rgba(254, 250, 244, 0.6);
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.acordeon[open] .acordeonFlecha {
+  transform: rotate(180deg);
+}
+
+.acordeonLista {
+  margin: 0;
+  /* Preflight de Tailwind quita las viñetas, así que las ponemos a mano */
+  list-style: none;
+  padding: 0 16px 14px;
+  color: rgba(254, 250, 244, 0.68);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.acordeonLista li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+}
+
+.acordeonLista li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(254, 250, 244, 0.45);
+}
+
+.acordeonAviso {
+  margin: 0;
+  padding: 0 16px 14px;
+  color: rgba(254, 250, 244, 0.42);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* --- Panel de compra --- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .panel {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+.seccionTitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(254, 250, 244, 0.55);
+}
+
+/* --- Categorías --- */
+
+.categorias {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid rgba(254, 250, 244, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease,
+    transform 160ms ease;
+}
+
+.categoria:hover {
+  border-color: rgba(254, 250, 244, 0.34);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.categoriaActiva {
+  border-color: #fefaf4;
+  background: rgba(254, 250, 244, 0.1);
+}
+
+.categoriaCabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.categoriaNombre {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.categoriaEtiqueta {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border: 1px solid rgba(254, 250, 244, 0.24);
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(254, 250, 244, 0.72);
+}
+
+.categoriaResumen {
+  color: rgba(254, 250, 244, 0.72);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.categoriaDetalle {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: rgba(254, 250, 244, 0.52);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.categoriaDetalle li::before {
+  content: "· ";
+}
+
+.categoriaPie {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.categoriaPrecio {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.categoriaEdicion {
+  color: rgba(254, 250, 244, 0.5);
+  font-size: 12px;
+}
+
+/* --- Bloque de compra --- */
+
+.compra {
+  margin-top: 26px;
+  padding: 20px;
+  border: 1px solid rgba(254, 250, 244, 0.16);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #1f2125, #141518);
+}
+
+.compraResumen {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.compraFormato {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.compraPrecio {
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.compraCopia {
+  margin: 10px 0 0;
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid rgba(254, 250, 244, 0.28);
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compraTexto {
+  margin: 14px 0 0;
+  color: rgba(254, 250, 244, 0.7);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.adquirir {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 14px 24px;
+  border: 1px solid rgba(254, 250, 244, 0.92);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fefaf4, #e4dacb);
+  color: #0b0b0b;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(254, 250, 244, 0.16);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.adquirir:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(254, 250, 244, 0.3);
+}
+
+.compraNota {
+  margin: 12px 0 0;
+  color: rgba(254, 250, 244, 0.45);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* --- Estado sin pieza --- */
+
+.vacio {
+  max-width: 440px;
+  margin: 0 auto;
+  padding-top: 4rem;
+  text-align: center;
+}
+
+.vacioTitulo {
+  margin: 0 0 10px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.vacioTexto {
+  margin: 0 0 22px;
+  color: rgba(254, 250, 244, 0.66);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.vacioEnlace {
+  display: inline-flex;
+  padding: 12px 22px;
+  border: 1px solid rgba(254, 250, 244, 0.9);
+  border-radius: 999px;
+  color: #0b0b0b;
+  background: #fefaf4;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .categoria,
+  .adquirir,
+  .flecha,
+  .punto,
+  .acordeonFlecha {
+    transition: none;
+  }
+
+  .adquirir:hover {
+    transform: none;
+  }
+}

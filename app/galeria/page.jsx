@@ -59,6 +59,7 @@ export default function Home() {
         <FeedModal
           posts={profile.posts}
           startIndex={startIndex}
+          galleryName={profile.name}
           allowImageScroll
           onClose={() => setOpen(false)} // Función para cerrar el modal
         />

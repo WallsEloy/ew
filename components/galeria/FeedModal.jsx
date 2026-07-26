@@ -129,7 +129,7 @@ function Holograma({ src, activo }) {
 }
 
 // Sub-componente para manejar el estado individual de cada post (Me gusta)
-function FeedPost({ post, delay, index, projectHref, allowImageScroll }) {
+function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryName }) {
   const [liked, setLiked] = useState(post.isLiked || false);
   const [likesCount, setLikesCount] = useState(post.likes);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -150,6 +150,19 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll }) {
   );
   const referencia =
     post.meta?.referencia || `EW-${String(index + 1).padStart(3, "0")}`;
+
+  /*
+   * Enlace al shop. Mandamos lo mínimo para que la tienda pueda pintar la pieza
+   * aunque no la encuentre en el catálogo local (galerías que vienen de Supabase):
+   * galería + id para buscarla, e imagen/título como respaldo.
+   */
+  const shopHref = `/shop?${new URLSearchParams({
+    galeria: galleryName || "",
+    pieza: String(post.id ?? index),
+    ref: referencia,
+    titulo: postTitle,
+    img: post.image || "",
+  }).toString()}`;
 
   const toggleLike = (event) => {
     event?.stopPropagation();
@@ -286,6 +299,15 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll }) {
           />
         )}
 
+        {/* CTA principal: lleva al shop con la pieza ya seleccionada */}
+        <Link
+          href={shopHref}
+          className={`${styles.projectButton} ${styles.frontProjectButton} ${styles.acquireButton}`}
+          onClick={(event) => event.stopPropagation()}
+        >
+          Adquirir para tu colección
+        </Link>
+
         {projectHref && (
           <Link
             href={projectHref}
@@ -362,6 +384,7 @@ export default function FeedModal({
   onClose,
   projectPathPrefix,
   allowImageScroll = false,
+  galleryName = "",
 }) {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(startIndex);
@@ -493,6 +516,7 @@ export default function FeedModal({
                 projectPathPrefix ? `${projectPathPrefix}/${post.id}` : null
               }
               allowImageScroll={allowImageScroll}
+              galleryName={galleryName}
             />
           ))}
         </div>
