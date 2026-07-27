@@ -1,0 +1,54 @@
+/* Bloque de presentación: logo + descripción + cuenta atrás */
+.presentacion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px 20px;
+}
+
+.logo {
+  width: auto;
+  max-width: min(60%, 240px);
+  max-height: 76px;
+  object-fit: contain;
+}
+
+.descripcion {
+  max-width: 62ch; /* renglones legibles aunque la pantalla sea ancha */
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-wrap; /* respeta los saltos de línea del dashboard */
+}
+
+/* En escritorio el módulo se centra en horizontal sobre la portada, con las
+   tres piezas más juntas entre sí. Sobre la foto hace falta contraste extra. */
+@media (min-width: 769px) {
+  .presentacion {
+    align-items: center;
+    gap: 8px;
+    padding: 0 clamp(20px, 4vw, 48px) 18px;
+    text-align: center;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+    /* Desplazado 30px a la izquierda del eje. Va con transform y no con
+       márgenes para no alterar el centrado vertical ni el ancho de la caja. */
+    transform: translateX(-30px);
+  }
+
+  .descripcion {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    max-width: 55%;
+    max-height: 58px;
+  }
+
+  .descripcion {
+    font-size: 13px;
+  }
+}

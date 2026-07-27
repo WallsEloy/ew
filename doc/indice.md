@@ -33,7 +33,7 @@ Las decisiones y cambios realizados en cada jornada se registran en el [índice 
 
 - [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding, rediseño del Navbar (trazo continuo transparente), página de Contacto (tarjeta digital, stories y foto de perfil giratoria) y recuperación de la caché de Next.js.
 - [Sesión 2026-07-25](./sesiones/2026-07-25.md): reverso de las tarjetas de Galería con ficha técnica de metadatos, holograma circular de referencia y ajuste sin scroll con topes de caracteres.
-- [Sesión 2026-07-26](./sesiones/2026-07-26.md): logotipo de la galería elegible por pieza desde el dashboard (morado / dorado) en las dos caras de la tarjeta, reorden del panel frontal, hueco para las barras fijas del móvil y arreglo de la rueda del ratón en las imágenes panorámicas.
+- [Sesión 2026-07-26](./sesiones/2026-07-26.md): logotipo de la galería elegible por pieza desde el dashboard (morado / dorado) en las dos caras de la tarjeta, hueco para las barras fijas del móvil y arreglo de la rueda del ratón en las panorámicas; y cabecera de Galería rehecha en escritorio con carrusel de portadas a sangre hasta lo alto de la página, bloque de presentación (logotipo, descripción y cuenta atrás) y bloque de perfil reservado al móvil.
 
 ## ✅ Tareas futuras
 

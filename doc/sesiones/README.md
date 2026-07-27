@@ -8,7 +8,7 @@ Este directorio conserva una bitácora cronológica de las sesiones de trabajo d
 | --- | --- | --- |
 | [2026-07-19](./2026-07-19.md) | Home controlado por scroll, Grafos visuales y ruta Coding | Implementado y verificado |
 | [2026-07-25](./2026-07-25.md) | Reverso de las tarjetas de Galería: ficha de metadatos y holograma | Implementado; falta revisión visual |
-| [2026-07-26](./2026-07-26.md) | Logotipo elegible por pieza en las tarjetas, reorden del frente, barras fijas del móvil y rueda en panorámicas | Implementado y verificado en navegador |
+| [2026-07-26](./2026-07-26.md) | Logotipo elegible por pieza en las tarjetas y rueda en panorámicas; cabecera de Galería rehecha en escritorio: carrusel de portadas a sangre, bloque de presentación con cuenta atrás y perfil sólo en móvil | Implementado y verificado en navegador |
 
 ## Criterio de registro
 

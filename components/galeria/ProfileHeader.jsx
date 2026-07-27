@@ -1,11 +1,19 @@
 import styles from "./ProfileHeader.module.css";
 
-export default function ProfileHeader({ profile }) {
+export default function ProfileHeader({ profile, ocultoEnEscritorio = false }) {
   // Asegurar valores por defecto en caso de que el profile no los tenga
   const stats = profile.stats || { posts: profile.posts?.length || 0, followers: "0", following: "0" };
 
   return (
-    <div className={styles.headerWrapper}>
+    // En Galería la cabecera (avatar, logo, nombre, cifras y bio) sólo se ve en
+    // móvil: en escritorio manda el carrusel de portadas. La clase que la oculta
+    // vive dentro de la media query, así que el móvil no se entera. Diseño no
+    // pasa la prop, así que ahí sigue viéndose siempre.
+    <div
+      className={`${styles.headerWrapper} ${
+        ocultoEnEscritorio ? styles.headerSoloMovil : ""
+      }`}
+    >
       {/* Columna Izquierda: Avatar */}
       <div className={styles.avatarContainer}>
         <img src={profile.avatar} className={styles.avatarImage} alt={profile.name} />

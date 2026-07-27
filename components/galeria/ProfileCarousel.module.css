@@ -1,0 +1,90 @@
+/* Carrusel de portadas de la cabecera. En móvil no existe: ni caja ni descarga. */
+.carrusel {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .carrusel {
+    display: block;
+    position: relative;
+    width: 100%;
+    /* La portada de referencia es panorámica (2247 × 1031 ≈ 2.18). Se respeta esa
+       proporción para no recortar la obra, con un tope para que en pantallas muy
+       anchas no se coma media página. */
+    aspect-ratio: 2247 / 1031;
+    max-height: min(62vh, 660px);
+    overflow: hidden;
+    background-color: #050505; /* mientras carga, negro en vez de blanco */
+    /* Fundido al negro abajo, para entrar en la página sin corte duro */
+    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  }
+
+  /* Cada portada, apilada; sólo la activa es visible. El fundido se enciende
+     únicamente cuando hay carrusel (dos portadas o más): con una sola, la
+     cabecera es una imagen fija y no tiene nada que fundir. */
+  .lamina {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    /* Dos capas: velo oscuro (arriba) y la imagen (la ruta llega en línea desde
+       el componente, en la variable --portada). El velo mantiene legible lo que
+       se pinte encima, sea cual sea la foto. */
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.92) 0%,
+        rgba(0, 0, 0, 0.6) 34%,
+        rgba(0, 0, 0, 0) 68%
+      ),
+      var(--portada);
+    background-position: center, center;
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+  }
+
+  .laminaActiva {
+    opacity: 1;
+  }
+
+  .animado .lamina {
+    transition: opacity 900ms ease;
+  }
+
+  /* Puntos de navegación: sólo aparecen con dos portadas o más.
+     Van ARRIBA a la derecha a propósito: la capa del perfil/historias se apoya
+     en la parte baja del carrusel y, al estar por encima, se comería los clics
+     si los puntos estuvieran ahí abajo. */
+  .puntos {
+    position: absolute;
+    right: clamp(20px, 3vw, 44px);
+    top: clamp(20px, 3vw, 40px);
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+  }
+
+  .punto {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: background 220ms ease, transform 220ms ease;
+  }
+
+  .punto:hover {
+    transform: scale(1.25);
+  }
+
+  .puntoActivo {
+    background: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animado .lamina {
+    transition: none;
+  }
+}

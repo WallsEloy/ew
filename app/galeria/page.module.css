@@ -14,6 +14,52 @@
   cursor: pointer;
 }
 
+/* 3. HERO: portada de fondo + perfil encima (sólo escritorio) --------------- */
+
+/* En escritorio las dos capas se apilan en la MISMA celda de un grid: así la
+   altura del bloque la marca la portada sin tener que replicar su alto en un
+   margen negativo, y el contenido se alinea al pie de la imagen. */
+@media (min-width: 769px) {
+  .hero {
+    display: grid;
+    grid-template-areas: "capa";
+  }
+
+  .hero > * {
+    grid-area: capa;
+  }
+
+  .heroContenido {
+    z-index: 1; /* por encima de la portada */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* La presentación se centra en el alto libre: los márgenes automáticos de
+     arriba y de abajo se reparten el hueco a partes iguales, y de paso empujan
+     el pie contra el borde inferior de la imagen. No se centra en el eje exacto
+     del hero a propósito: ahí se solaparía con la fila de categorías. */
+  .heroCentro {
+    margin-block: auto;
+  }
+
+  /* Cabecera (móvil) e historias descansan en la parte baja de la imagen */
+  .heroPie {
+    margin-top: 0;
+  }
+}
+
+/* Hueco para el navbar fijo: la imagen pasa por debajo de él, pero las categorías
+   no deben quedar tapadas. Antes lo reservaba la página entera (md:pt-[120px]);
+   ahora sólo esta capa, para que la portada llegue arriba del todo sin cortarse.
+   El corte va en 768 px, el mismo de Tailwind (md:), que es donde el navbar pasa
+   a ser fijo y deja de empujar el contenido. */
+@media (min-width: 768px) {
+  .heroContenido {
+    padding-top: 120px;
+  }
+}
+
 @media (max-width: 767px) {
   .buttonsContainer {
     width: 100%;
