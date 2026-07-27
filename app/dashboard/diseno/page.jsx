@@ -1,4 +1,4 @@
-import DisenoEditor from "../../../components/dashboard/DisenoEditor";
+import PortfolioEditor from "../../../components/dashboard/PortfolioEditor";
 
 export const metadata = { title: "Dashboard · Diseño" };
 export const dynamic = "force-dynamic";
@@ -9,9 +9,10 @@ export default function DashboardDisenoPage() {
       <h1 className="text-2xl font-bold mb-1">Diseño · Perfiles</h1>
       <p className="text-sm text-gray-400 mb-6">
         Edita cada perfil: nombre, bio, avatar, logo, seguidores/seguidos,
-        visibilidad y orden. Los posts se editarán en un paso siguiente.
+        visibilidad y orden. Dentro de cada perfil, «Imágenes del perfil» abre el
+        gestor de posts: subir y quitar imágenes, descripción y ficha técnica.
       </p>
-      <DisenoEditor />
+      <PortfolioEditor section="diseno" />
     </div>
   );
 }

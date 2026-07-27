@@ -52,6 +52,11 @@
   cursor: pointer;
 }
 
+/* Tarjeta que no gira (Diseño): sin cursor de clic */
+.staticPostWrapper {
+  cursor: default;
+}
+
 .cardInner {
   position: relative;
   width: 100%;
@@ -110,11 +115,21 @@
   transition-delay: 0s;
 }
 
+/* Corona del reverso: logotipo horizontal (443×86) a color pleno, centrado */
 .cardBackLogo {
   flex: 0 0 auto;
-  width: min(18%, 64px);
+  width: min(38%, 150px);
   height: auto;
-  opacity: 0.55;
+  margin-inline: auto;
+}
+
+/* Firma de cierre al pie: el isotipo EW, discreto para no competir con la corona */
+.cardBackFirma {
+  flex: 0 0 auto;
+  width: min(18%, 62px);
+  height: auto;
+  margin-inline: auto;
+  opacity: 0.5;
 }
 
 /* --- REVERSO: FICHA DE METADATOS --- */
@@ -518,13 +533,35 @@
   line-height: 1.15;
 }
 
+/* Logo de la cara de enfrente: arriba del panel de texto, centrado con él */
+.frontPanelLogo {
+  display: block;
+  flex: 0 0 auto;
+  align-self: center;
+  width: min(38%, 100px);
+  height: auto;
+  margin: 0 auto 10px;
+}
+
 .infoPanelLogo {
   display: block;
   align-self: center;
-  width: 54px;
+  width: 36px;
   height: auto;
-  margin: auto auto 2px;
+  margin: 0 auto 2px;
   opacity: 0.7;
+}
+
+/* El grupo de cierre (botón + firma EW) se pega al fondo del panel: el hueco
+   libre se lo come el botón, así los dos quedan juntos. */
+.galleryCardFront .acquireButton,
+.galleryCardFront .frontProjectButton {
+  margin-top: auto;
+}
+
+.galleryCardFront .frontProjectButton ~ .frontProjectButton,
+.galleryCardFront .infoPanelLogo {
+  margin-top: 10px;
 }
 
 /* 8. BARRA DE ACCIONES: Fila para botones (Me gusta, comentar, enviar) */
@@ -654,14 +691,24 @@
     padding-top: 8px;
   }
 
-  /* Reverso: la tarjeta es angosta y alta; menos columnas, pero buen margen lateral */
+  /* Reverso: la tarjeta es angosta y alta; menos columnas, pero buen margen lateral.
+     Arriba y abajo se reserva sitio para las dos barras fijas del móvil (el nav
+     superior, 76px, y el dock de píldoras, 76px): si no, tapan el logo y la firma. */
   .cardBack {
     gap: 12px;
-    padding: 24px 24px 20px;
+    padding: 88px 24px 92px;
   }
 
   .cardBackLogo {
-    width: 50px;
+    width: min(52%, 132px);
+  }
+
+  .cardBackFirma {
+    width: 44px;
+  }
+
+  .frontPanelLogo {
+    width: min(30%, 84px);
   }
 
   .metaEyebrow {

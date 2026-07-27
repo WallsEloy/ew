@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { resolveLogoReverso } from "../../lib/logosReverso";
 import styles from "./FeedModal.module.css";
 
 function HeartIcon({ filled = false }) {
@@ -129,7 +130,16 @@ function Holograma({ src, activo }) {
 }
 
 // Sub-componente para manejar el estado individual de cada post (Me gusta)
-function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryName }) {
+function FeedPost({
+  post,
+  delay,
+  index,
+  projectHref,
+  allowImageScroll,
+  galleryName,
+  allowPurchase,
+  allowFlip,
+}) {
   const [liked, setLiked] = useState(post.isLiked || false);
   const [likesCount, setLikesCount] = useState(post.likes);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -139,11 +149,22 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryNa
     .split("#")[0]
     .trim();
 
-  // Ficha técnica del reverso: usa post.meta si existe, si no los valores de ejemplo
+  /*
+   * Ficha técnica del reverso.
+   * Si la pieza trae ficha propia (desde el dashboard) se muestran SOLO los
+   * campos que tienen contenido; si no trae nada, se ven los de ejemplo. Así
+   * llenar un campo no deja los otros siete como renglones vacíos.
+   */
+  const tieneFichaPropia = Object.values(post.meta || {}).some(
+    (valor) => typeof valor === "string" && valor.trim(),
+  );
   const metaRows = META_EJEMPLO.map((row) => ({
     ...row,
-    value: recortar(post.meta?.[row.key] ?? row.value, LIMITES.valor),
-  }));
+    value: recortar(
+      tieneFichaPropia ? post.meta?.[row.key] ?? "" : row.value,
+      LIMITES.valor,
+    ),
+  })).filter((row) => row.value);
   const etiquetas = (post.meta?.etiquetas || extraerEtiquetas(post.caption)).slice(
     0,
     LIMITES.etiquetas,
@@ -210,8 +231,10 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryNa
       transition={{ delay }}
       className={`${styles.postWrapper} ${
         allowImageScroll ? styles.galleryPostWrapper : ""
-      }`}
-      onClick={() => setIsFlipped((current) => !current)}
+      } ${allowFlip ? "" : styles.staticPostWrapper}`}
+      onClick={
+        allowFlip ? () => setIsFlipped((current) => !current) : undefined
+      }
     >
       <div className={`${styles.cardInner} ${isFlipped ? styles.cardFlipped : ""}`}>
         <div
@@ -242,7 +265,18 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryNa
 
           {/* 2. Contenido Inferior (Interacciones) */}
           <div className={styles.postContent}>
-        
+
+            {/* El mismo logo que corona el reverso, arriba a la derecha del
+                panel de texto: así la cara de enfrente ya lleva la marca.
+                Sólo en galería, igual que el título y el EW del panel. */}
+            {allowImageScroll && (
+              <img
+                src={resolveLogoReverso(post.logoReverso)}
+                alt=""
+                className={styles.frontPanelLogo}
+              />
+            )}
+
             {/* Barra de Acciones */}
             <div className={styles.actionsBar}>
           <button
@@ -291,22 +325,18 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryNa
           </div>
         )}
 
-        {allowImageScroll && (
-          <img
-            src="/SVG/ew_white.svg"
-            alt="EW"
-            className={styles.infoPanelLogo}
-          />
+        {/* CTA principal: lleva al shop con la pieza ya seleccionada.
+            En Diseño no se vende la pieza, así que ahí no se pinta.
+            Va antes del EW: el botón arriba, la firma cerrando debajo. */}
+        {allowPurchase && (
+          <Link
+            href={shopHref}
+            className={`${styles.projectButton} ${styles.frontProjectButton} ${styles.acquireButton}`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            Adquirir para tu colección
+          </Link>
         )}
-
-        {/* CTA principal: lleva al shop con la pieza ya seleccionada */}
-        <Link
-          href={shopHref}
-          className={`${styles.projectButton} ${styles.frontProjectButton} ${styles.acquireButton}`}
-          onClick={(event) => event.stopPropagation()}
-        >
-          Adquirir para tu colección
-        </Link>
 
         {projectHref && (
           <Link
@@ -318,11 +348,28 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryNa
           </Link>
         )}
 
+        {allowImageScroll && (
+          <img
+            src="/SVG/ew_white.svg"
+            alt="EW"
+            className={styles.infoPanelLogo}
+          />
+        )}
+
           </div>
         </div>
 
+        {/* Reverso con la ficha técnica. En Diseño la tarjeta no gira, así que
+            ni siquiera se monta. */}
+        {allowFlip && (
         <div className={`${styles.cardFace} ${styles.cardBack}`} aria-hidden={!isFlipped}>
-          <img src="/SVG/ew_white.svg" alt="" className={styles.cardBackLogo} />
+          {/* Corona: el logotipo elegido para esta pieza en el dashboard
+              (morado por defecto). La firma EW cierra abajo. */}
+          <img
+            src={resolveLogoReverso(post.logoReverso)}
+            alt=""
+            className={styles.cardBackLogo}
+          />
 
           <div className={styles.metaBody}>
             {/* Encabezado: referencia + título de la pieza */}
@@ -372,7 +419,11 @@ function FeedPost({ post, delay, index, projectHref, allowImageScroll, galleryNa
               Ver proyecto completo
             </Link>
           )}
+
+          {/* Firma de cierre: el EW de siempre, ahora al pie de la ficha */}
+          <img src="/SVG/ew_white.svg" alt="EW" className={styles.cardBackFirma} />
         </div>
+        )}
       </div>
     </motion.div>
   );
@@ -385,6 +436,8 @@ export default function FeedModal({
   projectPathPrefix,
   allowImageScroll = false,
   galleryName = "",
+  allowPurchase = true,
+  allowFlip = true,
 }) {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(startIndex);
@@ -428,8 +481,23 @@ export default function FeedModal({
   const handleDesktopWheel = (event) => {
     if (!window.matchMedia("(min-width: 769px)").matches) return;
 
+    /*
+     * Con el ratón encima de una imagen que se puede recorrer, la rueda la
+     * recorre a ella, no al feed. Hay que mirar los DOS ejes: las verticales
+     * desbordan en Y (el navegador las pantea solo) y las panorámicas llevan
+     * postImgFillHeight, así que desbordan en X y la rueda vertical tiene que
+     * traducirse a movimiento horizontal a mano.
+     */
     const imageViewport = event.target.closest(`.${styles.imageViewport}`);
-    if (imageViewport?.scrollHeight > imageViewport?.clientHeight) return;
+    if (imageViewport) {
+      if (imageViewport.scrollHeight > imageViewport.clientHeight) return;
+
+      if (imageViewport.scrollWidth > imageViewport.clientWidth) {
+        event.preventDefault();
+        imageViewport.scrollLeft += event.deltaY || event.deltaX;
+        return;
+      }
+    }
 
     if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
       event.preventDefault();
@@ -517,6 +585,8 @@ export default function FeedModal({
               }
               allowImageScroll={allowImageScroll}
               galleryName={galleryName}
+              allowPurchase={allowPurchase}
+              allowFlip={allowFlip}
             />
           ))}
         </div>

@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import PostsEditor from "./PostsEditor";
+import { fetchJson } from "../../lib/fetchJson";
+
 const inputCls =
   "box-border w-full bg-[#111] border border-[#333] rounded px-3 py-2 text-sm text-white outline-none focus:border-[#00aff0]";
 const labelCls = "block text-[11px] uppercase tracking-wide text-gray-400 mb-1";
@@ -52,7 +55,9 @@ function AssetField({ label, value, preview, uploading, accept, hint, onUrl, onU
   );
 }
 
-export default function DisenoEditor() {
+// Editor de colecciones de portafolio. Sirve para Diseño y para Galería:
+// lo único que cambia es `section`.
+export default function PortfolioEditor({ section = "diseno" }) {
   const [cols, setCols] = useState([]);
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState(null);
@@ -61,11 +66,13 @@ export default function DisenoEditor() {
   const [dirty, setDirty] = useState(() => new Set());
   const [flashId, setFlashId] = useState(null);
   const [message, setMessage] = useState(null);
+  // Colección con el gestor de posts abierto (se carga solo al abrirlo)
+  const [openPostsId, setOpenPostsId] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const data = await fetch("/api/portfolio?section=diseno").then((r) => r.json());
+        const data = await fetchJson(`/api/portfolio?section=${section}`);
         setCols(data.collections || []);
         setConfigured(Boolean(data.configured));
       } catch (err) {
@@ -74,7 +81,7 @@ export default function DisenoEditor() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [section]);
 
   const markDirty = (id) => setDirty((d) => new Set(d).add(id));
 
@@ -107,9 +114,7 @@ export default function DisenoEditor() {
       fd.append("file", file);
       if (raw) fd.append("raw", "true");
       fd.append("folder", "portfolio");
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Error al subir");
+      const data = await fetchJson("/api/upload", { method: "POST", body: fd });
       if (field === "avatar") patchCol(id, { avatarPath: data.url, avatarUrl: data.url });
       else patchCol(id, { logoPath: data.url, logoUrl: data.url });
       setMessage({ type: "ok", text: "Archivo subido. Recuerda guardar." });
@@ -134,13 +139,11 @@ export default function DisenoEditor() {
         published: c.published,
         position: c.position,
       };
-      const res = await fetch("/api/portfolio", {
+      await fetchJson("/api/portfolio", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, section: "diseno", patch }),
+        body: JSON.stringify({ id, section, patch }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Error al guardar");
       setDirty((d) => {
         const n = new Set(d);
         n.delete(id);
@@ -162,7 +165,7 @@ export default function DisenoEditor() {
   if (!cols.length) {
     return (
       <p className="text-gray-400">
-        No hay perfiles de Diseño en Supabase.{" "}
+        No hay perfiles de {section === "galeria" ? "Galería" : "Diseño"} en Supabase.{" "}
         {configured ? "" : "(Supabase no está configurado.)"}
       </p>
     );
@@ -293,6 +296,24 @@ export default function DisenoEditor() {
                   onUpload={(file) => uploadAsset(c.id, file, true, "logo")}
                 />
               </div>
+            </div>
+
+            {/* Gestor de imágenes/posts de la colección */}
+            <div className="mt-4 border-t border-[#242424] pt-3">
+              <button
+                className={btnCls}
+                onClick={() =>
+                  setOpenPostsId((current) => (current === c.id ? null : c.id))
+                }
+              >
+                {openPostsId === c.id ? "Ocultar imágenes ▲" : "Imágenes del perfil ▼"}
+              </button>
+
+              {openPostsId === c.id && (
+                <div className="mt-3">
+                  <PostsEditor collectionId={c.id} section={section} />
+                </div>
+              )}
             </div>
           </div>
         ))}

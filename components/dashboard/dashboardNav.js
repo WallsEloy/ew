@@ -47,15 +47,15 @@ export const DASHBOARD_NAV = [
   {
     href: "/dashboard/galeria",
     label: "Galería",
-    desc: "Perfiles y proyectos de la sección Galería.",
+    desc: "Perfiles y piezas de la sección Galería: imágenes, descripción y ficha técnica.",
     icon: "image",
-    available: false,
+    available: true,
   },
   {
     href: "/dashboard/contacto",
     label: "Contacto",
-    desc: "Textos e historias de la página de contacto.",
+    desc: "Perfil, historias, redes y acordeones de la página de contacto.",
     icon: "mail",
-    available: false,
+    available: true,
   },
 ];

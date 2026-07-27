@@ -53,6 +53,8 @@ export default function DisenoProfiles({ profiles = [] }) {
           posts={profile.posts}
           startIndex={startIndex}
           galleryName={profile.name}
+          allowPurchase={false}
+          allowFlip={false}
           projectPathPrefix={`/diseno/proyectos/${profile.id}`}
           onClose={() => setOpen(false)}
         />
