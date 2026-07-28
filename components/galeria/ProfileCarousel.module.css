@@ -8,11 +8,12 @@
     display: block;
     position: relative;
     width: 100%;
-    /* La portada de referencia es panorámica (2247 × 1031 ≈ 2.18). Se respeta esa
-       proporción para no recortar la obra, con un tope para que en pantallas muy
-       anchas no se coma media página. */
-    aspect-ratio: 2247 / 1031;
-    max-height: min(62vh, 660px);
+    /* Altura mandada por la ventana, no por la proporción de la imagen: así la
+       portada gana presencia y no depende de lo panorámico que sea el archivo.
+       El recorte lo resuelve background-size: cover, que ajusta por el lado que
+       sobre. El mínimo evita una franja ridícula en ventanas bajas y el máximo,
+       que en pantallas muy altas se coma la página entera. */
+    height: clamp(420px, 75vh, 860px);
     overflow: hidden;
     background-color: #050505; /* mientras carga, negro en vez de blanco */
     /* Fundido al negro abajo, para entrar en la página sin corte duro */

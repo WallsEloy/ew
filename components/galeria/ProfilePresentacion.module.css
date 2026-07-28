@@ -27,14 +27,27 @@
    tres piezas más juntas entre sí. Sobre la foto hace falta contraste extra. */
 @media (min-width: 769px) {
   .presentacion {
+    /* Alineado a la izquierda, sobre la zona oscura de la portada: ahí el
+       logotipo morado y el texto se leen mucho mejor que en el centro, donde
+       caían sobre la pierna y el trazo blanco.
+       Para volver al centro: align-items/text-align a center, y si se quiere
+       desplazarlo sin descentrar la caja, transform: translateX(-Npx). */
+    /* Las tres piezas se centran ENTRE SÍ, no respecto a la pantalla: como la
+       caja se ajusta a su contenido, el módulo no se mueve de donde está; sólo
+       se alinean el logo, el texto y el contador con el elemento más ancho. */
     align-items: center;
     gap: 8px;
     padding: 0 clamp(20px, 4vw, 48px) 18px;
     text-align: center;
     text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
-    /* Desplazado 30px a la izquierda del eje. Va con transform y no con
-       márgenes para no alterar el centrado vertical ni el ancho de la caja. */
-    transform: translateX(-30px);
+    /* La caja se ajusta a su contenido: si midiera todo el ancho, desplazarla
+       arrastraría su borde derecho fuera de la pantalla y aparecería scroll
+       horizontal. */
+    width: fit-content;
+    /* Separado 370px del margen izquierdo. Va con transform y no con relleno para
+       no recortar el ancho del texto: este número es el único que hay que tocar
+       si quieres moverlo (positivo a la derecha, negativo a la izquierda). */
+    transform: translateX(370px);
   }
 
   .descripcion {

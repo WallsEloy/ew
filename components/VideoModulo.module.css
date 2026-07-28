@@ -1,0 +1,346 @@
+/* =============================================================================
+   MÓDULO DE VÍDEO DE LA GALERÍA
+
+   Paleta medida sobre el propio vídeo (muestreo de fotogramas): la escena es
+   casi monocroma —luminancia media 26 sobre 255— y el único color es el oro de
+   las joyas. Cambia estos cinco valores y cambia el módulo entero.
+   ========================================================================== */
+.modulo {
+  --vi-negro: #050505; /* fondo; el vídeo domina en #080808 */
+  --vi-humo: #141414; /* ciclorama */
+  --vi-grafito: #2b2b2b; /* caída de luz del fondo */
+  --vi-oro: #c0906a; /* joyas, tono medio */
+  --vi-oro-luz: #ffe7a4; /* destello más alto medido en el vídeo */
+  --vi-hueso: #f4f1ea; /* texto principal */
+
+  --vi-display: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --vi-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+
+  position: relative;
+  display: grid;
+  align-content: center;
+  width: 100%;
+  /* Abre la página en escritorio y pasa de la ventana: la placa de ficha del pie
+     queda justo bajo el borde, de modo que el bloque invita a seguir bajando. El
+     tope en píxeles evita que en un monitor muy alto se haga eterno. */
+  min-height: min(122vh, 1240px);
+  padding: clamp(48px, 8vh, 96px) clamp(20px, 6vw, 96px) clamp(96px, 14vh, 150px);
+  overflow: hidden;
+  background: var(--vi-negro);
+  isolation: isolate;
+}
+
+/* --- Vídeo de fondo -------------------------------------------------------- */
+.video {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+.dentro .video {
+  opacity: 1;
+}
+
+/* Velo doble: oscurece la izquierda (donde va el texto) y el pie (donde va la
+   placa), dejando limpia la zona central, que es donde está la figura. */
+.velo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to right,
+      rgba(5, 5, 5, 0.94) 0%,
+      rgba(5, 5, 5, 0.72) 34%,
+      rgba(5, 5, 5, 0.12) 62%,
+      rgba(5, 5, 5, 0.5) 100%
+    ),
+    linear-gradient(to top, rgba(5, 5, 5, 0.96) 0%, rgba(5, 5, 5, 0) 42%);
+}
+
+/* --- Texto ----------------------------------------------------------------- */
+.contenido {
+  max-width: 46ch;
+}
+
+.antetitulo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 clamp(18px, 3vh, 28px);
+  color: var(--vi-oro-luz);
+  font-family: var(--vi-mono);
+  font-size: 11px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+/* La regla dorada se dibuja al entrar: es el único gesto animado del bloque */
+.regla {
+  display: block;
+  width: clamp(36px, 6vw, 72px);
+  height: 1px;
+  background: linear-gradient(to right, var(--vi-oro-luz), var(--vi-oro));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+}
+
+.dentro .regla {
+  transform: scaleX(1);
+}
+
+.titulo {
+  margin: 0 0 clamp(16px, 2.4vh, 24px);
+  color: var(--vi-hueso);
+  font-family: var(--vi-display);
+  font-size: clamp(34px, 5.4vw, 72px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.texto {
+  margin: 0;
+  color: rgba(244, 241, 234, 0.66);
+  font-family: var(--vi-display);
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+}
+
+/* Entrada escalonada: primero el antetítulo, luego el título y el párrafo */
+.antetitulo,
+.titulo,
+.texto {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 900ms ease, transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dentro .antetitulo {
+  opacity: 1;
+  transform: none;
+}
+
+.dentro .titulo {
+  opacity: 1;
+  transform: none;
+  transition-delay: 120ms;
+}
+
+.dentro .texto {
+  opacity: 1;
+  transform: none;
+  transition-delay: 220ms;
+}
+
+/* --- Placa de ficha (el elemento firma) ------------------------------------ */
+.placa {
+  position: absolute;
+  right: clamp(20px, 6vw, 96px);
+  bottom: clamp(28px, 5vh, 52px);
+  left: clamp(20px, 6vw, 96px);
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 0;
+  border-top: 1px solid rgba(192, 144, 106, 0.42);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 900ms ease 320ms, transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 320ms;
+}
+
+.dentro .placa {
+  opacity: 1;
+  transform: none;
+}
+
+.placaFila {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px 18px 0 0;
+}
+
+/* Filete fino entre columnas, no en la primera */
+.placaFila + .placaFila {
+  padding-left: 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.placaEtiqueta {
+  color: var(--vi-oro);
+  font-family: var(--vi-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.placaValor {
+  margin: 0;
+  color: rgba(244, 241, 234, 0.9);
+  font-family: var(--vi-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+}
+
+/* --- Controles: sonido y reproducción -------------------------------------- */
+.controles {
+  position: absolute;
+  top: clamp(24px, 4vh, 44px);
+  right: clamp(20px, 6vw, 96px);
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* El botón de sonido y su onda, en columna */
+.grupoSonido {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Onda del audio: dibuja lo que suena de verdad, así que en silencio es una
+   línea plana. Va en su propia caja para que la línea no toque el botón. */
+.onda {
+  display: block;
+  width: 100%;
+  height: 22px;
+  padding: 3px 10px;
+  border: 1px solid rgba(192, 144, 106, 0.28);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.control {
+  padding: 8px 16px;
+  border: 1px solid rgba(192, 144, 106, 0.5);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.5);
+  color: var(--vi-hueso);
+  font-family: var(--vi-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color 220ms ease, color 220ms ease;
+}
+
+.control:hover {
+  border-color: var(--vi-oro-luz);
+  color: var(--vi-oro-luz);
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--vi-oro-luz);
+  outline-offset: 3px;
+}
+
+/* --- Escritorio: el módulo abre la página, antes del carrusel --------------- */
+@media (min-width: 769px) {
+  /* main es una columna flex (app/page.jsx); con order el módulo sube sin
+     duplicar el marcado ni cargar el vídeo dos veces. En móvil no se aplica y
+     queda debajo del carrusel, en el orden del DOM. */
+  .modulo {
+    order: -1;
+    flex: 0 0 auto; /* que la columna flex no lo encoja */
+  }
+
+  /* Al ir arriba del todo, los controles caen bajo el navbar fijo: se bajan para
+     que no se solapen. */
+  .controles {
+    top: clamp(104px, 13vh, 132px);
+  }
+}
+
+/* --- Móvil ----------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .modulo {
+    min-height: min(104vh, 900px);
+    /* El relleno inferior reserva sitio para el dock de píldoras fijo */
+    padding: clamp(40px, 7vh, 64px) 20px 108px;
+  }
+
+  /* El texto ocupa el ancho, así que el velo pasa a ser vertical */
+  .velo {
+    background:
+      linear-gradient(to top, rgba(5, 5, 5, 0.97) 0%, rgba(5, 5, 5, 0.35) 55%, rgba(5, 5, 5, 0.72) 100%);
+  }
+
+  .antetitulo {
+    letter-spacing: 0.32em;
+  }
+
+  /* En móvil la placa entra en el flujo, debajo del texto: si se quedara pegada
+     al fondo, el dock de píldoras (fijo, 76px) le pasaría por encima. */
+  .placa {
+    position: static;
+    margin-top: clamp(24px, 5vh, 40px);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 14px;
+  }
+
+  .placaFila {
+    padding: 12px 0 0;
+  }
+
+  /* En dos columnas el filete sólo estorba: se sustituye por línea superior */
+  .placaFila + .placaFila {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .placaValor {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  /* En móvil los controles se quedan: silenciar tiene que estar siempre a mano.
+     Se encogen y se pegan bajo el navbar. */
+  .controles {
+    top: 12px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  .control {
+    padding: 7px 12px;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+  }
+
+  .onda {
+    height: 18px;
+    padding: 2px 8px;
+  }
+}
+
+/* --- Reducir movimiento ---------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .video,
+  .regla,
+  .antetitulo,
+  .titulo,
+  .texto,
+  .placa {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .regla {
+    transform: scaleX(1);
+  }
+}

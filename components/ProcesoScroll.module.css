@@ -1,0 +1,238 @@
+/* =============================================================================
+   MÓDULO DE PROCESO (vídeo recorrido con el scroll)
+
+   Misma paleta medida sobre el vídeo que el módulo de vídeo del home: la escena
+   es casi monocroma y el único color es el oro de las joyas.
+   ========================================================================== */
+.seccion {
+  --pr-negro: #050505;
+  --pr-oro: #c0906a;
+  --pr-oro-luz: #ffe7a4;
+  --pr-hueso: #f4f1ea;
+
+  --pr-display: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --pr-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+
+  /* Una pantalla de recorrido por capítulo: el número llega en línea desde el
+     componente, así que añadir capítulos alarga la sección sola. */
+  position: relative;
+  height: calc(var(--capitulos, 3) * 100vh);
+  background: var(--pr-negro);
+}
+
+/* Escenario pegado: es lo que hace que el vídeo se quede quieto mientras el
+   scroll atraviesa la sección. */
+.escenario {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100vh;
+  overflow: hidden;
+  align-content: center;
+  padding: 0 clamp(20px, 6vw, 96px);
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* El sujeto está sentado al centro-izquierda; el texto va a la derecha, así que
+   el velo carga ese lado. */
+.velo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to left,
+      rgba(5, 5, 5, 0.92) 0%,
+      rgba(5, 5, 5, 0.68) 34%,
+      rgba(5, 5, 5, 0.08) 66%,
+      rgba(5, 5, 5, 0.45) 100%
+    ),
+    linear-gradient(to top, rgba(5, 5, 5, 0.7) 0%, rgba(5, 5, 5, 0) 38%);
+}
+
+.contenido {
+  justify-self: end;
+  width: min(46ch, 100%);
+}
+
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Los capítulos se apilan en la misma celda: el que toca se ve, los otros
+   esperan. Así la caja no cambia de alto al pasar de uno a otro. */
+.capitulos {
+  display: grid;
+  grid-template-areas: "capitulo";
+  margin-bottom: clamp(24px, 4vh, 40px);
+}
+
+.capitulo {
+  grid-area: capitulo;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 600ms ease, transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.capituloActivo {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.indice {
+  margin: 0 0 14px;
+  color: var(--pr-oro-luz);
+  font-family: var(--pr-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+}
+
+.total {
+  color: rgba(192, 144, 106, 0.6);
+}
+
+.titulo {
+  margin: 0 0 14px;
+  color: var(--pr-hueso);
+  font-family: var(--pr-display);
+  font-size: clamp(30px, 4.4vw, 58px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8);
+}
+
+.texto {
+  margin: 0;
+  color: rgba(244, 241, 234, 0.68);
+  font-family: var(--pr-display);
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Botón ----------------------------------------------------------------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 26px;
+  border: 1px solid var(--pr-oro);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.4);
+  color: var(--pr-hueso);
+  font-family: var(--pr-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 240ms ease, color 240ms ease, border-color 240ms ease;
+}
+
+.boton:hover {
+  border-color: var(--pr-oro-luz);
+  background: var(--pr-oro-luz);
+  color: #0b0b0b;
+}
+
+.boton:focus-visible {
+  outline: 2px solid var(--pr-oro-luz);
+  outline-offset: 3px;
+}
+
+/* --- Progreso del recorrido ------------------------------------------------ */
+.progreso {
+  position: absolute;
+  bottom: clamp(24px, 5vh, 48px);
+  left: clamp(20px, 6vw, 96px);
+  display: flex;
+  gap: 8px;
+}
+
+.tramo {
+  width: clamp(28px, 4vw, 54px);
+  height: 2px;
+  background: rgba(244, 241, 234, 0.2);
+  transition: background 400ms ease;
+}
+
+.tramoHecho {
+  background: var(--pr-oro-luz);
+}
+
+/* --- Móvil ----------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .escenario {
+    align-content: end;
+    /* Sitio para el dock de píldoras fijo y para la barra de progreso */
+    padding: 0 20px 132px;
+  }
+
+  .contenido {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  /* En vertical el sujeto ocupa el centro: el velo pasa a cargar el pie */
+  .velo {
+    background: linear-gradient(
+      to top,
+      rgba(5, 5, 5, 0.95) 0%,
+      rgba(5, 5, 5, 0.55) 46%,
+      rgba(5, 5, 5, 0.2) 78%,
+      rgba(5, 5, 5, 0.6) 100%
+    );
+  }
+
+  .progreso {
+    bottom: 104px;
+    left: 20px;
+  }
+}
+
+/* --- Reducir movimiento ----------------------------------------------------
+   Sin recorrido: los tres capítulos se leen a la vez, en lista. */
+@media (prefers-reduced-motion: reduce) {
+  .seccion {
+    height: auto;
+  }
+
+  .escenario {
+    position: relative;
+    height: auto;
+    padding: clamp(64px, 12vh, 120px) clamp(20px, 6vw, 96px);
+  }
+
+  .capitulos {
+    grid-template-areas: none;
+    gap: 40px;
+  }
+
+  .capitulo {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    pointer-events: auto;
+  }
+
+  .progreso {
+    display: none;
+  }
+}
