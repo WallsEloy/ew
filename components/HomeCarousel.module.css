@@ -393,6 +393,49 @@
   filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.45));
 }
 
+/* --- MODO REVELADO (imágenes horizontales, sólo escritorio) -----------------
+   La ventana recorta y su ancho lo anima el componente; la imagen la llena y
+   `object-position` decide qué franja se ve mientras es estrecha. El ancho de
+   partida (14vw) iguala el grosor de la franja de los lienzos verticales, para
+   que las dos clases de slide arranquen igual. */
+.imageAnchorRevelado {
+  width: 14vw;
+  overflow: hidden;
+}
+
+.heroImageRevelado {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  /* Encuadre: arranca en el punto de enfoque de la imagen (--foco, en %) y
+     viaja al centro conforme se abre la ventana (--pan, de 0 a 1). El cálculo
+     vive aquí para que el componente anime un único valor compartido en vez de
+     un transform por slide. Sólo el eje X: la franja ocupa todo el alto. */
+  object-position: calc(
+      (var(--foco, 35) + (50 - var(--foco, 35)) * var(--pan, 0)) * 1%
+    )
+    50%;
+  /* A sangre no hace falta sombra: sólo ensuciaría el borde */
+  filter: none;
+}
+
+/* Velo del modo revelado: entre la imagen (z 40) y el texto de detalle (z 50).
+   Carga el lado derecho, que es donde va la columna de texto. */
+.veloRevelado {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.58) 32%,
+    rgba(0, 0, 0, 0) 66%
+  );
+  pointer-events: none;
+}
+
 .initialRightCopy {
   position: absolute;
   top: 35%;

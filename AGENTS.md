@@ -22,6 +22,15 @@ Estas reglas aplican a todo el repositorio.
   de detenerlo. Al iniciar procesos en segundo plano, usar archivos diferentes para
   la salida estándar y la salida de error.
 
+## Nombres de las partes del Home
+
+El usuario se refiere a las secciones del Home por su nombre: **Vitrina**,
+**Carrusel**, **Proceso**, **Desfile** y **Grafos**, cada una con sus partes
+(Franja, Revelado, Enfoque, Placa, Onda, Capítulos…). El mapa completo —con el
+archivo y el panel del dashboard de cada una— está en
+[doc/claude.md](doc/claude.md), sección «Mapa del Home». Consultarlo antes de
+tocar el Home para trabajar sobre la parte correcta.
+
 ## Protección del trabajo existente
 
 - Conservar los cambios del usuario y evitar modificaciones fuera de la tarea.

@@ -9,7 +9,7 @@ Este directorio conserva una bitácora cronológica de las sesiones de trabajo d
 | [2026-07-19](./2026-07-19.md) | Home controlado por scroll, Grafos visuales y ruta Coding | Implementado y verificado |
 | [2026-07-25](./2026-07-25.md) | Reverso de las tarjetas de Galería: ficha de metadatos y holograma | Implementado; falta revisión visual |
 | [2026-07-26](./2026-07-26.md) | Logotipo elegible por pieza en las tarjetas y rueda en panorámicas; cabecera de Galería rehecha en escritorio: carrusel de portadas a sangre, bloque de presentación con cuenta atrás y perfil sólo en móvil | Implementado y verificado en navegador |
-| [2026-07-27](./2026-07-27.md) | Home: módulo de vídeo con sonido y onda de audio, módulo de proceso recorrido con el scroll y tira infinita de logotipos | Implementado y verificado en navegador |
+| [2026-07-27](./2026-07-27.md) | Home: módulo de vídeo con sonido y onda, proceso recorrido con el scroll y tira de logotipos; después, panel de vídeos en el dashboard, optimización de 6,30 a 0,93 MB, revelado de imágenes horizontales en el carrusel y nomenclatura de las partes del Home | Implementado y verificado en navegador |
 
 ## Criterio de registro
 

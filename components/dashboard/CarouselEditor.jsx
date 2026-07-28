@@ -23,18 +23,30 @@ export default function CarouselEditor() {
   const [uploadingKey, setUploadingKey] = useState(null);
   const [savingKey, setSavingKey] = useState(null); // slide guardándose (o "__all__")
   const [dirtyKeys, setDirtyKeys] = useState(() => new Set()); // slides con cambios sin guardar
+  /*
+   * Punto de enfoque por RUTA DE IMAGEN (0–100 = % horizontal). Va aparte de los
+   * slides a propósito: guardar el carrusel borra las filas y las reinserta, así
+   * que ni el id ni la posición sirven de referencia estable. El enfoque es una
+   * propiedad de la imagen y la sigue aunque muevas el slide de sitio.
+   *
+   * Sólo importa en las imágenes horizontales: son las que el home muestra como
+   * franja recortada que se abre con el scroll.
+   */
+  const [focos, setFocos] = useState({});
   const [flashKey, setFlashKey] = useState(null); // slide recién guardado (feedback en línea)
 
   useEffect(() => {
     (async () => {
       try {
-        const [slidesRes, imagesRes] = await Promise.all([
+        const [slidesRes, imagesRes, focosRes] = await Promise.all([
           fetch("/api/slides").then((r) => r.json()),
           fetch("/api/images").then((r) => r.json()),
+          fetch("/api/carrusel-foco").then((r) => r.json()),
         ]);
         setSlides((slidesRes.slides || []).map(withKey));
         setConfigured(Boolean(slidesRes.configured));
         setImages(imagesRes.images || []);
+        setFocos(focosRes.focos || {});
       } catch (err) {
         setMessage({ type: "error", text: "No se pudo cargar: " + err.message });
       } finally {
@@ -125,6 +137,14 @@ export default function CarouselEditor() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Error al guardar");
+
+    // Los enfoques viven en su propio documento (van por ruta de imagen)
+    await fetch("/api/carrusel-foco", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ focos }),
+    }).catch(() => {}); // que un fallo aquí no tumbe el guardado de los slides
+
     return data.slides || [];
   };
 
@@ -454,6 +474,57 @@ export default function CarouselEditor() {
                       <span className="text-gray-600 text-sm">sin imagen</span>
                     )}
                   </div>
+
+                  {/* Punto de enfoque: qué franja de la imagen se ve mientras el
+                      slide está cerrado. Sólo tiene efecto en imágenes
+                      horizontales, que son las que el home abre con el scroll. */}
+                  {slide.image && (
+                    <div className="rounded border border-[#1f1f1f] bg-[#0d0d0d] p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <label className={labelCls}>Punto de enfoque</label>
+                        <span className="text-xs text-gray-400">
+                          {focos[slide.image] ?? 35} %
+                        </span>
+                      </div>
+
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={focos[slide.image] ?? 35}
+                        className="w-full accent-[#00aff0]"
+                        onChange={(e) => {
+                          setFocos((prev) => ({
+                            ...prev,
+                            [slide.image]: Number(e.target.value),
+                          }));
+                          markDirty(slide._key);
+                        }}
+                      />
+
+                      {/* Vista previa del recorte: la misma franja que verá el
+                          visitante antes de hacer scroll */}
+                      <div className="mt-2 flex items-center gap-3">
+                        <div className="h-24 w-[52px] shrink-0 overflow-hidden rounded border border-[#242424] bg-black">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={slide.image}
+                            alt="Franja que se verá"
+                            className="h-full w-full object-cover"
+                            style={{
+                              objectPosition: `${focos[slide.image] ?? 35}% 50%`,
+                            }}
+                          />
+                        </div>
+                        <p className="text-[11px] leading-relaxed text-gray-500">
+                          Así se verá la franja antes del scroll. 0 % es el borde
+                          izquierdo y 100 % el derecho. En los lienzos verticales
+                          no cambia nada: esos no se recortan.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

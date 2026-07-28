@@ -12,6 +12,10 @@ import {
 import styles from "./HomeCarousel.module.css";
 import { defaultHomeSlides } from "../data/homeSlides";
 
+// Enfoque por defecto cuando la imagen no tiene uno guardado: el sujeto suele
+// caer a la izquierda del centro en estas composiciones.
+const FOCO_POR_DEFECTO = 35;
+
 const SCROLL_SLIDE_PHASE_START = 0.2;
 
 // Texto legible (negro/blanco) según la luminancia del color de fondo.
@@ -131,7 +135,7 @@ function ChromaKeyMemoji({ src }) {
   );
 }
 
-export default function HomeCarousel({ slides }) {
+export default function HomeCarousel({ slides, focos }) {
   // El contenido llega por prop (desde Supabase). Fallback al seed por defecto.
   const slidesData =
     Array.isArray(slides) && slides.length > 0 ? slides : defaultHomeSlides;
@@ -144,7 +148,55 @@ export default function HomeCarousel({ slides }) {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [messageText, setMessageText] = useState("");
   const [messageSent, setMessageSent] = useState(false);
+  /*
+   * Qué slides usan el MODO REVELADO. Se decide por la proporción de la imagen,
+   * medida al cargarla, y no con un ajuste manual:
+   * - Los lienzos verticales (1395 × 6690) ya se ven como una franja delgada por
+   *   su propia proporción: se dejan como estaban.
+   * - Una imagen horizontal, en cambio, saldría ancha desde el principio. Con
+   *   estas se abre una ventana que empieza estrecha —enfocada en el sujeto— y
+   *   crece con el scroll hasta ocupar la pantalla.
+   */
+  const [horizontales, setHorizontales] = useState({});
+  /*
+   * Medidas de la franja del modo revelado, en píxeles. La misma proporción que
+   * los lienzos verticales (0,2085 × alto de la ventana) para que las dos clases
+   * de slide arranquen idénticas en cualquier pantalla.
+   */
+  const [medidas, setMedidas] = useState({ franja: 0, pantalla: 0 });
   const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const PROPORCION_FRANJA = 1395 / 6690; // la de los lienzos del carrusel
+    const medir = () =>
+      setMedidas({
+        franja: Math.round(window.innerHeight * PROPORCION_FRANJA),
+        pantalla: window.innerWidth,
+      });
+    medir();
+    window.addEventListener("resize", medir);
+    return () => window.removeEventListener("resize", medir);
+  }, []);
+
+  const evaluarProporcion = (indice, img) => {
+    if (!img?.naturalWidth) return;
+    const esHorizontal = img.naturalWidth >= img.naturalHeight * 1.1;
+    setHorizontales((prev) =>
+      prev[indice] === esHorizontal ? prev : { ...prev, [indice]: esHorizontal },
+    );
+  };
+
+  /*
+   * Se mide con una referencia y no sólo con onLoad: si la imagen ya está en
+   * caché, termina de cargar antes de que React enganche el manejador y el
+   * evento no llega nunca. Con la referencia se comprueba `complete` en el
+   * momento y, si aún no lo está, se escucha la carga una vez.
+   */
+  const medirImagen = (indice) => (nodo) => {
+    if (!nodo) return;
+    if (nodo.complete) evaluarProporcion(indice, nodo);
+    else nodo.addEventListener("load", () => evaluarProporcion(indice, nodo), { once: true });
+  };
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -159,6 +211,40 @@ export default function HomeCarousel({ slides }) {
   );
   const imageX = useTransform(scrollYProgress, transitionRange, ["0vw", "-20vw"]);
   const imageScale = useTransform(scrollYProgress, transitionRange, [1, 1.12]);
+
+  /*
+   * Modo revelado. La ventana se abre de franja a pantalla completa y, mientras,
+   * el encuadre se desplaza del punto focal al centro: se lee como una
+   * panorámica lenta en lugar de un simple estirón.
+   *
+   * El 35% es donde está el sujeto en la imagen de referencia (ocupa del 16% al
+   * 55% del ancho). Con object-fit: cover, ese valor decide qué franja se ve
+   * cuando la ventana es estrecha.
+   */
+  /*
+   * El ancho de la franja se deriva de la ALTURA de la ventana, igual que en los
+   * slides clásicos: esos lienzos miden 1395 × 6690 y se pintan a `height:100dvh;
+   * width:auto`, así que su franja siempre vale 0,2085 × alto. Con un valor en vw
+   * sólo coincidía por casualidad a 1440 × 950; a 1920 × 1080 la franja clásica
+   * mide 225px y una de 14vw se iba a 269px.
+   */
+  const anchoRevelado = useTransform(scrollYProgress, transitionRange, [
+    medidas.franja,
+    medidas.pantalla,
+  ]);
+  /*
+   * Avance de la panorámica: 0 = encuadre en el punto de enfoque de la imagen,
+   * 1 = centrado. Es UN solo valor animado para todos los slides; el enfoque
+   * concreto de cada imagen entra como variable CSS (--foco) y el cálculo se
+   * hace en la hoja de estilos. Así se evita crear un hook por slide, que sería
+   * ilegal dentro del map.
+   */
+  const avancePan = useTransform(scrollYProgress, transitionRange, [0, 1]);
+  const veloRevelado = useTransform(
+    scrollYProgress,
+    prefersReducedMotion ? [0.015, 0.04] : [0.06, 0.16],
+    [0, 1],
+  );
   const detailOpacity = useTransform(
     scrollYProgress,
     prefersReducedMotion ? [0.015, 0.04] : [0.08, 0.17],
@@ -411,23 +497,59 @@ export default function HomeCarousel({ slides }) {
                 </div>
               </motion.div>
 
-              <div className={styles.imageAnchor}>
-                <motion.div
-                  className={styles.imageStage}
-                  style={{
-                    x: isDesktop ? imageX : 0,
-                    scale: isDesktop ? imageScale : 1,
-                  }}
-                >
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    fetchPriority={index === 0 ? "high" : "auto"}
-                    className={styles.heroImage}
-                  />
-                </motion.div>
-              </div>
+              {(() => {
+                // Modo revelado sólo en escritorio y sólo con imagen horizontal
+                const revelado = isDesktop && horizontales[index];
+                return (
+                  <>
+                    <motion.div
+                      className={`${styles.imageAnchor} ${
+                        revelado ? styles.imageAnchorRevelado : ""
+                      }`}
+                      style={revelado ? { width: anchoRevelado } : undefined}
+                    >
+                      <motion.div
+                        className={styles.imageStage}
+                        style={{
+                          // En modo revelado manda la ventana: mover o escalar
+                          // aquí sacaría la imagen de su propio encuadre.
+                          x: isDesktop && !revelado ? imageX : 0,
+                          scale: isDesktop && !revelado ? imageScale : 1,
+                        }}
+                      >
+                        <motion.img
+                          src={slide.image}
+                          alt={slide.title}
+                          loading={index === 0 ? "eager" : "lazy"}
+                          fetchPriority={index === 0 ? "high" : "auto"}
+                          ref={medirImagen(index)}
+                          onLoad={(e) => evaluarProporcion(index, e.currentTarget)}
+                          className={
+                            revelado ? styles.heroImageRevelado : styles.heroImage
+                          }
+                          style={
+                            revelado
+                              ? {
+                                  "--foco": focos?.[slide.image] ?? FOCO_POR_DEFECTO,
+                                  "--pan": avancePan,
+                                }
+                              : undefined
+                          }
+                        />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* Velo para que el texto se lea sobre la imagen revelada */}
+                    {revelado && (
+                      <motion.div
+                        className={styles.veloRevelado}
+                        style={{ opacity: veloRevelado }}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </>
+                );
+              })()}
 
               <motion.div
                 className={styles.initialRightCopy}

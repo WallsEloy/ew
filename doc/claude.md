@@ -72,5 +72,72 @@ EW/
 
 ---
 
+## 🗺️ Mapa del Home — cómo se llama cada parte
+
+Nomenclatura acordada para pedir cambios sin ambigüedad. **Basta con decir el
+nombre en negrita**: «sube el título de la Vitrina», «el Desfile va muy rápido»,
+«en la Placa cambia la fila de Formato».
+
+El orden visual cambia entre escritorio y móvil, así que la tabla va en orden de
+lectura de escritorio (en móvil el Carrusel abre la página y la Vitrina baja al
+segundo puesto; lo hace `order: -1` en `VideoModulo.module.css`).
+
+| # | Nombre | Qué es | Archivo | Se edita en |
+| :-: | --- | --- | --- | --- |
+| 1 | **Vitrina** | Vídeo a sangre en bucle, con sonido y onda de audio. En escritorio abre la página | `components/VideoModulo.jsx` | Dashboard → Home → Vídeos |
+| 2 | **Carrusel** | El carrusel de siempre, controlado por scroll | `components/HomeCarousel.jsx` | Dashboard → Home → Carrusel |
+| 3 | **Proceso** | Vídeo que se recorre con el scroll mientras pasan los capítulos | `components/ProcesoScroll.jsx` | Dashboard → Home → Vídeos |
+| 4 | **Desfile** | Tira infinita de logotipos en blanco sobre negro | `components/LogosCarrusel.jsx` | `data/logosCarrusel.js` |
+| 5 | **Grafos** | «Área dos»: nodos animados y su columna de texto | `components/VisualGraphs.jsx` | Dashboard → Home → Área dos |
+
+### Partes de la **Vitrina**
+
+| Nombre | Qué es |
+| --- | --- |
+| **Fondo** | El vídeo. Se pide sólo al acercarse; con `saveData` o 2g no se pide y queda el póster |
+| **Bloque de texto** | Antetítulo (mono, oro) + titular + párrafo, a la izquierda |
+| **Placa** | La ficha de pares etiqueta/valor del pie. Mismo lenguaje que la ficha técnica del reverso de las tarjetas de Galería |
+| **Controles** | Botones «Silenciar» y «Pausar», arriba a la derecha. El de sonido se enciende mientras está mudo |
+| **Onda** | El trazo bajo el botón de sonido. Dibuja el audio real por Web Audio: en silencio queda plana |
+
+### Partes del **Carrusel**
+
+| Nombre | Qué es | Clase |
+| --- | --- | --- |
+| **Franja** | La imagen del slide antes del scroll. Su ancho sale de la altura de la ventana (`0,2085 × alto`) | `.imageAnchor` |
+| **Revelado** | Modo de las imágenes **horizontales**: la franja se abre hasta ocupar la pantalla. Se activa solo, midiendo la proporción de la imagen al cargarla | `.imageAnchorRevelado` |
+| **Enfoque** | Qué franja de la imagen se ve mientras está cerrada (0–100 % horizontal). Se guarda **por ruta de imagen** en `site_settings/carrusel_foco`, no por slide: al guardar el carrusel las filas se borran y reinsertan, así que ni el id ni la posición sirven de referencia | `--foco` |
+| **Velo** | Degradado que oscurece la derecha cuando la imagen se revela, para que se lea el texto | `.veloRevelado` |
+| **Marco** | El rectángulo de borde blanco | `.whiteFrame` |
+| **Copia inicial** | Título, logotipo y botón de la izquierda, antes del scroll | `.initialCopy` |
+| **Copia derecha** | El bloque de texto de la derecha antes del scroll | `.initialRightCopy` |
+| **Editorial** | El texto que aparece **después** del scroll, con su botón y sus puntos | `.editorialCopy` |
+| **Puntos** | Los indicadores de slide | `.dots` |
+| **Memojis** | Las cabezas flotantes con croma por canvas | `.floatingMemoji` |
+| **Panel de mensaje** | El formulario que abre el memoji | `.messagePanel` |
+
+### Partes del **Proceso**
+
+| Nombre | Qué es |
+| --- | --- |
+| **Escenario** | La caja pegada (`sticky`) que mantiene el vídeo quieto mientras el scroll lo atraviesa |
+| **Capítulos** | Los textos que van pasando. Cada uno ocupa una pantalla de scroll: añadir uno alarga la sección sola |
+| **Botón** | La llamada a la acción, con su destino configurable |
+| **Progreso** | Los tramos del pie que marcan por dónde va el recorrido |
+
+### Reglas propias del Home
+
+- **La Vitrina y el Proceso no cargan su vídeo hasta acercarse**, y con línea
+  limitada no lo cargan nunca. Cualquier medio pesado que se añada al Home debe
+  seguir esa norma (`lib/conexion.js`).
+- **Los vídeos se comprimen al subirlos** (`lib/comprimirVideo.js`); el que se
+  recorre con scroll necesita además fotogramas clave densos, o el recorrido se
+  siente pegajoso.
+- **Las imágenes se convierten a WebP y se acotan a 2000 px** en `/api/upload`.
+- El Home pesa ~0,93 MB en carga en frío. Si un cambio lo sube mucho, medirlo
+  antes de darlo por bueno.
+
+---
+
 > [!TIP]
 > Cuando crees nuevas páginas en la carpeta [app/](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/app), no olvides configurar los metadatos de SEO (`export const metadata = { title: '...', description: '...' }`) para asegurar un buen posicionamiento orgánico.

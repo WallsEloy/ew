@@ -7,7 +7,7 @@ Bienvenido al índice central de documentación del proyecto **EW Portfolio Stud
 ## 📖 Guías Generales de la Raíz
 
 *   **[Infraestructura en la Nube (cloud.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/cloud.md)**: Vista general de la arquitectura cloud, base de datos serverless, pasarela de pago Stripe, y el listado consolidado de variables de entorno (.env) necesarias.
-*   **[Reglas de IA y Estilo (claude.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/claude.md)**: Normas estéticas premium, pautas de diseño (HSL, animaciones, etc.) y reglas de desarrollo para asistentes de inteligencia artificial.
+*   **[Reglas de IA y Estilo (claude.md)](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/claude.md)**: Normas estéticas premium, pautas de diseño (HSL, animaciones, etc.), reglas de desarrollo para asistentes de IA y el **mapa del Home** con el nombre de cada parte (Vitrina, Carrusel, Proceso, Desfile, Grafos) para pedir cambios sin ambigüedad.
 *   **[Integración de Memojis (Memoji.md)](./Memoji.md)**: Conversión MOV→MP4, chroma key por canvas, transparencia, posicionamiento, interacción y verificación de nuevos Memojis animados.
 
 ---
@@ -34,7 +34,7 @@ Las decisiones y cambios realizados en cada jornada se registran en el [índice 
 - [Sesión 2026-07-19](./sesiones/2026-07-19.md): carrusel controlado por scroll, Grafos visuales, navegación Coding, rediseño del Navbar (trazo continuo transparente), página de Contacto (tarjeta digital, stories y foto de perfil giratoria) y recuperación de la caché de Next.js.
 - [Sesión 2026-07-25](./sesiones/2026-07-25.md): reverso de las tarjetas de Galería con ficha técnica de metadatos, holograma circular de referencia y ajuste sin scroll con topes de caracteres.
 - [Sesión 2026-07-26](./sesiones/2026-07-26.md): logotipo de la galería elegible por pieza desde el dashboard (morado / dorado) en las dos caras de la tarjeta, hueco para las barras fijas del móvil y arreglo de la rueda del ratón en las panorámicas; y cabecera de Galería rehecha en escritorio con carrusel de portadas a sangre hasta lo alto de la página, bloque de presentación (logotipo, descripción y cuenta atrás) y bloque de perfil reservado al móvil.
-- [Sesión 2026-07-27](./sesiones/2026-07-27.md): tres bloques nuevos en el Home a partir de los vídeos 3D de la figura — módulo de vídeo a sangre con sonido activo, onda de audio real (Web Audio) y placa de ficha; módulo de proceso donde el vídeo se recorre con el scroll mientras pasan cuatro textos; y tira infinita de logotipos en CSS puro. Incluye cómo se extrajo la paleta de los vídeos y por qué hace falta Chrome del sistema (H.264).
+- [Sesión 2026-07-27](./sesiones/2026-07-27.md): tres bloques nuevos en el Home a partir de los vídeos 3D de la figura — módulo de vídeo a sangre con sonido activo, onda de audio real (Web Audio) y placa de ficha; módulo de proceso donde el vídeo se recorre con el scroll mientras pasan cuatro textos; y tira infinita de logotipos en CSS puro. En su segunda parte: panel para reemplazar los vídeos desde el dashboard con póster automático, compresión con ffmpeg al subir y carga diferida (el Home baja de 6,30 a 0,93 MB), revelado de imágenes horizontales en el carrusel con punto de enfoque editable, y el mapa de nombres de las partes del Home.
 
 ## ✅ Tareas futuras
 

@@ -3,6 +3,7 @@ import LogosCarrusel from "../components/LogosCarrusel";
 import ProcesoScroll from "../components/ProcesoScroll";
 import VideoModulo from "../components/VideoModulo";
 import VisualGraphs from "../components/VisualGraphs";
+import { getFocosCarrusel } from "../lib/focoCarrusel";
 import { getSlides } from "../lib/supabaseServer";
 import { getVideosHome } from "../lib/videosHomeConfig";
 
@@ -13,6 +14,8 @@ export default async function Home() {
   const { slides } = await getSlides();
   // Vídeos y textos de los dos módulos, editables en /dashboard/home/videos
   const { config: videos } = await getVideosHome();
+  // Punto de enfoque de cada imagen del carrusel (dashboard → Home → Carrusel)
+  const { focos } = await getFocosCarrusel();
 
   // El home es inmersivo: el nav overlaya el carrusel a propósito. El margen
   // negativo cancela el espaciador global solo aquí en móvil.
@@ -33,7 +36,7 @@ export default async function Home() {
           fetchPriority="high"
         />
       )}
-      <HomeCarousel slides={slides} />
+      <HomeCarousel slides={slides} focos={focos} />
       {/* Módulo de vídeo (dashboard → Home → Vídeos) */}
       <VideoModulo config={videos.video} />
       {/* Proceso: vídeo recorrido con el scroll (mismo panel) */}
