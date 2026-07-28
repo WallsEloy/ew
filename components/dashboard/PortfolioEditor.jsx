@@ -496,10 +496,12 @@ export default function PortfolioEditor({ section = "diseno" }) {
                           preview={portada.url || portada.path}
                           uploading={uploadingKey === `portada-${i}-${c.id}`}
                           accept="image/*"
-                          hint="Panorámica; se recorta centrada"
+                          hint="Panorámica; se convierte a WebP y se acota a 2000 px"
                           onUrl={(v) => patchPortada(c.id, i, v)}
                           onUpload={(file) =>
-                            uploadAsset(c.id, file, true, `portada-${i}`)
+                            // raw=false: las portadas son fotos, así que pasan por
+                            // el conversor a WebP y por el tope de tamaño
+                            uploadAsset(c.id, file, false, `portada-${i}`)
                           }
                         />
                         <button

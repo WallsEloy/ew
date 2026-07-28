@@ -35,6 +35,12 @@ export const DASHBOARD_NAV = [
         desc: "Panel de grafos visuales: edita el texto y la cantidad de escenas.",
         available: true,
       },
+      {
+        href: "/dashboard/home/videos",
+        label: "Vídeos",
+        desc: "Reemplaza los vídeos de los dos módulos y edita sus textos. El póster se genera solo.",
+        available: true,
+      },
     ],
   },
   {

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { moduloVideo } from "../data/moduloVideo";
+import { fuenteElegida } from "../data/videosHome";
+import { alAcercarse, conexionLimitada } from "../lib/conexion";
 import styles from "./VideoModulo.module.css";
 
 /*
@@ -24,10 +26,18 @@ import styles from "./VideoModulo.module.css";
  *   recuerda su decisión y ya no se le vuelve a activar.
  * - La onda de debajo del botón dibuja el audio REAL del vídeo (Web Audio), no
  *   una animación decorativa: si está en silencio, la línea se queda plana.
+ * - El vídeo NO se pide hasta que el bloque se acerca a la pantalla, y con línea
+ *   mala o ahorro de datos no se pide nunca: se queda el póster. Son 2,5 MB que
+ *   en una conexión pobre bloquearían el resto de la página.
  */
 const CLAVE_SONIDO = "moduloVideo:sonido";
-export default function VideoModulo() {
-  const { video, poster, antetitulo, titulo, texto, ficha } = moduloVideo;
+export default function VideoModulo({ config }) {
+  // La config llega del dashboard (site_settings). Sin ella, los valores del
+  // archivo de datos, que es lo que se ve sin Supabase.
+  // fuenteElegida resuelve el interruptor comprimida/original del dashboard
+  const { video, poster, antetitulo, titulo, texto, ficha } = config
+    ? { ...config, video: fuenteElegida(config) }
+    : moduloVideo;
   const seccionRef = useRef(null);
   const videoRef = useRef(null);
   const [dentro, setDentro] = useState(false);
@@ -35,6 +45,8 @@ export default function VideoModulo() {
   const [sinMovimiento, setSinMovimiento] = useState(false);
   const [conSonido, setConSonido] = useState(false);
   const [aLaVista, setALaVista] = useState(false);
+  // Fuente del vídeo: null hasta que el bloque se acerca (y nunca con línea mala)
+  const [fuente, setFuente] = useState(null);
   // Si el visitante pausa a mano, volver a la sección no debe reanudarlo
   const pausadoPorUsuario = useRef(false);
   // Onda: lienzo y cadena de Web Audio (fuente → ganancia → analizador → salida)
@@ -73,6 +85,12 @@ export default function VideoModulo() {
     }
   }, [aLaVista, sinMovimiento]);
 
+  // Se pide el vídeo sólo al acercarse; con línea limitada se queda el póster
+  useEffect(() => {
+    if (conexionLimitada()) return undefined;
+    return alAcercarse(seccionRef.current, () => setFuente(video), "700px");
+  }, [video]);
+
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const aplicar = () => {
@@ -96,7 +114,7 @@ export default function VideoModulo() {
    */
   useEffect(() => {
     const v = videoRef.current;
-    if (!v || sinMovimiento) return undefined;
+    if (!v || sinMovimiento || !fuente) return undefined;
     if (window.localStorage?.getItem(CLAVE_SONIDO) === "off") return undefined;
 
     let cancelado = false;
@@ -133,7 +151,7 @@ export default function VideoModulo() {
       cancelado = true;
       quitarGestos();
     };
-  }, [sinMovimiento]);
+  }, [sinMovimiento, fuente]);
 
   /*
    * Cadena de audio para la onda. Sólo puede montarse tras un gesto del
@@ -276,7 +294,7 @@ export default function VideoModulo() {
       <video
         ref={videoRef}
         className={styles.video}
-        src={video}
+        src={fuente || undefined}
         poster={poster}
         autoPlay={!sinMovimiento}
         loop
@@ -316,9 +334,12 @@ export default function VideoModulo() {
       <div className={styles.controles}>
         {/* Sonido: el botón y, debajo, la onda del audio que está sonando */}
         <div className={styles.grupoSonido}>
+          {/* Mientras esté mudo el botón se enciende: el navegador exige un gesto
+              para dar sonido, así que hay que dejar claro que hay audio y que
+              está a un clic. Con sonido, vuelve a ser discreto. */}
           <button
             type="button"
-            className={styles.control}
+            className={`${styles.control} ${!conSonido ? styles.controlLlamada : ""}`}
             onClick={alternarSonido}
             aria-pressed={conSonido}
             aria-label={conSonido ? "Silenciar el vídeo" : "Activar el sonido del vídeo"}

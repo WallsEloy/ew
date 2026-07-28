@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { moduloProceso } from "../data/moduloProceso";
+import { fuenteElegida } from "../data/videosHome";
+import { alAcercarse, conexionLimitada } from "../lib/conexion";
 import styles from "./ProcesoScroll.module.css";
 
 /*
@@ -21,16 +23,29 @@ import styles from "./ProcesoScroll.module.css";
  * - El vídeo está siempre en pausa y en silencio: aquí manda el scroll, no el
  *   reloj del vídeo.
  * - Con "reducir movimiento" no hay recorrido: el vídeo se queda en su póster y
- *   los tres textos se muestran a la vez, en lista.
+ *   los textos se muestran a la vez, en lista.
+ * - El vídeo se pide cuando el bloque se acerca, no al cargar la página: está a
+ *   varias pantallas de distancia y son 2,5 MB. Con línea mala o ahorro de datos
+ *   no se pide nunca: quedan el póster y los textos, que siguen pasando.
  */
-export default function ProcesoScroll() {
-  const { video, poster, capitulos, boton } = moduloProceso;
+export default function ProcesoScroll({ config }) {
+  // Igual que VideoModulo: manda el dashboard y el archivo de datos es respaldo.
+  const { video, poster, capitulos, boton } = config
+    ? { ...config, video: fuenteElegida(config) }
+    : moduloProceso;
   const seccionRef = useRef(null);
   const videoRef = useRef(null);
   const destinoRef = useRef(0); // segundo al que queremos llegar
   const duracionRef = useRef(0);
   const [activo, setActivo] = useState(0);
+  const [fuente, setFuente] = useState(null);
   const sinMovimiento = useReducedMotion();
+
+  // El vídeo se pide al acercarse; con línea limitada se queda el póster
+  useEffect(() => {
+    if (conexionLimitada()) return undefined;
+    return alAcercarse(seccionRef.current, () => setFuente(video), "800px");
+  }, [video]);
 
   const { scrollYProgress } = useScroll({
     target: seccionRef,
@@ -89,11 +104,13 @@ export default function ProcesoScroll() {
         <video
           ref={videoRef}
           className={styles.video}
-          src={video}
+          src={fuente || undefined}
           poster={poster}
           muted
           playsInline
-          preload="auto"
+          /* auto sólo tiene sentido una vez que hay fuente: para buscar
+             fotograma con el scroll hay que tenerlos descargados */
+          preload={fuente ? "auto" : "none"}
           aria-hidden="true"
           tabIndex={-1}
         />

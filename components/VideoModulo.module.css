@@ -243,6 +243,36 @@
   color: var(--vi-oro-luz);
 }
 
+/* Estado de llamada: el vídeo suena, pero el navegador espera un gesto. El
+   botón se rellena de oro y late despacio hasta que alguien lo activa. */
+.controlLlamada {
+  border-color: var(--vi-oro-luz);
+  background: var(--vi-oro-luz);
+  color: #0b0b0b;
+  animation: latido 2.4s ease-in-out infinite;
+}
+
+.controlLlamada:hover {
+  background: #fff;
+  color: #0b0b0b;
+}
+
+@keyframes latido {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 231, 164, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(255, 231, 164, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controlLlamada {
+    animation: none;
+  }
+}
+
 .control:focus-visible {
   outline: 2px solid var(--vi-oro-luz);
   outline-offset: 3px;
