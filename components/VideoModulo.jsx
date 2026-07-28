@@ -35,7 +35,7 @@ export default function VideoModulo({ config }) {
   // La config llega del dashboard (site_settings). Sin ella, los valores del
   // archivo de datos, que es lo que se ve sin Supabase.
   // fuenteElegida resuelve el interruptor comprimida/original del dashboard
-  const { video, poster, antetitulo, titulo, texto, ficha } = config
+  const { video, poster, logo, antetitulo, titulo, texto, ficha } = config
     ? { ...config, video: fuenteElegida(config) }
     : moduloVideo;
   const seccionRef = useRef(null);
@@ -309,6 +309,9 @@ export default function VideoModulo({ config }) {
       <div className={styles.velo} aria-hidden="true" />
 
       <div className={styles.contenido}>
+        {/* Logotipo que corona los textos; se cambia en el dashboard */}
+        {logo && <img src={logo} alt="" className={styles.logo} />}
+
         <p className={styles.antetitulo}>
           <span className={styles.regla} aria-hidden="true" />
           {antetitulo}

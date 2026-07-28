@@ -18,6 +18,8 @@ export const defaultVideosHome = {
     bytes: 442368,
     bytesOriginal: 2585587,
     poster: "/Videos/vi1/poster.jpg",
+    // Logotipo que corona los textos. Vacío = no se pinta.
+    logo: "/SVG/ew_crema.svg",
     antetitulo: "Figura 001",
     titulo: "La pieza sale de la vitrina",
     texto:
@@ -38,6 +40,7 @@ export const defaultVideosHome = {
     bytes: 524288,
     bytesOriginal: 2636665,
     poster: "/Videos/vi1/poster2.jpg",
+    logo: "/SVG/ew_crema.svg",
     boton: { texto: "Ver el trabajo de diseño", href: "/diseno" },
     capitulos: [
       {
@@ -111,6 +114,8 @@ export function mergeVideosHome(guardado) {
       bytes: numero(v.bytes, d.video.bytes),
       bytesOriginal: numero(v.bytesOriginal, d.video.bytesOriginal),
       poster: texto(v.poster, d.video.poster),
+      // Cadena vacía es una elección válida: significa "sin logotipo"
+      logo: typeof v.logo === "string" ? v.logo : d.video.logo,
       antetitulo: texto(v.antetitulo, d.video.antetitulo),
       titulo: texto(v.titulo, d.video.titulo),
       texto: texto(v.texto, d.video.texto),
@@ -123,6 +128,7 @@ export function mergeVideosHome(guardado) {
       bytes: numero(p.bytes, d.proceso.bytes),
       bytesOriginal: numero(p.bytesOriginal, d.proceso.bytesOriginal),
       poster: texto(p.poster, d.proceso.poster),
+      logo: typeof p.logo === "string" ? p.logo : d.proceso.logo,
       boton: {
         texto: texto(p.boton?.texto, d.proceso.boton.texto),
         href: texto(p.boton?.href, d.proceso.boton.href),

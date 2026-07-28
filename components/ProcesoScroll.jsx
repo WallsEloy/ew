@@ -30,7 +30,7 @@ import styles from "./ProcesoScroll.module.css";
  */
 export default function ProcesoScroll({ config }) {
   // Igual que VideoModulo: manda el dashboard y el archivo de datos es respaldo.
-  const { video, poster, capitulos, boton } = config
+  const { video, poster, logo, capitulos, boton } = config
     ? { ...config, video: fuenteElegida(config) }
     : moduloProceso;
   const seccionRef = useRef(null);
@@ -122,6 +122,10 @@ export default function ProcesoScroll({ config }) {
           <h2 id="proceso-titulo" className={styles.oculto}>
             Cómo se hace una pieza
           </h2>
+
+          {/* Logotipo fijo sobre los capítulos: queda quieto mientras los textos
+              van pasando, para que el bloque tenga un ancla visual */}
+          {logo && <img src={logo} alt="" className={styles.logo} />}
 
           <div className={styles.capitulos}>
             {capitulos.map((c, i) => (

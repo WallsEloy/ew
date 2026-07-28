@@ -69,6 +69,50 @@ async function subir(archivo, nombre, { recorrible = false } = {}) {
   return fetchJson("/api/upload", { method: "POST", body: fd });
 }
 
+/*
+ * Campo del logotipo que corona los textos. Se sube en crudo (raw) para que un
+ * SVG siga siendo SVG: pasarlo por el conversor a WebP lo rasterizaría.
+ * Vaciar el campo es una opción válida: significa "sin logotipo".
+ */
+function CampoLogo({ valor, subiendo, onRuta, onArchivo }) {
+  return (
+    <div>
+      <label className={labelCls}>Logotipo sobre los textos</label>
+      <input
+        className={inputCls}
+        value={valor ?? ""}
+        placeholder="/SVG/ew.svg — vacío = sin logotipo"
+        onChange={(e) => onRuta(e.target.value)}
+      />
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <label className={`${btnCls} cursor-pointer ${subiendo ? "opacity-40" : ""}`}>
+          {subiendo ? "Subiendo…" : "Subir logotipo ↑"}
+          <input
+            type="file"
+            accept="image/svg+xml,image/png,image/webp"
+            className="hidden"
+            disabled={subiendo}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) onArchivo(f);
+              e.target.value = "";
+            }}
+          />
+        </label>
+        <span className="text-[11px] text-gray-500">SVG o PNG, sin convertir</span>
+      </div>
+      <div className="mt-2 rounded border border-[#222] bg-[#111] p-3 flex items-center justify-center h-20 overflow-hidden">
+        {valor ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={valor} alt="Logotipo" className="max-h-12 max-w-full object-contain" />
+        ) : (
+          <span className="text-xs text-gray-600">sin logotipo</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function VideosHomeEditor() {
   const [config, setConfig] = useState(defaultVideosHome);
   const [cargando, setCargando] = useState(true);
@@ -134,6 +178,20 @@ export default function VideosHomeEditor() {
           ? `Vídeo comprimido y subido con su póster (−${video.comprimido.ahorro} % de peso). Recuerda guardar.`
           : "Vídeo y póster subidos (ya estaba optimizado). Recuerda guardar.",
       });
+    } catch (err) {
+      setMensaje({ tipo: "error", texto: err.message });
+    } finally {
+      setSubiendo(null);
+    }
+  };
+
+  const cambiarLogo = async (bloque, file) => {
+    setSubiendo(`logo-${bloque}`);
+    setMensaje(null);
+    try {
+      const { url } = await subir(file, file.name);
+      patch(bloque, { logo: url });
+      setMensaje({ tipo: "ok", texto: "Logotipo subido. Recuerda guardar." });
     } catch (err) {
       setMensaje({ tipo: "error", texto: err.message });
     } finally {
@@ -319,6 +377,14 @@ export default function VideosHomeEditor() {
       <div className={cajaCls}>
         <p className="text-sm text-gray-300 mb-3">Textos del módulo de vídeo</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="sm:col-span-2">
+            <CampoLogo
+              valor={config.video.logo}
+              subiendo={subiendo === "logo-video"}
+              onRuta={(v) => patch("video", { logo: v })}
+              onArchivo={(f) => cambiarLogo("video", f)}
+            />
+          </div>
           <div>
             <label className={labelCls}>Antetítulo</label>
             <input
@@ -403,6 +469,15 @@ export default function VideosHomeEditor() {
           Cada texto ocupa una pantalla de scroll: si añades uno, la sección se
           alarga sola.
         </p>
+
+        <div className="mb-4">
+          <CampoLogo
+            valor={config.proceso.logo}
+            subiendo={subiendo === "logo-proceso"}
+            onRuta={(v) => patch("proceso", { logo: v })}
+            onArchivo={(f) => cambiarLogo("proceso", f)}
+          />
+        </div>
 
         <div className="flex flex-col gap-3">
           {config.proceso.capitulos.map((c, i) => (

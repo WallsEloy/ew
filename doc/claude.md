@@ -95,6 +95,7 @@ segundo puesto; lo hace `order: -1` en `VideoModulo.module.css`).
 | Nombre | Qué es |
 | --- | --- |
 | **Fondo** | El vídeo. Se pide sólo al acercarse; con `saveData` o 2g no se pide y queda el póster |
+| **Logotipo** | Corona los textos, centrado sobre su columna. Editable; vacío = sin logotipo |
 | **Bloque de texto** | Antetítulo (mono, oro) + titular + párrafo, a la izquierda |
 | **Placa** | La ficha de pares etiqueta/valor del pie. Mismo lenguaje que la ficha técnica del reverso de las tarjetas de Galería |
 | **Controles** | Botones «Silenciar» y «Pausar», arriba a la derecha. El de sonido se enciende mientras está mudo |
@@ -121,9 +122,25 @@ segundo puesto; lo hace `order: -1` en `VideoModulo.module.css`).
 | Nombre | Qué es |
 | --- | --- |
 | **Escenario** | La caja pegada (`sticky`) que mantiene el vídeo quieto mientras el scroll lo atraviesa |
+| **Logotipo** | Fijo sobre los capítulos, centrado en su columna: no rota con ellos |
 | **Capítulos** | Los textos que van pasando. Cada uno ocupa una pantalla de scroll: añadir uno alarga la sección sola |
 | **Botón** | La llamada a la acción, con su destino configurable |
 | **Progreso** | Los tramos del pie que marcan por dónde va el recorrido |
+
+### Partes de los **Grafos**
+
+| Nombre | Qué es |
+| --- | --- |
+| **Logotipo** | Corona la columna, centrado sobre el titular y el bloque de código |
+| **Titular** | El nombre de la escena, en display grande |
+| **Bloque de código** | El cuerpo del texto, presentado como una función que devuelve un arreglo. Es **sólo estético**; el contenido es el de la escena y cada frase es un elemento del arreglo |
+| **Nodos** | El grafo animado de la derecha |
+
+> [!IMPORTANT]
+> Sobre logotipos en fondos oscuros: `ew.svg` está hecho para **fondo claro**
+> (sus palabras no declaran color y salen negras); `ew_white.svg` es **sólo el
+> isotipo**. Para fondo oscuro se usa `ew_crema.svg`, que lleva el lockup
+> completo con las letras en crema y los huecos del isotipo intactos.
 
 ### Reglas propias del Home
 

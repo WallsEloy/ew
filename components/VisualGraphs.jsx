@@ -45,6 +45,63 @@ const applyActiveGravity = (scene) => {
   });
 };
 
+/*
+ * El texto de la escena, presentado como si fuera código: una función que
+ * devuelve un arreglo de cadenas. Es SÓLO estética —no se ejecuta nada— y el
+ * contenido sigue siendo el que se edita en el dashboard.
+ *
+ * Cada frase del texto es un elemento del arreglo; se parte por el final de
+ * oración para que los renglones tengan sentido en vez de cortarse a lo bruto.
+ *
+ * Los corchetes, las comas y las palabras clave llevan aria-hidden: son adorno
+ * tipográfico y quien use un lector de pantalla debe oír el texto, no la
+ * puntuación.
+ */
+function BloqueCodigo({ texto }) {
+  const frases = String(texto || "")
+    .split(/(?<=[.!?])\s+/)
+    .map((f) => f.trim())
+    .filter(Boolean);
+
+  const lineas = frases.length ? frases : [String(texto || "")];
+
+  return (
+    <div className={styles.codigo}>
+      <p className={styles.lineaCodigo}>
+        <span className={styles.palabraClave} aria-hidden="true">const</span>{" "}
+        <span className={styles.funcion} aria-hidden="true">manifiesto</span>
+        <span className={styles.puntuacion} aria-hidden="true">{" = () => {"}</span>
+      </p>
+
+      <p className={`${styles.lineaCodigo} ${styles.sangria1}`}>
+        <span className={styles.palabraClave} aria-hidden="true">return</span>{" "}
+        <span className={styles.puntuacion} aria-hidden="true">[</span>
+      </p>
+
+      {lineas.map((frase, i) => (
+        <p key={frase} className={`${styles.lineaCodigo} ${styles.sangria2}`}>
+          <span className={styles.cadena}>
+            <span aria-hidden="true">&quot;</span>
+            {frase}
+            <span aria-hidden="true">&quot;</span>
+          </span>
+          <span className={styles.puntuacion} aria-hidden="true">
+            {i < lineas.length - 1 ? "," : ""}
+          </span>
+        </p>
+      ))}
+
+      <p className={`${styles.lineaCodigo} ${styles.sangria1}`}>
+        <span className={styles.puntuacion} aria-hidden="true">];</span>
+      </p>
+
+      <p className={styles.lineaCodigo}>
+        <span className={styles.puntuacion} aria-hidden="true">{"};"}</span>
+      </p>
+    </div>
+  );
+}
+
 function GraphArtwork({ scene, compact = false, reducedMotion = false }) {
   const gravityNodes = compact ? scene.nodes : applyActiveGravity(scene);
   const visibleNodes = compact ? gravityNodes.slice(0, 14) : gravityNodes;
@@ -199,7 +256,7 @@ export default function VisualGraphs() {
                   <img src="/SVG/ew_white.svg" alt="EW Logo" className={styles.logo} />
                 </div>
                 <h2 id="visual-graphs-title">{activeScene.title}</h2>
-                <p className={styles.description}>{activeScene.text}</p>
+                <BloqueCodigo texto={activeScene.text} />
                 <div className={styles.controls}>
                   <div className={styles.progress} aria-hidden="true">
                     {scenes.map((scene, index) => (

@@ -72,6 +72,17 @@
   white-space: nowrap;
 }
 
+/* Logotipo sobre los capítulos. Va fuera de la pila para que no se desvanezca
+   con ellos: es el ancla fija mientras los textos rotan. */
+.logo {
+  display: block;
+  width: min(42%, 190px);
+  height: auto;
+  /* Centrado respecto a la columna de texto, no respecto a la pantalla */
+  margin: 0 auto clamp(18px, 3vh, 30px);
+  filter: drop-shadow(0 1px 12px rgba(0, 0, 0, 0.8));
+}
+
 /* Los capítulos se apilan en la misma celda: el que toca se ve, los otros
    esperan. Así la caja no cambia de alto al pasar de uno a otro. */
 .capitulos {

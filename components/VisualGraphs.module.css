@@ -61,9 +61,13 @@
   max-width: 520px;
 }
 
+/* Centrado respecto a la columna de texto, no respecto a la pantalla: el ancho
+   de esta caja es el de la columna (.copy), así que centrar aquí deja el
+   logotipo sobre el eje del titular y del bloque de código. Igual que en la
+   Vitrina y el Proceso. */
 .logoContainer {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
@@ -105,6 +109,68 @@
   color: #c8c4ce;
   font-size: clamp(1rem, 1.45vw, 1.24rem);
   line-height: 1.75;
+}
+
+/* =============================================================================
+   CUERPO DE TEXTO CON ASPECTO DE CÓDIGO
+
+   Puramente estético: el texto de la escena se presenta como una función que
+   devuelve un arreglo de cadenas. Los colores imitan el resaltado de un editor
+   —clave, función, cadena y puntuación— para que se lea como código de un
+   vistazo, sin dejar de ser el texto que se edita en el dashboard.
+   ========================================================================== */
+.codigo {
+  --cod-clave: #c792ea; /* violeta: const, return */
+  --cod-funcion: #82aaff; /* azul: nombre de la función */
+  --cod-cadena: #c3e88d; /* verde: el texto en sí */
+  --cod-punto: #6b7688; /* gris: llaves, corchetes y comas */
+
+  max-width: 40ch;
+  margin: 34px 0 0;
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+  font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.01em; /* la mono en negrita respira demasiado */
+  line-height: 1.7;
+  /* Un filete a la izquierda, como el margen de un editor */
+  border-left: 1px solid rgba(130, 170, 255, 0.22);
+  padding-left: clamp(14px, 1.4vw, 22px);
+}
+
+.lineaCodigo {
+  margin: 0;
+  white-space: pre-wrap;
+  /* Las frases largas siguen sangradas al plegarse: se lee como un editor */
+  text-indent: 0;
+}
+
+.sangria1 {
+  padding-left: 2ch;
+}
+
+/* La segunda sangría cuelga: al partirse una frase, la continuación no vuelve
+   al margen y el bloque conserva la forma de arreglo. */
+.sangria2 {
+  padding-left: 6ch;
+  text-indent: -2ch;
+}
+
+.palabraClave {
+  color: var(--cod-clave);
+}
+
+.funcion {
+  color: var(--cod-funcion);
+}
+
+/* El texto pesa más que su envoltorio: es lo que hay que leer */
+.cadena {
+  color: var(--cod-cadena);
+  font-weight: 700;
+}
+
+.puntuacion {
+  color: var(--cod-punto);
 }
 
 .controls {
@@ -392,6 +458,18 @@
     margin-inline: auto;
     font-size: 0.95rem;
     line-height: 1.55;
+  }
+
+  /* En móvil la columna va centrada, pero el bloque de código se lee alineado a
+     la izquierda: un arreglo centrado pierde la forma. Se centra la caja, no el
+     texto de dentro. */
+  .codigo {
+    max-width: 32ch;
+    margin-top: 22px;
+    margin-inline: auto;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
   }
 
   .controls {
