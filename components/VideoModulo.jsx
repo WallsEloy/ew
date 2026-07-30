@@ -7,7 +7,7 @@ import { alAcercarse, conexionLimitada } from "../lib/conexion";
 import styles from "./VideoModulo.module.css";
 
 /*
- * Módulo de vídeo del Home, debajo del carrusel.
+ * Vitrina de vídeo que abre el Home en escritorio y móvil.
  *
  * El vídeo es el fondo a sangre; encima van el texto y una placa de ficha con
  * los datos de la pieza (mismo lenguaje que la ficha técnica del reverso de las

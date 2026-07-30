@@ -227,6 +227,13 @@
     transition: width 260ms ease, height 260ms ease;
   }
 
+  .pillLink img {
+    /* Los SVG externos vienen en negro; este filtro recupera el gris original
+       del Dock (#55565a) sin alterar los archivos fuente. */
+    filter: invert(34%) sepia(5%) saturate(264%) hue-rotate(202deg) brightness(91%) contrast(88%);
+    transition: width 260ms ease, height 260ms ease, filter 220ms ease;
+  }
+
   .mobilePillNavCompact .pillLink {
     width: 36px;
     height: 36px;
@@ -250,6 +257,10 @@
     color: #00aff0;
     background: rgba(0, 175, 240, 0.1);
     box-shadow: 0 0 22px rgba(0, 175, 240, 0.12);
+  }
+
+  .pillLinkActive img {
+    filter: invert(49%) sepia(98%) saturate(1854%) hue-rotate(161deg) brightness(97%) contrast(101%);
   }
 
   .pillLink:focus-visible {

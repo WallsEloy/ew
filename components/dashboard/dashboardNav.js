@@ -44,6 +44,13 @@ export const DASHBOARD_NAV = [
     ],
   },
   {
+    href: "/dashboard/grow",
+    label: "Grow",
+    desc: "Página general, tarjetas y contenido de sus proyectos.",
+    icon: "carousel",
+    available: true,
+  },
+  {
     href: "/dashboard/diseno",
     label: "Diseño",
     desc: "Perfiles de la sección Diseño: nombre, bio, avatar, logo, stats.",
@@ -62,6 +69,13 @@ export const DASHBOARD_NAV = [
     label: "Contacto",
     desc: "Perfil, historias, redes y acordeones de la página de contacto.",
     icon: "mail",
+    available: true,
+  },
+  {
+    href: "/dashboard/shop",
+    label: "Tienda",
+    desc: "Gestión de la tienda virtual: categorías, productos y precios.",
+    icon: "shop",
     available: true,
   },
 ];

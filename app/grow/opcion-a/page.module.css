@@ -1,0 +1,126 @@
+.page {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.content {
+  padding: clamp(72px, 10vh, 110px) 24px 150px;
+}
+
+.projects {
+  display: grid;
+  gap: clamp(28px, 5vh, 48px);
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.card {
+  position: relative;
+  min-height: clamp(150px, 20vw, 190px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 22px;
+  background: #d8d8da;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+  isolation: isolate;
+}
+
+.image {
+  z-index: -2;
+  object-fit: cover;
+  object-position: center;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.14) 42%, rgba(255, 255, 255, 0.97) 72%);
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 46%;
+  min-height: clamp(150px, 20vw, 190px);
+  margin-left: auto;
+  padding: 20px;
+  color: #101014;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.copy span {
+  color: #73737a;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.copy h2 {
+  margin: 5px 0 12px;
+  font-size: clamp(20px, 3.2vw, 32px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.copy a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 118px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d946ef, #9333ea);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 7px 22px rgba(147, 51, 234, 0.34);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.copy a:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
+.copy a:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 0;
+  }
+
+  .content {
+    padding: 64px 16px 140px;
+  }
+
+  .card,
+  .copy {
+    min-height: 138px;
+  }
+
+  .copy {
+    width: 52%;
+    padding: 14px 10px;
+  }
+
+  .copy h2 {
+    font-size: 18px;
+  }
+
+  .copy a {
+    min-width: 96px;
+    padding: 7px 12px;
+    font-size: 9px;
+  }
+}

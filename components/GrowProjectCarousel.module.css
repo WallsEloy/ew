@@ -1,0 +1,17 @@
+.carousel { position: relative; width: 100%; height: min(78vh, 860px); overflow: hidden; background: #090909; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
+.slide { position: relative; flex: 0 0 100%; width: 100%; height: 100%; }
+.image { object-fit: cover; object-position: center; }
+.scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.86), rgba(0,0,0,.08) 68%); pointer-events: none; }
+.copy { position: absolute; right: 0; bottom: clamp(66px, 10vh, 100px); left: 0; z-index: 2; width: min(88%, 1100px); margin: 0 auto; pointer-events: none; }
+.copy span { color: #d946ef; font-size: 11px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
+.copy h1 { max-width: 13ch; margin: 12px 0 0; color: #fff; font-size: clamp(42px, 7vw, 82px); line-height: .9; letter-spacing: -.05em; text-shadow: 0 8px 35px rgba(0,0,0,.6); }
+.arrow { position: absolute; top: 50%; z-index: 2; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; background: rgba(0,0,0,.38); color: #fff; font-size: 22px; cursor: pointer; backdrop-filter: blur(10px); transform: translateY(-50%); transition: background 180ms ease, transform 180ms ease; }
+.arrow:hover { background: rgba(185,69,245,.82); transform: translateY(-50%) scale(1.05); }
+.previous { left: clamp(16px, 4vw, 56px); }
+.next { right: clamp(16px, 4vw, 56px); }
+.dots { position: absolute; right: 0; bottom: 28px; left: 0; z-index: 2; display: flex; justify-content: center; gap: 9px; }
+.dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.45); cursor: pointer; transition: width 180ms ease, background 180ms ease; }
+.dots .activeDot { width: 28px; border-radius: 999px; background: #d946ef; }
+@media (max-width: 767px) { .carousel { height: 62vh; min-height: 440px; } .arrow { top: 42%; width: 40px; height: 40px; } .copy { bottom: 72px; } .copy h1 { font-size: clamp(38px, 12vw, 58px); } }
+@media (prefers-reduced-motion: reduce) { .track { transition: none; } }

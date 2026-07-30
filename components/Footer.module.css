@@ -1,0 +1,252 @@
+.footer {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(180deg, #050505 0%, #000000 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c8c4ce;
+  font-family: var(--font-sans, sans-serif);
+  padding: 80px 6% 40px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Ambient glow in background of the footer */
+.ambient {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 175, 240, 0.04) 0%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.topSection {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 48px;
+  margin-bottom: 60px;
+}
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.logoLink {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.logoLink:hover {
+  transform: scale(1.02);
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.tagline {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 32ch;
+  color: #85818c;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 0;
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link {
+  color: #85818c;
+  font-size: 14px;
+  font-style: italic;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  display: inline-block;
+}
+
+.link:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+  font-weight: 600;
+}
+
+.bottomSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 40px;
+}
+
+.copyright {
+  font-size: 13px;
+  color: #5b5860;
+  margin: 0;
+}
+
+.rightBox {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.socialIcon {
+  color: #85818c;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialIcon:hover {
+  color: #00aff0;
+  transform: translateY(-3px) scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(0, 175, 240, 0.4));
+}
+
+.scrollTopBtn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c8c4ce;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.scrollTopBtn:hover {
+  background: #00aff0;
+  border-color: #00aff0;
+  color: #ffffff;
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(0, 175, 240, 0.4);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .topSection {
+    grid-template-columns: 1.2fr repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 50px 24px 120px; /* espaciado cómodo considerando el Dock Móvil */
+  }
+
+  .topSection {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 20px;
+    margin-bottom: 36px;
+  }
+
+  .branding {
+    grid-column: span 2;
+    align-items: flex-start;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 24px;
+    width: 100%;
+  }
+
+  .logoLink {
+    align-self: center;
+  }
+
+  .tagline {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .column {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* Hacemos que la última columna (Estudio) ocupe las dos columnas si queda huérfana, o simplemente fluya */
+  .column:last-child {
+    grid-column: span 2;
+  }
+
+  .link:hover {
+    transform: none;
+  }
+
+  .bottomSection {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 30px;
+    width: 100%;
+  }
+
+  .copyright {
+    font-size: 12px;
+    text-align: left;
+    width: 100%;
+    color: #4a4750;
+  }
+
+  .rightBox {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .socials {
+    gap: 20px;
+  }
+}

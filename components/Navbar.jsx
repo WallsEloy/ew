@@ -265,7 +265,7 @@ export default function Navbar() {
           <div className="relative px-2 lg:px-4">
             <button onClick={() => toggleDropdown('grow')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Grow</button>
             {renderDropdown('grow', [
-              { label: 'Opción A', href: '#' },
+              { label: 'Opción A', href: '/grow/opcion-a' },
               { label: 'Opción B', href: '#' }
             ])}
           </div>
@@ -285,11 +285,7 @@ export default function Navbar() {
             ])}
           </div>
           <div className="relative px-2 lg:px-4">
-            <button onClick={() => toggleDropdown('shoping')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Shoping</button>
-            {renderDropdown('shoping', [
-              { label: 'Ropa', href: '#' },
-              { label: 'Accesorios', href: '#' }
-            ])}
+            <Link href="/shop" className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Shoping</Link>
           </div>
           <div className="relative px-2 lg:px-4">
             <Link href="/contacto" className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Contacto</Link>
@@ -321,7 +317,7 @@ export default function Navbar() {
               <div className="w-full flex flex-col items-center border-b border-[#222]">
                 <button onClick={() => toggleDropdown('grow')} className={mobileNavItemClass}>Grow</button>
                 {renderDropdown('grow', [
-                  { label: 'Opción A', href: '#' },
+                  { label: 'Opción A', href: '/grow/opcion-a' },
                   { label: 'Opción B', href: '#' }
                 ], true)}
               </div>
@@ -333,11 +329,7 @@ export default function Navbar() {
                 ], true)}
               </div>
               <div className="w-full flex flex-col items-center border-b border-[#222]">
-                <button onClick={() => toggleDropdown('shoping')} className={mobileNavItemClass}>Shoping</button>
-                {renderDropdown('shoping', [
-                  { label: 'Ropa', href: '#' },
-                  { label: 'Accesorios', href: '#' }
-                ], true)}
+                <Link href="/shop" onClick={closeMobileNavigation} className={mobileNavItemClass}>Shoping</Link>
               </div>
               <div className="w-full flex flex-col items-center">
                 <Link href="/contacto" onClick={closeMobileNavigation} className={mobileNavItemClass}>Contacto</Link>

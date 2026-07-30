@@ -1,0 +1,12 @@
+.page { min-height: 100vh; background: #050505; color: #fff; }
+.hero { position: relative; display: grid; align-items: end; min-height: 82vh; overflow: hidden; isolation: isolate; }
+.image { z-index: -2; object-fit: cover; }
+.scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(0,0,0,.96), rgba(0,0,0,.1) 72%); }
+.copy { width: min(100%, 1100px); margin: 0 auto; padding: 150px 6vw 72px; box-sizing: border-box; }
+.copy span { color: #d946ef; font-size: 11px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
+.copy h1 { max-width: 12ch; margin: 12px 0 20px; font-size: clamp(48px, 9vw, 112px); line-height: .88; letter-spacing: -.055em; text-transform: uppercase; }
+.copy p { max-width: 48ch; margin: 0; color: rgba(255,255,255,.75); font-size: clamp(16px, 2vw, 22px); line-height: 1.5; }
+.body { width: min(88%, 900px); margin: 0 auto; padding: 90px 0 150px; }
+.body p { margin: 0 0 44px; color: #d2ced6; font-size: clamp(20px, 3vw, 34px); line-height: 1.45; }
+.body a { color: #d946ef; font-weight: 800; text-decoration: none; }
+@media (max-width: 767px) { .hero { min-height: 72vh; } .copy { padding: 120px 22px 54px; } .body { padding: 60px 0 140px; } }

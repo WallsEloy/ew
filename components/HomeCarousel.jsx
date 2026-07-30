@@ -527,14 +527,12 @@ export default function HomeCarousel({ slides, focos }) {
                           className={
                             revelado ? styles.heroImageRevelado : styles.heroImage
                           }
-                          style={
-                            revelado
-                              ? {
-                                  "--foco": focos?.[slide.image] ?? FOCO_POR_DEFECTO,
-                                  "--pan": avancePan,
-                                }
-                              : undefined
-                          }
+                          style={{
+                            // El enfoque también se usa en la Franja móvil.
+                            // En escritorio, --pan anima desde ese punto al centro.
+                            "--foco": focos?.[slide.image] ?? FOCO_POR_DEFECTO,
+                            ...(revelado ? { "--pan": avancePan } : {}),
+                          }}
                         />
                       </motion.div>
                     </motion.div>

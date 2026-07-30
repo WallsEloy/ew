@@ -3,6 +3,7 @@ import Link from "next/link";
 import { profiles } from "../../lib/galeriaData";
 import { descripcionObra } from "../../lib/shopData";
 import ShopPiece from "./ShopPiece";
+import Storefront from "./Storefront";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -48,17 +49,8 @@ export default function ShopPage({ searchParams }) {
 
   if (!pieza.imagen) {
     return (
-      <div className={styles.page}>
-        <div className={styles.vacio}>
-          <h1 className={styles.vacioTitulo}>Elige una pieza</h1>
-          <p className={styles.vacioTexto}>
-            Entra a una galería, abre la obra que te interese y pulsa
-            «Adquirir para tu colección».
-          </p>
-          <Link href="/galeria" className={styles.vacioEnlace}>
-            Ir a las galerías
-          </Link>
-        </div>
+      <div className={styles.page} style={{ paddingTop: '0' }}>
+        <Storefront />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import LogosCarrusel from "../components/LogosCarrusel";
 import ProcesoScroll from "../components/ProcesoScroll";
 import VideoModulo from "../components/VideoModulo";
 import VisualGraphs from "../components/VisualGraphs";
+import Footer from "../components/Footer";
 import { getFocosCarrusel } from "../lib/focoCarrusel";
 import { getSlides } from "../lib/supabaseServer";
 import { getVideosHome } from "../lib/videosHomeConfig";
@@ -17,12 +18,10 @@ export default async function Home() {
   // Punto de enfoque de cada imagen del carrusel (dashboard → Home → Carrusel)
   const { focos } = await getFocosCarrusel();
 
-  // El home es inmersivo: el nav overlaya el carrusel a propósito. El margen
+  // El home es inmersivo: el nav superpone la Vitrina a propósito. El margen
   // negativo cancela el espaciador global solo aquí en móvil.
   return (
-    // Columna flex para poder reordenar por CSS: en escritorio el módulo de
-    // vídeo se coloca ANTES del carrusel (order: -1 en VideoModulo.module.css),
-    // mientras que en móvil se queda en el orden del marcado, debajo.
+    // El orden del marcado es también el orden visual en escritorio y móvil.
     <main className="min-h-screen bg-black w-full overflow-x-clip -mt-[94px] md:mt-0 flex flex-col">
       {/* El póster del módulo de vídeo es lo primero que se ve en escritorio: se
           pide con prioridad para que la cabecera no aparezca en negro mientras
@@ -36,14 +35,15 @@ export default async function Home() {
           fetchPriority="high"
         />
       )}
-      <HomeCarousel slides={slides} focos={focos} />
       {/* Módulo de vídeo (dashboard → Home → Vídeos) */}
       <VideoModulo config={videos.video} />
+      <HomeCarousel slides={slides} focos={focos} />
       {/* Proceso: vídeo recorrido con el scroll (mismo panel) */}
       <ProcesoScroll config={videos.proceso} />
       {/* Tira de logotipos que desfila (data/logosCarrusel.js) */}
       <LogosCarrusel />
       <VisualGraphs />
+      <Footer />
     </main>
   );
 }

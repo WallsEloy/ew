@@ -78,9 +78,7 @@ Nomenclatura acordada para pedir cambios sin ambigüedad. **Basta con decir el
 nombre en negrita**: «sube el título de la Vitrina», «el Desfile va muy rápido»,
 «en la Placa cambia la fila de Formato».
 
-El orden visual cambia entre escritorio y móvil, así que la tabla va en orden de
-lectura de escritorio (en móvil el Carrusel abre la página y la Vitrina baja al
-segundo puesto; lo hace `order: -1` en `VideoModulo.module.css`).
+La tabla refleja el orden visual compartido por escritorio y móvil.
 
 | # | Nombre | Qué es | Archivo | Se edita en |
 | :-: | --- | --- | --- | --- |

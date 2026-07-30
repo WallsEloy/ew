@@ -16,11 +16,11 @@ export const defaultNavConfig = {
   },
   // Dock inferior móvil (pills). iconType: 'preset' (clave del set) | 'image' (URL).
   dock: [
-    { label: "Diseño", href: "/diseno", iconType: "preset", icon: "tools" },
-    { label: "Eventos", href: "/eventos", iconType: "preset", icon: "bell" },
-    { label: "Galería", href: "/galeria", iconType: "preset", icon: "brush" },
-    { label: "Coding", href: "/coding", iconType: "preset", icon: "case" },
-    { label: "Contacto", href: "/contacto", iconType: "preset", icon: "message" },
+    { label: "Diseño", href: "/diseno", iconType: "image", icon: "/Iconos/Proyectos.svg" },
+    { label: "Eventos", href: "/eventos", iconType: "image", icon: "/Iconos/ARTE_iconoRecurso%202.svg" },
+    { label: "Galería", href: "/galeria", iconType: "image", icon: "/Iconos/dise%C3%B1oo_iconoRecurso%205.svg" },
+    { label: "Coding", href: "/coding", iconType: "image", icon: "/Iconos/portafolio_iconoRecurso%203.svg" },
+    { label: "Contacto", href: "/contacto", iconType: "image", icon: "/Iconos/servicios_iconoRecurso%204.svg" },
   ],
 };
 

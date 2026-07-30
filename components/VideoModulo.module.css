@@ -296,13 +296,9 @@
   outline-offset: 3px;
 }
 
-/* --- Escritorio: el módulo abre la página, antes del carrusel --------------- */
+/* --- Escritorio ------------------------------------------------------------ */
 @media (min-width: 769px) {
-  /* main es una columna flex (app/page.jsx); con order el módulo sube sin
-     duplicar el marcado ni cargar el vídeo dos veces. En móvil no se aplica y
-     queda debajo del carrusel, en el orden del DOM. */
   .modulo {
-    order: -1;
     flex: 0 0 auto; /* que la columna flex no lo encoja */
   }
 
@@ -316,9 +312,18 @@
 /* --- Móvil ----------------------------------------------------------------- */
 @media (max-width: 768px) {
   .modulo {
-    min-height: min(104vh, 900px);
-    /* El relleno inferior reserva sitio para el dock de píldoras fijo */
-    padding: clamp(40px, 7vh, 64px) 20px 108px;
+    min-height: min(145dvh, 1280px);
+    /* El bloque editorial se apoya abajo para dejar respirar la figura del
+       vídeo en la mitad superior. Arriba libra el navbar y abajo el dock. */
+    align-content: end;
+    padding: 118px 20px 128px;
+  }
+
+  .contenido {
+    width: 100%;
+    max-width: 52ch;
+    margin-inline: auto;
+    text-align: center;
   }
 
   /* El texto ocupa el ancho, así que el velo pasa a ser vertical */
@@ -328,7 +333,12 @@
   }
 
   .antetitulo {
+    justify-content: center;
     letter-spacing: 0.32em;
+  }
+
+  .texto {
+    margin-inline: auto;
   }
 
   /* En móvil la placa entra en el flujo, debajo del texto: si se quedara pegada
@@ -358,7 +368,7 @@
   /* En móvil los controles se quedan: silenciar tiene que estar siempre a mano.
      Se encogen y se pegan bajo el navbar. */
   .controles {
-    top: 12px;
+    top: 88px;
     right: 12px;
     gap: 6px;
   }
