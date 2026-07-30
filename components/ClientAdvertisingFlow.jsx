@@ -175,13 +175,33 @@ function QrDownloadNode() {
         <div className={styles.qrCode} aria-label="Código QR decorativo">
           <i /><i /><i /><i /><i /><i /><i /><i /><i />
         </div>
-        <span className={styles.qrButton}>⇩　Descargar QR</span>
+        <span className={styles.qrButton}>⇩　Descargar QR<Handle id="download" type="source" position={Position.Right} /></span>
       </div>
     </div>
   );
 }
 
-const nodeTypes = { facebookPage: FacebookPageNode, platform: PlatformNode, landingPage: LandingPageNode, dataCollection: DataCollectionNode, facebookPixel: FacebookPixelNode, qrDownload: QrDownloadNode };
+function QrScannerNode() {
+  return (
+    <div className={styles.scannerNode}>
+      <div className={styles.scannerHeader}>
+        <Handle type="target" position={Position.Left} />
+        <span className={styles.scannerMark}>⌗</span>
+        <strong>Escanear QR</strong>
+      </div>
+      <div className={styles.scannerBody}>
+        <div className={styles.scannerFrame}>
+          <span className={styles.scannerGhost}>▦</span>
+          <i />
+        </div>
+        <p>Coloca el código QR dentro del marco<br />para escanear</p>
+        <span className={styles.scannerButton}>⌗　Escanear QR</span>
+      </div>
+    </div>
+  );
+}
+
+const nodeTypes = { facebookPage: FacebookPageNode, platform: PlatformNode, landingPage: LandingPageNode, dataCollection: DataCollectionNode, facebookPixel: FacebookPixelNode, qrDownload: QrDownloadNode, qrScanner: QrScannerNode };
 
 const nodes = [
   { id: "brief", position: { x: 40, y: 210 }, data: { label: "INICIO" }, className: styles.nodeStart },
@@ -193,6 +213,7 @@ const nodes = [
   { id: "data-collection", type: "dataCollection", position: { x: 1120, y: -15 }, data: {} },
   { id: "facebook-pixel", type: "facebookPixel", position: { x: 790, y: 570 }, data: {} },
   { id: "qr-download", type: "qrDownload", position: { x: 1240, y: 570 }, data: {} },
+  { id: "qr-scanner", type: "qrScanner", position: { x: 1630, y: 610 }, data: {} },
   { id: "concept", position: { x: 1980, y: 315 }, data: { label: "02  Concepto creativo" }, className: styles.nodeAccent },
   { id: "measure", position: { x: 2270, y: 315 }, data: { label: "03  Medición" }, className: styles.node },
   { id: "learn", position: { x: 2520, y: 315 }, data: { label: "04  Aprendizaje" }, className: styles.nodePrimary },
@@ -215,6 +236,7 @@ const edges = [
   edge("landing-send-data", "landing-page", "data-collection", "send-data"),
   edge("data-collection-pixel", "data-collection", "facebook-pixel", "export"),
   edge("data-collection-qr", "data-collection", "qr-download", "export"),
+  edge("qr-download-scanner", "qr-download", "qr-scanner", "download"),
   edge("landing-exit-pixel", "landing-page", "facebook-pixel", "exit"),
   edge("pixel-concept", "facebook-pixel", "concept", "help"),
   edge("concept-measure", "concept", "measure"),

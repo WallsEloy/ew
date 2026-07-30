@@ -44,7 +44,7 @@ forma intencional cuando comience la fase funcional.
                          ┌─ Facebook ─┐
                          ├─ Instagram─┤
 INICIO ──── cuatro ramas ─┤ TikTok ───┤─ Landing Page ─┬─ Enviar datos ─ Recolección ─┬─ Facebook Pixel ─ Concepto creativo ─ Medición ─ Aprendizaje
-                         └─ Spotify ──┘                │                              └─ Descarga de QR
+                         └─ Spotify ──┘                │                              └─ Descarga de QR ─ Escanear QR
                                                       └─ Salió ───────── Facebook Pixel
 ```
 
@@ -135,7 +135,16 @@ Page:
 - Nodo oscuro conectado desde el mismo botón `Exportar datos` de Recolección.
 - Incluye una representación decorativa de un código QR.
 - La acción `Descargar QR` es únicamente visual en esta fase.
+- El botón `Descargar QR` ocupa todo el ancho interior del módulo.
 - Junto con Facebook Pixel forma las dos salidas actuales de Recolección.
+- La salida del botón `Descargar QR` conecta con el módulo `Escanear QR`.
+
+### Nodo Escanear QR
+
+- Recibe la conexión en su cabecera desde el botón `Descargar QR`.
+- Presenta un marco de lectura, un QR atenuado y una línea de escaneo violeta.
+- El botón `Escanear QR` es decorativo y no solicita acceso a la cámara.
+- El botón `Escanear QR` ocupa todo el ancho interior del módulo.
 
 ### Nodo Facebook Pixel
 
