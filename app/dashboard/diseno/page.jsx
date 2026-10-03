@@ -10,7 +10,9 @@ export default function DashboardDisenoPage() {
       <p className="text-sm text-gray-400 mb-6">
         Edita cada perfil: nombre, bio, avatar, logo, seguidores/seguidos,
         visibilidad y orden. Dentro de cada perfil, «Imágenes del perfil» abre el
-        gestor de posts: subir y quitar imágenes, descripción y ficha técnica.
+        gestor de posts. En el perfil Web, «Proyectos Web» permite modificar la
+        portada, título, descripción, autor, vistas, insignia, categoría, video y
+        ficha técnica de cada subpágina.
       </p>
       <PortfolioEditor section="diseno" />
     </div>

@@ -28,7 +28,7 @@ function parseEtiquetas(texto) {
     .filter(Boolean);
 }
 
-export default function PostsEditor({ collectionId, section = "diseno" }) {
+export default function PostsEditor({ collectionId, section = "diseno", webMode = false }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState(null);
@@ -179,6 +179,13 @@ export default function PostsEditor({ collectionId, section = "diseno" }) {
           holograma: p.holograma || "",
           logoReverso: normalizarLogoReverso(p.logoReverso),
           ficha: { ...p.ficha, etiquetas: parseEtiquetas(p.etiquetas) },
+          web: {
+            author: p.webAuthor || "",
+            views: p.webViews || "",
+            badge: p.webBadge || "",
+            type: p.webType || "",
+            video: Boolean(p.webVideo),
+          },
         },
       };
       await fetchJson("/api/portfolio/projects", {
@@ -466,6 +473,38 @@ export default function PostsEditor({ collectionId, section = "diseno" }) {
                     </button>
                   </div>
                 </div>
+
+                {webMode && (
+                  <details className="rounded border border-[#242424] bg-[#0d0d0d]" open>
+                    <summary className="cursor-pointer px-3 py-2 text-sm text-gray-300">
+                      Datos de la tarjeta {section === "coding" ? "Coding" : "Web"}
+                    </summary>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 pt-0">
+                      <div>
+                        <label className={labelCls}>Autor o estudio</label>
+                        <input className={inputCls} value={p.webAuthor ?? ""} placeholder="EW Digital Studio" onChange={(e) => patchPost(p.id, { webAuthor: e.target.value })} />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Vistas</label>
+                        <input className={inputCls} value={p.webViews ?? ""} placeholder="25.3k" onChange={(e) => patchPost(p.id, { webViews: e.target.value })} />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Insignia</label>
+                        <input className={inputCls} value={p.webBadge ?? ""} placeholder="PRO" onChange={(e) => patchPost(p.id, { webBadge: e.target.value })} />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Categoría</label>
+                        <input className={inputCls} value={p.webType ?? ""} placeholder="UI / UX" onChange={(e) => patchPost(p.id, { webType: e.target.value })} />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className={labelCls}>Indicador de video</label>
+                        <button className={p.webVideo ? primaryBtnCls : btnCls} onClick={() => patchPost(p.id, { webVideo: !p.webVideo })}>
+                          {p.webVideo ? "Visible" : "Oculto"}
+                        </button>
+                      </div>
+                    </div>
+                  </details>
+                )}
 
                 {/* Ficha técnica: lo que sale en el reverso de la tarjeta */}
                 <details className="rounded border border-[#242424] bg-[#0d0d0d]">

@@ -5,6 +5,8 @@ import {
   defaultNavConfig,
   mergeNavConfig,
   makeBlankPill,
+  makeBlankNavLink,
+  makeBlankDropdownItem,
   PILL_ICON_PRESETS,
 } from "../../data/navConfig";
 
@@ -144,6 +146,78 @@ export default function NavegadoresEditor() {
     setDirty(true);
   };
 
+  const setNavLink = (index, patch) => {
+    setConfig((c) => ({
+      ...c,
+      navLinks: c.navLinks.map((p, i) => (i === index ? { ...p, ...patch } : p)),
+    }));
+    setDirty(true);
+  };
+  const addNavLink = () => {
+    setConfig((c) => ({ ...c, navLinks: [...c.navLinks, makeBlankNavLink()] }));
+    setDirty(true);
+  };
+  const removeNavLink = (index) => {
+    setConfig((c) => ({ ...c, navLinks: c.navLinks.filter((_, i) => i !== index) }));
+    setDirty(true);
+  };
+  const moveNavLink = (index, dir) => {
+    const target = index + dir;
+    setConfig((c) => {
+      if (target < 0 || target >= c.navLinks.length) return c;
+      const navLinks = [...c.navLinks];
+      [navLinks[index], navLinks[target]] = [navLinks[target], navLinks[index]];
+      return { ...c, navLinks };
+    });
+    setDirty(true);
+  };
+
+  const setDropdownItem = (linkIndex, ddIndex, patch) => {
+    setConfig((c) => ({
+      ...c,
+      navLinks: c.navLinks.map((p, i) => {
+        if (i !== linkIndex) return p;
+        const dropdown = p.dropdown.map((dd, j) => j === ddIndex ? { ...dd, ...patch } : dd);
+        return { ...p, dropdown };
+      })
+    }));
+    setDirty(true);
+  };
+  const addDropdownItem = (linkIndex) => {
+    setConfig((c) => ({
+      ...c,
+      navLinks: c.navLinks.map((p, i) => {
+        if (i !== linkIndex) return p;
+        return { ...p, dropdown: [...(p.dropdown || []), makeBlankDropdownItem()] };
+      })
+    }));
+    setDirty(true);
+  };
+  const removeDropdownItem = (linkIndex, ddIndex) => {
+    setConfig((c) => ({
+      ...c,
+      navLinks: c.navLinks.map((p, i) => {
+        if (i !== linkIndex) return p;
+        return { ...p, dropdown: p.dropdown.filter((_, j) => j !== ddIndex) };
+      })
+    }));
+    setDirty(true);
+  };
+  const moveDropdownItem = (linkIndex, ddIndex, dir) => {
+    const target = ddIndex + dir;
+    setConfig((c) => ({
+      ...c,
+      navLinks: c.navLinks.map((p, i) => {
+        if (i !== linkIndex) return p;
+        if (target < 0 || target >= p.dropdown.length) return p;
+        const dropdown = [...p.dropdown];
+        [dropdown[ddIndex], dropdown[target]] = [dropdown[target], dropdown[ddIndex]];
+        return { ...p, dropdown };
+      })
+    }));
+    setDirty(true);
+  };
+
   // --- Subida sin conversión (logos e iconos) --------------------------------
   const uploadRaw = async (file) => {
     const fd = new FormData();
@@ -210,7 +284,7 @@ export default function NavegadoresEditor() {
 
   if (loading) return <p className="text-gray-400">Cargando…</p>;
 
-  const { logos, auth, dock } = config;
+  const { logos, auth, dock, navLinks = [] } = config;
 
   return (
     <div className="text-white">
@@ -272,6 +346,71 @@ export default function NavegadoresEditor() {
               onUrl={(url) => setLogo("mobileIsotipo", url)}
               onUpload={(file) => uploadLogo("mobileIsotipo", file)}
             />
+          </div>
+        </section>
+
+        {/* --- Menú principal (navegador superior) --------------------------- */}
+        <section className={cardCls}>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="text-sm font-bold text-gray-300">
+              Menú Principal (Navegador superior)
+            </h2>
+            <span className="text-[11px] text-gray-500">
+              {navLinks.length} enlaces
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link, index) => (
+              <div key={index} className="box-border rounded-lg border border-[#222] bg-[#111] p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-bold text-gray-400">Enlace {index + 1}</span>
+                  <div className="flex-1" />
+                  <button className={btnCls} onClick={() => moveNavLink(index, -1)} disabled={index === 0} aria-label="Subir">↑</button>
+                  <button className={btnCls} onClick={() => moveNavLink(index, 1)} disabled={index === navLinks.length - 1} aria-label="Bajar">↓</button>
+                  <button className="box-border px-3 py-1.5 rounded text-sm border border-red-800 bg-red-950/40 text-red-300 hover:bg-red-900/40" onClick={() => removeNavLink(index)}>Quitar</button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className={labelCls}>Texto del enlace</label>
+                    <input className={inputCls} value={link.label ?? ""} onChange={(e) => setNavLink(index, { label: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>URL (si no tiene menú desplegable)</label>
+                    <input className={inputCls} value={link.href ?? ""} placeholder="/pagina" onChange={(e) => setNavLink(index, { href: e.target.value })} disabled={link.dropdown?.length > 0} />
+                  </div>
+                </div>
+
+                <div className="rounded border border-[#333] bg-[#0a0a0a] p-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs font-semibold text-gray-400">Menú desplegable ({link.dropdown?.length || 0} items)</span>
+                    <div className="flex-1" />
+                    <button className={`${btnCls} !text-[11px] !py-1`} onClick={() => addDropdownItem(index)}>+ Añadir sub-enlace</button>
+                  </div>
+                  
+                  {link.dropdown?.length > 0 ? (
+                    <div className="flex flex-col gap-2">
+                      {link.dropdown.map((dd, ddIndex) => (
+                        <div key={ddIndex} className="flex flex-wrap md:flex-nowrap items-center gap-2">
+                          <button className="text-gray-500 hover:text-white" onClick={() => moveDropdownItem(index, ddIndex, -1)} disabled={ddIndex === 0}>↑</button>
+                          <button className="text-gray-500 hover:text-white" onClick={() => moveDropdownItem(index, ddIndex, 1)} disabled={ddIndex === link.dropdown.length - 1}>↓</button>
+                          <input className={`${inputCls} flex-1 !py-1`} value={dd.label ?? ""} placeholder="Nombre" onChange={(e) => setDropdownItem(index, ddIndex, { label: e.target.value })} />
+                          <input className={`${inputCls} flex-1 !py-1`} value={dd.href ?? ""} placeholder="URL" onChange={(e) => setDropdownItem(index, ddIndex, { href: e.target.value })} />
+                          <button className="text-red-400 hover:text-red-300" onClick={() => removeDropdownItem(index, ddIndex)}>✕</button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-gray-500">Sin menú desplegable. El usuario navegará a la URL principal.</p>
+                  )}
+                </div>
+              </div>
+            ))}
+            
+            <button className="box-border rounded-lg border border-dashed border-[#333] py-3 text-sm text-gray-300 hover:bg-[#141414]" onClick={addNavLink}>
+              + Agregar enlace al menú principal
+            </button>
           </div>
         </section>
 

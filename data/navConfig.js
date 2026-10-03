@@ -22,11 +22,67 @@ export const defaultNavConfig = {
     { label: "Coding", href: "/coding", iconType: "image", icon: "/Iconos/portafolio_iconoRecurso%203.svg" },
     { label: "Contacto", href: "/contacto", iconType: "image", icon: "/Iconos/servicios_iconoRecurso%204.svg" },
   ],
+  navLinks: [
+    {
+      label: "Galerias",
+      href: "",
+      dropdown: [
+        { label: "HUMANS", href: "/galeria" },
+        { label: "Ice Cream", href: "/galeria" },
+        { label: "Sketch", href: "/galeria" },
+        { label: "Fotografia", href: "/galeria" },
+        { label: "Anacronismo", href: "/galeria" }
+      ]
+    },
+    {
+      label: "Diseño",
+      href: "",
+      dropdown: [
+        { label: "Gráfico", href: "/diseno?vista=branding" },
+        { label: "Web", href: "/diseno?vista=web" },
+        { label: "Coding", href: "/coding" }
+      ]
+    },
+    {
+      label: "Grow",
+      href: "",
+      dropdown: [
+        { label: "Opción A", href: "/grow/opcion-a" },
+        { label: "Opción B", href: "#" }
+      ]
+    },
+    {
+      label: "Eventos",
+      href: "",
+      dropdown: [
+        { label: "Próximos", href: "#" },
+        { label: "Pasados", href: "#" }
+      ]
+    },
+    {
+      label: "Shoping",
+      href: "/shop",
+      dropdown: []
+    },
+    {
+      label: "Contacto",
+      href: "/contacto",
+      dropdown: []
+    }
+  ],
 };
 
 // Pill en blanco para "agregar" desde el dashboard.
 export function makeBlankPill() {
   return { label: "", href: "", iconType: "preset", icon: "tools" };
+}
+
+export function makeBlankNavLink() {
+  return { label: "Nuevo", href: "", dropdown: [] };
+}
+
+export function makeBlankDropdownItem() {
+  return { label: "Item", href: "#" };
 }
 
 // Combina la config guardada (parcial) con los defaults, por si a la BD le
@@ -40,5 +96,6 @@ export function mergeNavConfig(saved) {
       login: { ...defaultNavConfig.auth.login, ...(saved.auth?.login || {}) },
     },
     dock: Array.isArray(saved.dock) ? saved.dock : defaultNavConfig.dock,
+    navLinks: Array.isArray(saved.navLinks) ? saved.navLinks : defaultNavConfig.navLinks,
   };
 }

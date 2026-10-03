@@ -1,5 +1,12 @@
 # 🤖 Instrucciones para Asistentes de IA (claude.md)
 
+## Navegación de contexto
+
+- [Contexto maestro del repositorio](../claude.md)
+- [Índice general](./indice.md)
+- [Mapa de documentación especializada](./documentos/claude.md)
+- [Flujo de marketing con React Flow](<./documentos/flujo de marqueting/claude.md>)
+
 Este documento sirve como guía de contexto, estilo y reglas de desarrollo para **Claude**, **Antigravity** o cualquier otro agente de IA que colabore en el desarrollo de este repositorio.
 
 > [!NOTE]

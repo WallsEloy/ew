@@ -21,7 +21,10 @@ export default function RootLayout({ children }) {
         <Navbar />
         {/* Espaciador solo móvil: reserva la altura del nav fijo (94px) para que
             empuje el contenido hacia abajo y no lo tape. En desktop se oculta. */}
-        <div aria-hidden="true" className="md:hidden h-[94px]" />
+        <div
+          aria-hidden="true"
+          className="site-mobile-nav-spacer md:hidden h-[94px]"
+        />
         {children}
       </body>
     </html>

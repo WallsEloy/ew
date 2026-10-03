@@ -49,11 +49,26 @@ export const DASHBOARD_NAV = [
     desc: "Página general, tarjetas y contenido de sus proyectos.",
     icon: "carousel",
     available: true,
+    children: [
+      {
+        href: "/dashboard/grow/flujo",
+        label: "Flujo de marketing",
+        desc: "Posiciones, visibilidad y conexiones del diagrama React Flow.",
+        available: true,
+      },
+    ],
   },
   {
     href: "/dashboard/diseno",
     label: "Diseño",
     desc: "Perfiles de la sección Diseño: nombre, bio, avatar, logo, stats.",
+    icon: "grid",
+    available: true,
+  },
+  {
+    href: "/dashboard/coding",
+    label: "Coding",
+    desc: "Perfil y proyectos Coding: portadas, datos, publicación y subpáginas.",
     icon: "grid",
     available: true,
   },

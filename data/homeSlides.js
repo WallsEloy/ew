@@ -8,7 +8,7 @@ export const defaultHomeSlides = [
     title: "Galerias",
     logoText: "HUMANS",
     buttonText: "ver",
-    image: "/carrusel/p-1Mesa-de-trabajo-1.webp",
+    image: "/carrusel/A1_escala.webp",
     rightTitle: "OnlyFans",
     rightText:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.",
@@ -19,7 +19,7 @@ export const defaultHomeSlides = [
     title: "Proyectos",
     logoText: "PROJECTS",
     buttonText: "descubrir",
-    image: "/carrusel/p-2Mesa-de-trabajo-1.webp",
+    image: "/carrusel/A2_escala.png",
     rightTitle: "Exclusive",
     rightText:
       "Explora la exclusiva colección de nuestros mejores proyectos, cada uno elaborado con el máximo cuidado y atención al detalle para inspirar tu creatividad.",
@@ -30,7 +30,7 @@ export const defaultHomeSlides = [
     title: "Eventos",
     logoText: "EVENTS",
     buttonText: "asistir",
-    image: "/carrusel/p-3Mesa-de-trabajo-1.webp",
+    image: "/carrusel/A3_escala.png",
     rightTitle: "VIP Pass",
     rightText:
       "Únete a nosotros en nuestros próximos eventos y experimenta de primera mano la atmósfera vibrante de nuestra comunidad enfocada en el arte.",
@@ -41,7 +41,7 @@ export const defaultHomeSlides = [
     title: "Shopping",
     logoText: "STORE",
     buttonText: "comprar",
-    image: "/carrusel/p-4Mesa-de-trabajo-1.webp",
+    image: "/carrusel/A4_escala.png",
     rightTitle: "Merch",
     rightText:
       "Adquiere la última mercancía de nuestras colecciones. Ediciones limitadas disponibles solo para miembros registrados. No te quedes sin la tuya.",
@@ -52,7 +52,7 @@ export const defaultHomeSlides = [
     title: "Contacto",
     logoText: "CONTACT",
     buttonText: "escribir",
-    image: "/carrusel/p-6Mesa-de-trabajo-1.webp",
+    image: "/carrusel/A5_escala.png",
     rightTitle: "Let's Talk",
     rightText:
       "Ponte en contacto con nuestro equipo para consultas de prensa, colaboraciones o cualquier otra pregunta relacionada con nuestro trabajo.",

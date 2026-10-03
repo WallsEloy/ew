@@ -18,6 +18,9 @@ Nombre técnico acordado: **Flujo publicitario con React Flow**.
 - Integración de ruta: `app/grow/proyectos/[slug]/page.jsx`
 - CSS global requerido: `@xyflow/react/dist/style.css` en `app/globals.css`
 - Dependencia instalada: `@xyflow/react@12.11.2`
+- Editor: `/dashboard/grow/flujo`
+- Definiciones editables: `data/growFlow.js`
+- Componente del editor: `components/dashboard/GrowFlowEditor.jsx`
 
 El flujo sólo aparece cuando el `slug` resuelto del proyecto es
 `identidad-visual`. Las demás páginas de Grow conservan su composición normal.
@@ -35,16 +38,59 @@ La implementación es deliberadamente **sólo visual**:
 - Las conexiones punteadas están animadas; con `prefers-reduced-motion` la
   animación se detiene.
 
-Estas restricciones viven en las props de `<ReactFlow>` y deben retirarse de
-forma intencional cuando comience la fase funcional.
+Estas restricciones viven en las props de `<ReactFlow>`. El Dashboard permite
+configurar el diagrama sin activar la edición directa sobre el lienzo público.
+
+## Editor en Dashboard
+
+`Dashboard → Grow → Flujo de marketing` permite:
+
+- Editar el diagrama directamente sobre un canvas React Flow.
+- Arrastrar nodos y guardar su posición final.
+- Agregar módulos genéricos con nombre editable.
+- Cambiar el color de cabecera de módulos originales y agregados.
+- Elegir un subcolor de acento para Facebook Page, Instagram, TikTok, Spotify y
+  Facebook ADS.
+- Subir, reemplazar o quitar una imagen para el icono de cada módulo, o pegar
+  directamente la URL de un recurso externo.
+- Consultar la categoría fija de cada nodo y editar por separado su título
+  visible. Por ejemplo, la categoría `TikTok` permanece estable aunque el título
+  mostrado se personalice.
+- Dibujar conexiones arrastrando entre los círculos de los nodos.
+- Eliminar nodos o líneas seleccionándolos y pulsando `Supr` o `Backspace`.
+- Cambiar las coordenadas `x` y `y` de cada nodo.
+- Mostrar u ocultar módulos.
+- Restaurar las posiciones y conexiones predeterminadas.
+- Abrir la visualización pública en otra pestaña.
+
+El editor guarda posición, visibilidad, `color` e `iconImage` dentro de `flow.nodes`
+y `flow.customNodes`; además guarda `flow.edges` y
+`flow.customEdges` dentro de la configuración `grow_page` de `site_settings`,
+usando `/api/grow`. Al ocultar o eliminar un nodo, sus conexiones se filtran
+automáticamente para impedir aristas huérfanas.
+
+Las posiciones se editan exclusivamente arrastrando en el canvas; los campos
+manuales X/Y fueron retirados para evitar diferencias entre formulario y lienzo.
+
+Cada definición contiene una `category` estable y cada instancia guarda un
+`title` editable. La categoría funcionará como contrato para decidir en futuras
+fases qué campos puede modificar cada tipo de módulo, sin mezclar esas reglas con
+el texto presentado al usuario.
+
+Las conexiones nuevas usan el output principal del módulo de origen. Los nodos
+genéricos se muestran en público con input en cabecera y output en un botón de
+ancho completo. Los contratos siguen gobernados por `reglas.md`.
+
+No existe un listado inferior separado de conexiones: las líneas se administran
+exclusivamente desde el canvas para evitar controles duplicados.
 
 ## Topología visual
 
 ```text
                          ┌─ Facebook ─┐
                          ├─ Instagram─┤
-INICIO ──── cuatro ramas ─┤ TikTok ───┤─ Landing Page ─┬─ Enviar datos ─ Recolección ─┬─ Facebook Pixel ─ Concepto creativo ─ Medición ─ Aprendizaje
-                         └─ Spotify ──┘                │                              └─ Descarga de QR ─ Escanear QR
+INICIO ──── cuatro ramas ─┤ TikTok ───┤─ Landing Page ─┬─ Enviar datos ─ Recolección ─┬─ Facebook Pixel ─ Facebook ADS ─ Landing Page (2) ─ Recolección (2) ─ Facebook Pixel (2)
+                         └─ Spotify ──┘                │                              └─ Descarga de QR ─ Escanear QR ─ Actualización de estado ─ Almacenamiento SQL
                                                       └─ Salió ───────── Facebook Pixel
 ```
 
@@ -57,8 +103,7 @@ Secuencia semántica:
    ruta directa.
 5. Ambas ramas convergen por la cabecera del módulo **Facebook Pixel**.
 6. La salida de Facebook Pixel nace del botón visual `Ver ayuda` y continúa a
-   **Concepto creativo**.
-7. El resultado pasa por **Medición** y termina en **Aprendizaje**.
+   **Facebook ADS**.
 
 ## Sistema visual
 
@@ -77,6 +122,8 @@ Secuencia semántica:
 - Patrón punteado `7 7`, animado a `1.15s` por ciclo.
 - Flecha azul cerrada al final.
 - Salidas representadas por un círculo azul con signo `+`.
+- Toda línea de salida comienza exactamente en el centro del círculo con `+`
+  anclado al botón que origina la acción.
 - Entradas representadas por un punto azul con aro claro.
 
 ### Nodo Facebook
@@ -132,6 +179,8 @@ Page:
 
 ### Nodo Descarga de QR
 
+- Ancho compacto actual: `190px`.
+- La cabecera conserva una altura de `56px`, consistente con los demás módulos.
 - Nodo oscuro conectado desde el mismo botón `Exportar datos` de Recolección.
 - Incluye una representación decorativa de un código QR.
 - La acción `Descargar QR` es únicamente visual en esta fase.
@@ -141,10 +190,34 @@ Page:
 
 ### Nodo Escanear QR
 
+- Ancho compacto actual: `190px`.
+- La cabecera conserva una altura de `56px`, consistente con los demás módulos.
 - Recibe la conexión en su cabecera desde el botón `Descargar QR`.
 - Presenta un marco de lectura, un QR atenuado y una línea de escaneo violeta.
 - El botón `Escanear QR` es decorativo y no solicita acceso a la cámara.
 - El botón `Escanear QR` ocupa todo el ancho interior del módulo.
+- Su salida nace del círculo azul con `+` del botón `Escanear QR` y conecta con
+  `Actualización de estado`.
+
+### Nodo Actualización de estado
+
+- Ancho compacto actual: `190px`.
+- La cabecera conserva una altura de `56px`, consistente con los demás módulos.
+- Recibe en su cabecera la conexión procedente del botón `Escanear QR`.
+- Confirma visualmente que el estado fue marcado como `Escaneado`.
+- Muestra un indicador de éxito y la marca temporal `Actualizado • Ahora`.
+- No modifica datos reales durante la fase visual.
+- Su salida nace del círculo del botón `Guardar estado` y conecta con
+  `Almacenamiento SQL`.
+
+### Nodo Almacenamiento SQL
+
+- Recibe en su cabecera un merge de las dos conexiones procedentes de los
+  botones `Guardar estado`.
+- Muestra base de datos, conexión, uso de almacenamiento, tablas, registros e
+  índices siguiendo la referencia visual.
+- El botón `Gestionar almacenamiento` ocupa el ancho interior completo.
+- Toda la información es decorativa; no consulta ni modifica una base real.
 
 ### Nodo Facebook Pixel
 
@@ -157,8 +230,38 @@ Nodo oscuro inspirado en un panel de monitoreo de Meta:
   la izquierda del estado `Active`.
 - Muestra estado activo, eventos recibidos, conversiones y última actividad.
 - Incluye una tabla visual de eventos y un panel de estado de conexión.
-- Su salida nace del botón `Ver ayuda` y continúa hacia `Concepto creativo`.
+- Su salida nace del botón `Ver ayuda` y continúa hacia `Facebook ADS`.
 - Todos sus indicadores son decorativos en esta fase.
+
+### Nodo Facebook ADS
+
+- Recibe en su cabecera una conexión procedente del círculo de salida del botón
+  `Ver ayuda` de Facebook Pixel.
+- Reutiliza el mismo diseño visual oscuro de `Facebook Page`.
+- Presenta cabecera azul, estado `Active`, métricas y el bloque decorativo
+  `Create Campaign Button`.
+- Su salida nace del círculo azul con `+` del botón `Create Campaign` y conecta
+  con una segunda instancia de Landing Page.
+- No ejecuta campañas ni se conecta con Meta durante la fase visual.
+
+### Secuencia repetida después de Facebook ADS
+
+- `Facebook ADS` conecta con `Landing Page (2)` desde el botón `Create Campaign`.
+- `Enviar datos` conecta Landing Page (2) con `Recolección de datos (2)`.
+- `Exportar datos` conecta Recolección de datos (2) con `Facebook Pixel (2)`.
+- El mismo `Exportar datos` abre una segunda rama hacia `Descarga de QR (2)`,
+  `Escanear QR (2)` y `Actualización de estado (2)`.
+- `Salió` ofrece una ruta directa de Landing Page (2) a Facebook Pixel (2).
+- Las tres tarjetas reutilizan los mismos componentes y contratos visuales de
+  sus instancias originales.
+
+La segunda rama QR conserva los mismos contratos: las entradas llegan a las
+cabeceras, cada salida nace del círculo del botón correspondiente y los botones
+abarcan el ancho interior completo.
+
+Las dos instancias de `Actualización de estado` convergen mediante un merge de
+líneas en la misma cabecera de `Almacenamiento SQL`. Ambas conexiones nacen del
+círculo del botón `Guardar estado` de su respectivo módulo.
 
 En una fase funcional, este nodo no debe almacenar información personal dentro
 de la definición del grafo. El flujo sólo debe referenciar una fuente de datos;
@@ -169,10 +272,11 @@ auditoría independiente.
 
 El componente mantiene tres estructuras estáticas:
 
-1. `nodeTypes`: asocia `facebookPage`, `platform`, `landingPage` y
-   `dataCollection` con componentes React.
-2. `nodes`: contiene id, tipo, posición y datos visuales.
-3. `edges`: define las relaciones dirigidas mediante el helper `edge()`.
+1. `nodeTypes`: asocia cada tipo con su componente React.
+2. `baseNodes`: contiene id, tipo y datos visuales base.
+3. `baseEdges`: define las relaciones dirigidas mediante el helper `edge()`.
+4. `data/growFlow.js`: aporta coordenadas, visibilidad y estado editable de las
+   conexiones.
 
 Las posiciones usan coordenadas absolutas del lienzo. Cuando un nodo cambia de
 tamaño hay que revisar las coordenadas cercanas para evitar superposiciones.
@@ -292,8 +396,6 @@ Separar desde el inicio:
 - Definir qué significa cada nodo en el proceso real del negocio.
 - Confirmar si las cuatro plataformas son ramas paralelas o etapas sucesivas.
 - Elegir las métricas reales que debe mostrar cada canal.
-- Definir qué acciones ejecutaría `Concepto creativo`, `Medición` y
-  `Aprendizaje`.
 - Decidir si la edición vivirá en `Dashboard → Grow` o en un panel separado de
   automatizaciones.
 

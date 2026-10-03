@@ -10,7 +10,9 @@
 .profileButton {
   padding: 6px 12px;
   border-radius: 20px; /* Bordes redondeados tipo píldora */
-  border: none;
+  border: 1px solid #29292f;
+  background: #101014;
+  color: #d8d8dd;
   cursor: pointer;
 }
 

@@ -2,13 +2,14 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import {
   getCollectionsForEditor,
+  createCollection,
   updateCollection,
   isSupabaseConfigured,
 } from "../../../lib/portfolioServer";
 
 export const dynamic = "force-dynamic";
 
-const SECTIONS = new Set(["diseno", "galeria"]);
+const SECTIONS = new Set(["diseno", "galeria", "coding"]);
 
 // GET /api/portfolio?section=diseno → colecciones editables.
 export async function GET(request) {
@@ -27,6 +28,23 @@ export async function GET(request) {
       { error: error.message || "Error al leer las colecciones" },
       { status: 500 },
     );
+  }
+}
+
+export async function POST(request) {
+  try {
+    if (!isSupabaseConfigured()) {
+      return NextResponse.json({ error: "Supabase no está configurado (.env.local)" }, { status: 503 });
+    }
+    const body = (await request.json()) || {};
+    if (!SECTIONS.has(body.section)) {
+      return NextResponse.json({ error: "Sección inválida" }, { status: 400 });
+    }
+    const collection = await createCollection(body.section, body.values || {});
+    revalidatePath(`/${body.section}`);
+    return NextResponse.json({ collection }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: error.message || "Error al crear la colección" }, { status: 500 });
   }
 }
 
@@ -50,7 +68,7 @@ export async function PUT(request) {
 
     const updated = await updateCollection(id, patch);
     // Refresca la web pública afectada.
-    revalidatePath(section === "galeria" ? "/galeria" : "/diseno");
+    revalidatePath(section === "galeria" ? "/galeria" : section === "coding" ? "/coding" : "/diseno");
     return NextResponse.json({ collection: updated }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

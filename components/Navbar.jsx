@@ -124,7 +124,10 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  const { logos, auth, dock } = config;
+  const { logos, auth, dock, navLinks = defaultNavConfig.navLinks } = config;
+  const midIndex = Math.ceil(navLinks.length / 2);
+  const leftLinks = navLinks.slice(0, midIndex);
+  const rightLinks = navLinks.slice(midIndex);
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -149,7 +152,12 @@ export default function Navbar() {
     };
   }, [dropdownRef]);
 
-  if (pathname && pathname.startsWith('/dashboard')) {
+  if (
+    pathname &&
+    (pathname.startsWith('/dashboard') ||
+      pathname === '/login' ||
+      pathname === '/register')
+  ) {
     return null;
   }
 
@@ -181,9 +189,19 @@ export default function Navbar() {
       
       {/* Top section: Buttons */}
       <div className={`${styles.topSection} w-full flex justify-end px-[6%] py-1 z-20 relative`}>
-        <div className="flex">
-          <Link href={auth.register.href || "#"} className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-l-full border-t-0 border-b-0 border-l-0 border-r-[2px] border-solid border-[#0090c0] text-[13px] hover:opacity-80 transition-all tracking-wide no-underline">{auth.register.label}</Link>
-          <Link href={auth.login.href || "#"} className="bg-[#00aff0] !text-white font-bold italic px-5 py-1 rounded-r-full border-none text-[13px] hover:opacity-80 transition-all tracking-wide no-underline">{auth.login.label}</Link>
+        <div className={styles.authSwitcher} aria-label="Acceso de usuario">
+          <Link
+            href={auth.login.href || "/login"}
+            className={`${styles.authSwitcherLink} ${pathname === '/login' ? styles.authSwitcherLinkActive : ''}`}
+          >
+            {auth.login.label}
+          </Link>
+          <Link
+            href={auth.register.href || "/register"}
+            className={`${styles.authSwitcherLink} ${pathname === '/register' ? styles.authSwitcherLinkActive : styles.authSwitcherRegister}`}
+          >
+            {auth.register.label}
+          </Link>
         </div>
       </div>
 
@@ -244,31 +262,18 @@ export default function Navbar() {
 
         {/* Desktop Left Links */}
         <div className={`${styles.desktopLinks} flex-1 justify-evenly items-center pr-2 lg:pr-[4%]`}>
-          <div className="relative px-2 lg:px-4">
-            <button onClick={() => toggleDropdown('galerias')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Galerias</button>
-            {renderDropdown('galerias', [
-              { label: 'HUMANS', href: '/galeria' },
-              { label: 'Ice Cream', href: '/galeria' },
-              { label: 'Sketch', href: '/galeria' },
-              { label: 'Fotografia', href: '/galeria' },
-              { label: 'Anacronismo', href: '/galeria' }
-            ])}
-          </div>
-          <div className="relative px-2 lg:px-4">
-            <button onClick={() => toggleDropdown('diseno')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Diseño</button>
-            {renderDropdown('diseno', [
-              { label: 'Gráfico', href: '/diseno' },
-              { label: 'Web', href: '/diseno' },
-              { label: 'Coding', href: '/coding' }
-            ])}
-          </div>
-          <div className="relative px-2 lg:px-4">
-            <button onClick={() => toggleDropdown('grow')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Grow</button>
-            {renderDropdown('grow', [
-              { label: 'Opción A', href: '/grow/opcion-a' },
-              { label: 'Opción B', href: '#' }
-            ])}
-          </div>
+          {leftLinks.map((link, i) => (
+            <div key={`left-${i}`} className="relative px-2 lg:px-4">
+              {link.dropdown && link.dropdown.length > 0 ? (
+                <>
+                  <button onClick={() => toggleDropdown(`left-${i}`)} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>{link.label}</button>
+                  {renderDropdown(`left-${i}`, link.dropdown)}
+                </>
+              ) : (
+                <Link href={link.href || "#"} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>{link.label}</Link>
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Desktop Center Space (Hide on mobile so hamburger is aligned left) */}
@@ -277,63 +282,36 @@ export default function Navbar() {
 
         {/* Desktop Right Links */}
         <div className={`${styles.desktopLinks} flex-1 justify-evenly items-center pl-2 lg:pl-[4%]`}>
-          <div className="relative px-2 lg:px-4">
-            <button onClick={() => toggleDropdown('eventos')} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Eventos</button>
-            {renderDropdown('eventos', [
-              { label: 'Próximos', href: '#' },
-              { label: 'Pasados', href: '#' }
-            ])}
-          </div>
-          <div className="relative px-2 lg:px-4">
-            <Link href="/shop" className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Shoping</Link>
-          </div>
-          <div className="relative px-2 lg:px-4">
-            <Link href="/contacto" className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>Contacto</Link>
-          </div>
+          {rightLinks.map((link, i) => (
+            <div key={`right-${i}`} className="relative px-2 lg:px-4">
+              {link.dropdown && link.dropdown.length > 0 ? (
+                <>
+                  <button onClick={() => toggleDropdown(`right-${i}`)} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>{link.label}</button>
+                  {renderDropdown(`right-${i}`, link.dropdown)}
+                </>
+              ) : (
+                <Link href={link.href || "#"} className={navItemClass} style={{ color: '#ffffff', textDecoration: 'none' }}>{link.label}</Link>
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Mobile Dropdown Menu Overlay */}
         {isMobileMenuOpen && (
           <div className="absolute top-full left-0 w-full bg-[#111] border-b border-[#333] flex flex-col items-center py-4 md:hidden z-50 shadow-2xl transition-all">
             <div className="w-full flex flex-col items-center">
-              <div className="w-full flex flex-col items-center border-b border-[#222]">
-                <button onClick={() => toggleDropdown('galerias')} className={mobileNavItemClass}>Galerias</button>
-                {renderDropdown('galerias', [
-                  { label: 'HUMANS', href: '/galeria' },
-                  { label: 'Ice Cream', href: '/galeria' },
-                  { label: 'Sketch', href: '/galeria' },
-                  { label: 'Fotografia', href: '/galeria' },
-                  { label: 'Anacronismo', href: '/galeria' }
-                ], true)}
-              </div>
-              <div className="w-full flex flex-col items-center border-b border-[#222]">
-                <button onClick={() => toggleDropdown('diseno')} className={mobileNavItemClass}>Diseño</button>
-                {renderDropdown('diseno', [
-                  { label: 'Gráfico', href: '/diseno' },
-                  { label: 'Web', href: '/diseno' },
-                  { label: 'Coding', href: '/coding' }
-                ], true)}
-              </div>
-              <div className="w-full flex flex-col items-center border-b border-[#222]">
-                <button onClick={() => toggleDropdown('grow')} className={mobileNavItemClass}>Grow</button>
-                {renderDropdown('grow', [
-                  { label: 'Opción A', href: '/grow/opcion-a' },
-                  { label: 'Opción B', href: '#' }
-                ], true)}
-              </div>
-              <div className="w-full flex flex-col items-center border-b border-[#222]">
-                <button onClick={() => toggleDropdown('eventos')} className={mobileNavItemClass}>Eventos</button>
-                {renderDropdown('eventos', [
-                  { label: 'Próximos', href: '#' },
-                  { label: 'Pasados', href: '#' }
-                ], true)}
-              </div>
-              <div className="w-full flex flex-col items-center border-b border-[#222]">
-                <Link href="/shop" onClick={closeMobileNavigation} className={mobileNavItemClass}>Shoping</Link>
-              </div>
-              <div className="w-full flex flex-col items-center">
-                <Link href="/contacto" onClick={closeMobileNavigation} className={mobileNavItemClass}>Contacto</Link>
-              </div>
+              {navLinks.map((link, i) => (
+                <div key={`mobile-${i}`} className={`w-full flex flex-col items-center ${i < navLinks.length - 1 ? 'border-b border-[#222]' : ''}`}>
+                  {link.dropdown && link.dropdown.length > 0 ? (
+                    <>
+                      <button onClick={() => toggleDropdown(`mobile-${i}`)} className={mobileNavItemClass}>{link.label}</button>
+                      {renderDropdown(`mobile-${i}`, link.dropdown, true)}
+                    </>
+                  ) : (
+                    <Link href={link.href || "#"} onClick={closeMobileNavigation} className={mobileNavItemClass}>{link.label}</Link>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}

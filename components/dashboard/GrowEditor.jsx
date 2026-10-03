@@ -27,8 +27,8 @@ export default function GrowEditor() {
     setDirty(true);
   };
 
-  const uploadImage = async (index, file) => {
-    setUploading(index);
+  const uploadImage = async (index, file, fieldName = "image") => {
+    setUploading(`${index}-${fieldName}`);
     setMessage(null);
     try {
       const form = new FormData();
@@ -37,7 +37,7 @@ export default function GrowEditor() {
       const response = await fetch("/api/upload", { method: "POST", body: form });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "No se pudo subir la imagen");
-      patchProject(index, { image: data.url });
+      patchProject(index, { [fieldName]: data.url });
     } catch (error) {
       setMessage({ type: "error", text: error.message });
     } finally { setUploading(null); }
@@ -81,7 +81,10 @@ export default function GrowEditor() {
               <label><span className={label}>Categoría</span><input className={input} value={project.eyebrow} onChange={(event) => patchProject(index, { eyebrow: event.target.value })} /></label>
               <label><span className={label}>Título</span><input className={input} value={project.title} onChange={(event) => patchProject(index, { title: event.target.value })} /></label>
               <label><span className={label}>Texto del botón</span><input className={input} value={project.action} onChange={(event) => patchProject(index, { action: event.target.value })} /></label>
-              <label className="md:col-span-2"><span className={label}>Imagen</span><input className={input} value={project.image} onChange={(event) => patchProject(index, { image: event.target.value })} /><input className="mt-2 text-xs" type="file" accept="image/*" disabled={uploading === index} onChange={(event) => event.target.files?.[0] && uploadImage(index, event.target.files[0])} /></label>
+              <label className="md:col-span-2"><span className={label}>Imagen</span><input className={input} value={project.image} onChange={(event) => patchProject(index, { image: event.target.value })} /><input className="mt-2 text-xs" type="file" accept="image/*" disabled={uploading === `${index}-image`} onChange={(event) => event.target.files?.[0] && uploadImage(index, event.target.files[0], "image")} /></label>
+              <label className="md:col-span-2"><span className={label}>Logo superior derecha (URL)</span><input className={input} value={project.clientLogo || ""} onChange={(event) => patchProject(index, { clientLogo: event.target.value })} /><input className="mt-2 text-xs" type="file" accept="image/*" disabled={uploading === `${index}-clientLogo`} onChange={(event) => event.target.files?.[0] && uploadImage(index, event.target.files[0], "clientLogo")} /></label>
+              <label className="md:col-span-2"><span className={label}>Figma (enlace para compartir)</span><input className={input} placeholder="https://www.figma.com/design/…" value={project.figmaUrl || ""} onChange={(event) => patchProject(index, { figmaUrl: event.target.value })} /></label>
+              <label className="md:col-span-2"><span className={label}>Prototipo de Figma (enlace)</span><input className={input} placeholder="https://www.figma.com/proto/…" value={project.figmaPrototypeUrl || ""} onChange={(event) => patchProject(index, { figmaPrototypeUrl: event.target.value })} /></label>
               <label className="md:col-span-2"><span className={label}>Introducción de la página</span><textarea className={`${input} min-h-20`} value={project.summary} onChange={(event) => patchProject(index, { summary: event.target.value })} /></label>
               <label className="md:col-span-2"><span className={label}>Cuerpo del proyecto</span><textarea className={`${input} min-h-28`} value={project.body} onChange={(event) => patchProject(index, { body: event.target.value })} /></label>
             </div>

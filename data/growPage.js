@@ -1,9 +1,13 @@
+import { defaultFlowConfig, mergeFlowConfig } from "./growFlow";
+
 export const defaultGrowConfig = {
   eyebrow: "Grow / Opción A",
   title: "Proyectos que crecen con una idea.",
+  flow: defaultFlowConfig,
   projects: [
     {
       slug: "identidad-visual",
+      clientLogo: "",
       eyebrow: "Branding",
       title: "Identidad visual",
       action: "Ver proyecto",
@@ -13,6 +17,7 @@ export const defaultGrowConfig = {
     },
     {
       slug: "experiencias-web",
+      clientLogo: "",
       eyebrow: "Digital",
       title: "Experiencias web",
       action: "Ver proyecto",
@@ -22,6 +27,7 @@ export const defaultGrowConfig = {
     },
     {
       slug: "humans",
+      clientLogo: "",
       eyebrow: "Fotografía",
       title: "Humans",
       action: "Ver proyecto",
@@ -44,9 +50,9 @@ export function mergeGrowConfig(saved) {
   const projects = Array.isArray(saved.projects) && saved.projects.length
     ? saved.projects.map((project, index) => cleanProject(project, defaultGrowConfig.projects[index] || defaultGrowConfig.projects[0], index))
     : defaultGrowConfig.projects;
-  return { ...defaultGrowConfig, ...saved, projects };
+  return { ...defaultGrowConfig, ...saved, projects, flow: mergeFlowConfig(saved.flow) };
 }
 
 export function makeBlankGrowProject(index = 0) {
-  return cleanProject({ title: "Nuevo proyecto", action: "Ver proyecto", image: "/branding-demo/brand-workspace.jpg" }, defaultGrowConfig.projects[0], index);
+  return cleanProject({ title: "Nuevo proyecto", action: "Ver proyecto", image: "/branding-demo/brand-workspace.jpg", clientLogo: "" }, defaultGrowConfig.projects[0], index);
 }

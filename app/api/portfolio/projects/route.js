@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 // La web pública que hay que refrescar tras cada cambio.
 function refrescar(section) {
-  revalidatePath(section === "galeria" ? "/galeria" : "/diseno");
+  revalidatePath(section === "galeria" ? "/galeria" : section === "coding" ? "/coding" : "/diseno");
 }
 
 function sinSupabase() {

@@ -15,23 +15,33 @@ const BRANDING_DEMO = [
 ];
 
 export default async function DesignProjectPage({ params }) {
-  const data = await getProfileProject("diseno", params.profileId, params.projectId);
+  const route = await params;
+  const data = await getProfileProject("diseno", route.profileId, route.projectId);
   if (!data) notFound();
 
-  const title = (data.caption || "Proyecto de diseño").split("#")[0].trim();
+  const isWebProject = String(route.profileId) === "2" || /web/i.test(`${data.profileName} ${data.profileBio}`);
+  const title = data.title || (data.caption || "Proyecto de diseño").split("#")[0].trim();
   const description =
     data.caption ||
     data.profileBio ||
     "Identidad visual desarrollada desde el concepto hasta sus aplicaciones finales.";
-  const gallery = [
-    { id: "cover", image: data.image, caption: data.caption },
-    ...BRANDING_DEMO,
-  ].filter((item) => item.image);
+  const gallery = (isWebProject
+    ? [{ id: "cover", image: data.image, caption: data.caption }]
+    : [{ id: "cover", image: data.image, caption: data.caption }, ...BRANDING_DEMO]
+  ).filter((item) => item.image);
+  const technicalData = [
+    ["Disciplina", data.web?.type || data.meta?.tecnica || (isWebProject ? "Diseño web" : "Branding")],
+    ["Colección", data.meta?.coleccion],
+    ["Año", data.meta?.anio],
+    ["Ubicación", data.meta?.ubicacion],
+    ["Formato", data.meta?.formato],
+    ["Estudio", data.web?.author || "EW Studio"],
+  ].filter(([, value]) => value);
 
   return (
     <main className={styles.projectPage}>
-      <Link href="/diseno" className={styles.backLink} aria-label="Volver a Diseño">
-        <span>←</span> Volver a Diseño
+      <Link href={isWebProject ? "/diseno?vista=web" : "/diseno"} className={styles.backLink} aria-label="Volver a Diseño">
+        <span>←</span> Volver a {isWebProject ? "Web" : "Diseño"}
       </Link>
 
       <section className={styles.projectLayout}>
@@ -57,7 +67,7 @@ export default async function DesignProjectPage({ params }) {
           </div>
 
           <h1>{title}</h1>
-          <p className={styles.category}>Dirección de arte · Identidad visual</p>
+          <p className={styles.category}>{data.web?.type || (isWebProject ? "Diseño y desarrollo web" : "Dirección de arte · Identidad visual")}</p>
 
           <div className={styles.descriptionBlock}>
             <span>Sobre el proyecto</span>
@@ -65,22 +75,12 @@ export default async function DesignProjectPage({ params }) {
           </div>
 
           <dl className={styles.metaGrid}>
-            <div>
-              <dt>Disciplina</dt>
-              <dd>Branding</dd>
-            </div>
-            <div>
-              <dt>Servicios</dt>
-              <dd>Diseño visual</dd>
-            </div>
-            <div>
-              <dt>Estudio</dt>
-              <dd>EW Studio</dd>
-            </div>
-            <div>
-              <dt>Estado</dt>
-              <dd>Proyecto completo</dd>
-            </div>
+            {technicalData.map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
           </dl>
 
           <div className={styles.colorRow} aria-label="Paleta de color del proyecto">

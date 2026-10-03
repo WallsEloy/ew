@@ -2,6 +2,10 @@
 @import "@xyflow/react/dist/style.css";
 @config "../tailwind.config.js";
 
+body:has([data-auth-page]) > .site-mobile-nav-spacer {
+  display: none;
+}
+
 .nav-link {
   color: white !important;
   font-weight: normal !important;

@@ -525,12 +525,18 @@ export default function PortfolioEditor({ section = "diseno" }) {
                   setOpenPostsId((current) => (current === c.id ? null : c.id))
                 }
               >
-                {openPostsId === c.id ? "Ocultar imágenes ▲" : "Imágenes del perfil ▼"}
+                {openPostsId === c.id
+                  ? `Ocultar ${section === "coding" ? "proyectos Coding" : c.slug === "diseno" || /web/i.test(`${c.name} ${c.bio}`) ? "proyectos Web" : "imágenes"} ▲`
+                  : `${section === "coding" ? "Proyectos Coding" : c.slug === "diseno" || /web/i.test(`${c.name} ${c.bio}`) ? "Proyectos Web" : "Imágenes del perfil"} ▼`}
               </button>
 
               {openPostsId === c.id && (
                 <div className="mt-3">
-                  <PostsEditor collectionId={c.id} section={section} />
+                  <PostsEditor
+                    collectionId={c.id}
+                    section={section}
+                    webMode={section === "coding" || c.slug === "diseno" || /web/i.test(`${c.name} ${c.bio}`)}
+                  />
                 </div>
               )}
             </div>

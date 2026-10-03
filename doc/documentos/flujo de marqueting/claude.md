@@ -1,14 +1,22 @@
 # Contexto del flujo de marketing
 
+## Navegación de contexto
+
+- [Contexto maestro del repositorio](../../../claude.md)
+- [Contexto general del proyecto](../../claude.md)
+- [Mapa de documentación especializada](../claude.md)
+- [Índice general](../../indice.md)
+
 Este directorio reúne exclusivamente el contexto del flujo publicitario visual
 construido con React Flow para el proyecto Grow `identidad-visual`.
 
 ## Lectura recomendada
 
 1. `memoria.md`: estado breve, decisiones vigentes y siguiente trabajo.
-2. `09_flujo_publicitario_react_flow.md`: especificación técnica completa y plan
+2. `reglas.md`: contratos obligatorios de inputs, outputs, botones y conexiones.
+3. `09_flujo_publicitario_react_flow.md`: especificación técnica completa y plan
    de evolución funcional.
-3. `AGENTS.md`: reglas que deben respetarse al modificar esta documentación.
+4. `AGENTS.md`: reglas que deben respetarse al modificar esta documentación.
 
 ## Mapa del código
 
@@ -24,4 +32,3 @@ construido con React Flow para el proyecto Grow `identidad-visual`.
 El diagrama es meramente visual. Permite recorrer el lienzo y usar zoom, pero
 no permite editar, arrastrar, conectar ni ejecutar acciones. Ningún botón pide
 permisos, descarga archivos, escanea códigos ni se comunica con redes sociales.
-
