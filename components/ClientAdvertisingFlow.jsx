@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Background, BackgroundVariant, Handle, MarkerType, Position, ReactFlow } from "@xyflow/react";
 import { mergeFlowConfig } from "../data/growFlow";
 import styles from "./ClientAdvertisingFlow.module.css";
@@ -332,6 +333,25 @@ const baseEdges = [
 ];
 
 export default function ClientAdvertisingFlow({ config }) {
+  // El lienzo arranca bloqueado para que el scroll de la página no lo acerque
+  // por accidente; el botón "Moverte en el flujo" activa arrastre y zoom.
+  const [explorando, setExplorando] = useState(false);
+  // Aviso breve: el botón se ilumina si alguien intenta mover el flujo bloqueado
+  const [aviso, setAviso] = useState(false);
+  const avisoRef = useRef(null);
+  useEffect(() => () => window.clearTimeout(avisoRef.current), []);
+  const avisarBloqueo = () => {
+    if (explorando) return;
+    setAviso(true);
+    window.clearTimeout(avisoRef.current);
+    avisoRef.current = window.setTimeout(() => setAviso(false), 1600);
+  };
+  const alternarExploracion = () => {
+    window.clearTimeout(avisoRef.current);
+    setAviso(false);
+    setExplorando((actual) => !actual);
+  };
+
   const flowConfig = mergeFlowConfig(config);
   const customNodes = flowConfig.customNodes.map((node) => ({ id: node.id, type: "customFlow", position: { x: node.x, y: node.y }, data: { label: node.title || node.label, flowIcon: node.icon, flowIconImage: node.iconImage }, style: node.color ? { "--flow-accent": node.color } : undefined }));
   const allNodes = [...baseNodes, ...customNodes];
@@ -362,7 +382,17 @@ export default function ClientAdvertisingFlow({ config }) {
         <h2 id="client-flow-title">De una necesidad a un sistema publicitario.</h2>
         <p>Una lectura visual del recorrido: estrategia, concepto, ejecución, medición y aprendizaje.</p>
       </div>
-      <div className={styles.canvas}>
+      <div className={styles.toolbar}>
+        <button
+          type="button"
+          className={`${styles.exploreButton} ${explorando || aviso ? styles.exploreButtonActive : ""}`}
+          onClick={alternarExploracion}
+          aria-pressed={explorando}
+        >
+          {explorando ? "✕　Bloquear flujo" : "⤢　Moverte en el flujo"}
+        </button>
+      </div>
+      <div className={`${styles.canvas} ${explorando ? "" : styles.canvasLocked}`} onPointerDown={avisarBloqueo}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -375,12 +405,16 @@ export default function ClientAdvertisingFlow({ config }) {
           nodesConnectable={false}
           elementsSelectable={false}
           zoomOnDoubleClick={false}
+          panOnDrag={explorando}
+          zoomOnScroll={explorando}
+          zoomOnPinch={explorando}
+          preventScrolling={explorando}
           proOptions={{ hideAttribution: true }}
           aria-label="Flujo visual de una campaña publicitaria"
         >
           <Background variant={BackgroundVariant.Dots} gap={24} size={1.2} color="#353039" />
         </ReactFlow>
-        <div className={styles.hint}>Arrastra para recorrer · rueda para acercar</div>
+        <div className={styles.hint}>{explorando ? "Arrastra para recorrer · rueda para acercar" : "Pulsa «Moverte en el flujo» para recorrerlo"}</div>
       </div>
     </section>
   );

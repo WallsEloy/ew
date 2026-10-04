@@ -55,6 +55,9 @@ La especificación normativa completa vive en `reglas.md`.
   uniforme de `190px`.
 - Sus cabeceras conservan `56px` de altura para alinearse visualmente con el
   resto de los módulos.
+- El lienzo público está bloqueado por defecto; el botón `Moverte en el flujo`
+  (blanco, azul al estar activo o al intentar mover el flujo bloqueado) habilita
+  arrastre y zoom. Ver `reglas.md`, sección 5.
 
 ## Posiciones relevantes
 

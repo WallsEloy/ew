@@ -52,6 +52,13 @@ módulos y conexiones del flujo construido con React Flow.
   visuales; no ejecutan acciones reales.
 - El lienzo permite desplazamiento y zoom, pero no edición, arrastre de nodos ni
   creación manual de conexiones.
+- El lienzo público arranca **bloqueado**: la rueda y los gestos desplazan la
+  página, no el flujo, para evitar acercamientos accidentales con el scroll.
+- El botón `Moverte en el flujo` va encima del lienzo, alineado a la derecha, y
+  activa arrastre y zoom; al estar activo cambia a `Bloquear flujo`.
+- El botón es blanco con texto negro en reposo y se ilumina en azul `#00aff0`
+  mientras la exploración está activa o, durante un instante, cuando alguien
+  hace clic o intenta arrastrar el flujo bloqueado.
 - Cualquier futura función debe separar la definición del flujo, su ejecución,
   las integraciones externas, las métricas y la presentación visual.
 

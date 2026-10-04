@@ -1,6 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
+import { Cinzel_Decorative, Courgette, Inter, Libre_Franklin, Lilita_One, Lobster, Montserrat, Nunito, Playfair_Display, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getProfileProject } from "../../../../../lib/portfolioServer";
+import ColorPanel from "./ColorPanel";
+import VideoTile from "./VideoTile";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -14,67 +18,891 @@ const BRANDING_DEMO = [
   { id: "brand-layout", image: "/branding-demo/brand-layout.jpg", caption: "Símbolo y presencia de marca" },
 ];
 
+// Paleta provisional del proyecto (ink = color del texto sobre la franja)
+const PALETTE = [
+  { name: "Oro", hex: "#d8b45c", ink: "#1a1408" },
+  { name: "Azul noche", hex: "#152a54", ink: "#eee9dc" },
+  { name: "Papel", hex: "#eee9dc", ink: "#232323" },
+  { name: "Tinta", hex: "#232323", ink: "#eee9dc" },
+];
+
+// Paletas por proyecto ("perfil/proyecto"), tomadas de los archivos de marca
+const PROJECT_PALETTES = {
+  "1/6": [
+    { name: "Verde Deliz", hex: "#009e76", ink: "#ffffff" },
+    { name: "Café oscuro", hex: "#1f1410", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#1f1410" },
+  ],
+  "1/8": [
+    { name: "Negro", hex: "#040405", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#040405" },
+    { name: "Rosa recuerdo", hex: "#f8d9e8", ink: "#040405" },
+  ],
+  "1/7": [
+    { name: "Azul RAG", hex: "#052a4d", ink: "#ffffff" },
+    { name: "Amarillo escenario", hex: "#e0cc04", ink: "#052a4d" },
+    { name: "Negro", hex: "#040405", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#052a4d" },
+  ],
+  "1/4": [
+    { name: "Azul Enevesol", hex: "#0b2d60", ink: "#ffffff" },
+    { name: "Amarillo solar", hex: "#f1d500", ink: "#0b2d60" },
+    { name: "Blanco", hex: "#ffffff", ink: "#0b2d60" },
+    { name: "Naranja energía", hex: "#c86030", ink: "#ffffff" },
+  ],
+  "1/0": [
+    { name: "Morado profundo", hex: "#4f2980", ink: "#ffffff" },
+    { name: "Violeta Yadi", hex: "#5a14c1", ink: "#ffffff" },
+    { name: "Púrpura", hex: "#6813b7", ink: "#ffffff" },
+    // Gradiente de la marca, construido con los tres tonos anteriores
+    { name: "Gradiente Yadi", gradient: ["#4f2980", "#5a14c1", "#6813b7"], ink: "#ffffff" },
+  ],
+  "1/2": [
+    { name: "Rojo Ham!Burger", hex: "#e00914", ink: "#ffffff" },
+    { name: "Amarillo", hex: "#fae800", ink: "#000000" },
+    { name: "Negro", hex: "#000000", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#000000" },
+  ],
+};
+
+// Imagen del hero por proyecto ("perfil/proyecto"). Un logo vectorial se
+// muestra completo y centrado en vez de recortarse; `ink` tiñe el texto del
+// hero con el color del logo.
+const HERO_MEDIA = {
+  "1/6": { image: "/Branding/Deliz/delizRecurso%201.svg", alt: "Logotipo de Deliz", contain: true, ink: "#009e76" },
+  "1/8": {
+    image: "/Branding/memories/logo-blanco.svg",
+    alt: "Logotipo de Memories, fotografía y filmación",
+    contain: true,
+    ink: "#ffffff",
+    storyInk: "#f8d9e8",
+    heroBackground: "#040405",
+  },
+  "1/7": {
+    image: "/Branding/RAG/logo-amarillo.svg",
+    alt: "Logotipo de RAG",
+    contain: true,
+    ink: "#e0cc04",
+    heroBackground: "#052a4d",
+  },
+  "1/4": {
+    image: "/Branding/Enevesol/enevesol.svg",
+    alt: "Isotipo de Enevesol",
+    contain: true,
+    ink: "#f1d500",
+    heroBackground: "#0b2d60",
+    // Toda la página sobre el azul de la marca
+    pageBackground: "#0b2d60",
+  },
+  "1/0": {
+    image: "/Branding/Yadi/isotipo-blanco.svg",
+    alt: "Isotipo de Yadi'Studio",
+    contain: true,
+    ink: "#ffffff",
+    storyInk: "#b38cff",
+    heroBackground: "linear-gradient(90deg, #4f2980 0%, #5a14c1 50%, #6813b7 100%)",
+  },
+  "1/2": { image: "/Branding/HamBurguer/hamburguerRecurso%202.svg", alt: "Logotipo de Ham!Burger", contain: true, ink: "#e00914", heroBackground: "#fae800" },
+};
+
+// Tipografías provisionales del proyecto: titulares, texto y detalles
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"], display: "swap", preload: false });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "600"], display: "swap", preload: false });
+const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], display: "swap", preload: false });
+
+const TYPEFACES = [
+  { name: "Playfair Display", role: "Titulares", className: playfair.className, weights: "Regular 400 · Bold 700", sample: "Una identidad que se reconoce a primera vista." },
+  { name: "Inter", role: "Texto", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Clara y legible en pantallas, piezas impresas y textos largos." },
+  { name: "Space Mono", role: "Detalles", className: spaceMono.className, weights: "Regular 400 · Bold 700", sample: "Datos, etiquetas y cifras con carácter técnico." },
+];
+
+// Respaldos libres para las tipografías de Deliz (ver @font-face en el CSS)
+const courgette = Courgette({ subsets: ["latin"], weight: "400", display: "swap", preload: false, variable: "--font-courgette" });
+const libreFranklin = Libre_Franklin({ subsets: ["latin"], weight: "700", display: "swap", preload: false, variable: "--font-libre-franklin" });
+
+// Tipografías de Ham!Burger (libres, de Google Fonts)
+const lilitaOne = Lilita_One({ subsets: ["latin"], weight: "400", display: "swap", preload: false });
+const nunito = Nunito({ subsets: ["latin"], weight: ["400", "800"], display: "swap", preload: false });
+
+// Tipografías de Yadi'Studio (libres, de Google Fonts)
+const cinzelDecorative = Cinzel_Decorative({ subsets: ["latin"], weight: ["400", "700"], display: "swap", preload: false });
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["300", "600"], display: "swap", preload: false });
+
+// Tipografía de marca de Enevesol (libre, de Google Fonts)
+// Tipografía de marca de Memories (libre, de Google Fonts)
+const lobster = Lobster({ subsets: ["latin"], weight: "400", display: "swap", preload: false });
+
+const montserratBlack = Montserrat({ subsets: ["latin"], weight: ["800", "900"], display: "swap", preload: false });
+
+// Imágenes destacadas tras las tipografías ("perfil/proyecto"). Cada fila es
+// una lista; el ancho de cada imagen es proporcional a su relación de aspecto,
+// así todas las de una fila quedan a la misma altura sin recortarse. Los
+// originales pesan mucho, así que se sirven con next/image a la medida.
+// `compact`: bloque de imágenes cuadradas en `columns` columnas (3 por
+// defecto) y 2 en el celular.
+// Archivos WebP optimizados (originales en /originales, fuera de public)
+const deliz = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Deliz/${name}.webp`, alt, width, height });
+const hamburger = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/HamBurguer/${name}.webp`, alt, width, height });
+const yadi = (name, alt, width = 1200, height = 1200) => ({ image: `/Branding/Yadi/${name}.webp`, alt, width, height });
+const enevesol = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Enevesol/${name}.webp`, alt, width, height });
+const rag = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/RAG/${name}.webp`, alt, width, height });
+const memories = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/memories/${name}.webp`, alt, width, height });
+const memoriesVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/memories/video/${name}.mp4`, poster: `/Branding/memories/video/${name}-poster.webp`, alt, width, height });
+// Videos optimizados (720 px, H.264) con su póster
+const enevesolVideo = (name, alt) => ({ video: `/Branding/Enevesol/video/${name}.mp4`, poster: `/Branding/Enevesol/video/${name}-poster.webp`, alt, width: 720, height: 720 });
+const PROJECT_FEATURES = {
+  "1/6": [
+    { items: [deliz("12", "Identidad de Deliz, aplicación", 2400, 2400), deliz("15", "Identidad de Deliz, aplicación")] },
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Carácter, cercanía y reconocimiento.",
+        body: [
+          "El logotipo nace del concepto «saludable delicia»: una D caligráfica que se enlaza en un trazo continuo y equilibra lo artesanal con lo **fácil de reconocer**.",
+          "Lo desarrollé en versión completa e isotipo, en positivo, color y negativo, para funcionar igual de bien en pantallas, impresos, señalética y empaques.",
+        ],
+      },
+    },
+    // Variaciones (logotipo y luego isotipo, sobre blanco, verde y oscuro):
+    // un solo bloque de 3 columnas en escritorio y 2 en el celular, sin huecos
+    {
+      compact: true,
+      items: [
+        deliz("1", "Logotipo de Deliz sobre blanco"), deliz("6", "Logotipo de Deliz sobre verde"), deliz("7", "Logotipo de Deliz sobre fondo oscuro"),
+        deliz("2", "Isotipo de Deliz sobre blanco"), deliz("4", "Isotipo de Deliz sobre verde"), deliz("5", "Isotipo de Deliz sobre fondo oscuro"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Aplicaciones de marca",
+        title: "La identidad cobra vida en cada pieza.",
+        body: [
+          "Una marca empieza a existir cuando interactúa con las personas. Por eso llevé el concepto a **papelería, menús, empaques, piezas promocionales y materiales de comunicación**, para que cada elemento sea una extensión natural de Deliz.",
+          "Cada aplicación refuerza el reconocimiento visual y construye una experiencia más completa alrededor de cada plato.",
+        ],
+      },
+    },
+    // Aplicaciones: papelería y piezas
+    { items: [deliz("10", "Papelería de Deliz: hoja membretada"), deliz("11", "Aplicación de la identidad de Deliz", 2400, 2400), deliz("13", "Aplicación de la identidad de Deliz", 2400, 2400), deliz("8", "Piezas de Deliz con fotografía de platos")] },
+    {
+      story: {
+        eyebrow: "Punto de venta y medios digitales",
+        title: "Coherente del local a la pantalla.",
+        body: [
+          "La identidad también convive con el espacio: sus elementos gráficos se integran al local y acompañan a cada persona desde que descubre la marca hasta que recibe su pedido.",
+          "El sistema mantiene el mismo lenguaje en medios físicos y digitales —redes sociales, publicidad, promociones y futuras campañas— para que la marca pueda **evolucionar sin perder su esencia**.",
+        ],
+      },
+    },
+  ],
+  "1/2": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un monograma con actitud.",
+        body: [
+          "El logotipo une la **H y la B** en un monograma de trazo caligráfico que remata con un signo de exclamación: una expresión de antojo y entusiasmo que da nombre a la marca.",
+          "Lo construí sobre una retícula para mantener sus proporciones en cualquier tamaño y lo desarrollé sobre blanco, rojo, amarillo y negro para que funcione en cualquier soporte.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        hamburger("g", "Logotipo de Ham!Burger con textura de comida"), hamburger("h", "Logotipo de Ham!Burger sobre rojo"),
+        hamburger("i", "Logotipo de Ham!Burger sobre amarillo"), hamburger("k", "Logotipo de Ham!Burger sobre negro"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Packaging",
+        title: "El empaque también se antoja.",
+        body: [
+          "Llevé la identidad a **cajas para hamburguesa y empaques de papas**, usando el monograma como patrón para que cada pedido sea un anuncio de la marca.",
+          "Los empaques convierten cada entrega en una extensión de la experiencia: en el local, para llevar o a domicilio.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        hamburger("c", "Empaque de papas de Ham!Burger"), hamburger("d", "Empaque de papas de Ham!Burger, vista frontal"),
+        hamburger("e", "Caja abierta para hamburguesa de Ham!Burger"), hamburger("f", "Caja cerrada para hamburguesa de Ham!Burger"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Punto de venta",
+        title: "Una fachada que invita a entrar.",
+        body: [
+          "Trasladé la identidad a la **fachada del local**: rojo, ladrillo y el monograma en grande para que la marca se reconozca desde la calle.",
+          "El espacio dialoga con el empaque y la comunicación digital, y acompaña a cada cliente desde que ve el local hasta que recibe su pedido.",
+        ],
+      },
+    },
+    { items: [hamburger("a", "Diseño de fachada de Ham!Burger"), hamburger("b", "Diseño de fachada de Ham!Burger, variante")] },
+  ],
+  "1/0": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un arabesco con nombre propio.",
+        body: [
+          "El isotipo nace de los **ornamentos de la danza árabe**: curvas simétricas que se abren como un velo en movimiento y se cierran en un rombo, como el centro de gravedad de una bailarina.",
+          "Lo acompañé de un logotipo con carácter y lo desarrollé en positivo, color y negativo sobre el gradiente de la marca, para que funcione igual en impresos, señalética y pantallas.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        yadi("logo-positivo", "Logotipo de Yadi'Studio en positivo"),
+        yadi("logo-color", "Logotipo de Yadi'Studio en violeta"),
+        yadi("logo-negativo", "Logotipo de Yadi'Studio en blanco sobre el gradiente de la marca"),
+        yadi("isotipo-color", "Isotipo de Yadi'Studio en violeta"),
+        yadi("isotipo-negativo", "Isotipo de Yadi'Studio en blanco sobre el gradiente de la marca"),
+        yadi("nombre-color", "Logotipo tipográfico de Yadi'Studio"),
+      ],
+    },
+    { items: [yadi("patron-1", "Patrón de arabescos de Yadi'Studio", 2800, 857)] },
+    {
+      story: {
+        eyebrow: "Dirección de arte y fotografía",
+        title: "Elegancia en cada paso, magia en cada movimiento.",
+        body: [
+          "Dirigí una sesión que lleva la danza a **espacios naturales**: campos de trigo, ríos y bosques donde el movimiento de la tela y la luz cuentan la historia.",
+          "Cada imagen incorpora el isotipo como firma, para que la fotografía también sea marca.",
+        ],
+      },
+    },
+    // Fotografía: 8 cuadradas en 4 columnas (2 en el celular)
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        yadi("liston", "Bailarina con listón y el isotipo de Yadi'Studio", 2399, 2400), yadi("foto-7", "Bailarina de Yadi'Studio en un campo de trigo, retrato"),
+        yadi("foto-1", "Bailarina de Yadi'Studio junto a un árbol"), yadi("foto-2", "Bailarina de Yadi'Studio con velo en el bosque"),
+        yadi("foto-3", "Bailarina de Yadi'Studio en un campo de trigo"), yadi("foto-4", "Bailarina de Yadi'Studio con velo junto al río"),
+        yadi("foto-5", "Bailarina de Yadi'Studio con velo en movimiento"), yadi("foto-6", "Bailarina de Yadi'Studio junto a un tronco"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Publicidad exterior y digital",
+        title: "Una presencia que se reconoce a distancia.",
+        body: [
+          "Llevé la identidad a **vallas, mupis y plataformas digitales**, combinando la fotografía con el gradiente violeta para que cada pieza se reconozca de inmediato.",
+          "El sistema mantiene el mismo lenguaje de la calle a la pantalla, para que el estudio crezca sin perder su esencia.",
+        ],
+      },
+    },
+    { items: [yadi("valla-1", "Valla publicitaria de Yadi'Studio", 2400, 1349), yadi("valla-2", "Valla publicitaria de Yadi'Studio en carretera", 2400, 1350)] },
+    { items: [yadi("mupi", "Mupi nocturno de Yadi'Studio", 2400, 1350), yadi("web", "Perfil digital de Yadi'Studio", 2400, 1350)] },
+    // Segunda banda de arabescos, como cierre visual antes del resultado
+    { items: [yadi("patron-2", "Patrón de arabescos de Yadi'Studio, variante", 2800, 1189)] },
+  ],
+  "1/8": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un reloj que detiene el tiempo.",
+        body: [
+          "El isotipo une un **reloj de bolsillo y el diafragma de una cámara**: la fotografía como el arte de detener un instante y guardarlo para siempre.",
+          "Lo acompañé de un logotipo de trazo caligráfico, elegante y cercano, y lo construí sobre una retícula para que funcione en neón, bordado, impresión y pantalla.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        memories("isotipo", "Isotipo de Memories", 1425, 1425),
+        memories("logo", "Logotipo de Memories en blanco sobre negro", 1425, 1425),
+        memories("portada", "Retícula de construcción del isotipo de Memories", 750, 749),
+        memories("neon", "Logotipo de Memories en neón", 884, 885),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        memoriesVideo("logo-animado", "Animación del logotipo de Memories"),
+        memoriesVideo("logo-rosa", "Animación del logotipo de Memories sobre rosa"),
+        memoriesVideo("logo-3d", "Animación tridimensional del isotipo de Memories"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Papelería, empaques y álbumes",
+        title: "Cada recuerdo merece un buen estuche.",
+        body: [
+          "Diseñé la **papelería, las cajas y los estuches** donde se entregan las fotografías y los videos: el momento de abrir el paquete también es parte de la experiencia.",
+          "Negro, blanco y detalles sutiles convierten cada entrega en un objeto que se guarda, igual que los recuerdos que contiene.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        memories("hoja-membretada", "Hoja membretada de Memories"),
+        memories("caja-usb", "Caja con memoria USB de Memories", 1405, 1405),
+        memories("caja", "Caja de entrega de Memories", 1094, 1094),
+      ],
+    },
+    { items: [memories("estuche", "Estuche de Memories"), memories("estuche-album", "Estuche y álbum fotográfico de Memories"), memoriesVideo("album", "Álbum fotográfico de Memories")] },
+    {
+      story: {
+        eyebrow: "Uniformes y merchandising",
+        title: "Un equipo que también es marca.",
+        body: [
+          "Llevé la identidad a **playeras, chamarras y artículos promocionales**, para que el equipo se reconozca en cada evento sin perder la discreción que exige una boda.",
+          "Bolsas, tazas y llaveros extienden la marca más allá del día del evento.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        memories("playera", "Playera de Memories", 924, 924),
+        memories("chamarra", "Chamarra bordada de Memories"),
+        memories("equipo-espalda", "Equipo de Memories con uniforme en un evento", 1425, 1425),
+      ],
+    },
+    { items: [memories("bolsa", "Bolsa, termo y llavero de Memories", 798, 798), memories("taza", "Taza de Memories", 608, 608)] },
+    {
+      story: {
+        eyebrow: "Publicidad y medios digitales",
+        title: "Capturando amor en cada imagen.",
+        body: [
+          "Desarrollé **carteles, mupis y una app** para que las parejas descubran el estudio y agenden su sesión: de la calle al celular con el mismo lenguaje visual.",
+          "Los carteles animados muestran el trabajo del estudio en movimiento, porque Memories también es filmación.",
+        ],
+      },
+    },
+    { items: [memoriesVideo("app", "Recorrido animado por la app de Memories", 960, 822), memories("app-1", "App de Memories: pantalla de inicio", 1800, 1539), memories("app-2", "App de Memories: registro", 1800, 1539)] },
+    { items: [memoriesVideo("parada-animada", "Parada de autobús animada con publicidad de Memories", 960, 814), memories("parada", "Parada de autobús con publicidad de Memories", 512, 511)] },
+    {
+      compact: true,
+      items: [
+        memoriesVideo("cartel-boda", "Cartel animado de Memories con fotografía de boda"),
+        memoriesVideo("cartel-moto", "Cartel animado de Memories con sesión en motocicleta"),
+        memoriesVideo("cartel-moda", "Cartel animado de Memories con sesión de moda"),
+      ],
+    },
+  ],
+  "1/7": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Teclas que suenan a escenario.",
+        body: [
+          "El logotipo integra unas **teclas de piano** sobre las letras RAG: la música como origen de todo lo que la agencia representa.",
+          "Lo construí sobre una retícula y lo desarrollé sobre azul, amarillo, blanco y negro, y en distintos tamaños, para que funcione desde un boleto hasta una pantalla de concierto.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        rag("a", "Logotipo de RAG en amarillo sobre azul"), rag("b", "Logotipo de RAG en azul sobre amarillo"), rag("c", "Logotipo de RAG en negro sobre blanco"),
+        rag("d", "Logotipo de RAG en blanco sobre negro"), rag("k", "Logotipo de RAG en contorno amarillo sobre blanco"), rag("e", "Logotipo de RAG en distintos tamaños"),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        rag("f", "Construcción del logotipo de RAG"),
+        rag("g", "Logotipo de RAG con el nombre Representaciones Artísticas de Guanajuato"),
+        rag("h", "Logotipo de RAG en contorno con el nombre completo"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Animación de marca",
+        title: "Una marca que sube al escenario.",
+        body: [
+          "Animé el logotipo para **pantallas de concierto, redes y presentaciones**: entra con luz y movimiento, como un artista que aparece en el escenario.",
+          "La versión animada y la retícula de construcción muestran el mismo sistema: preciso en su forma y con energía en su uso.",
+        ],
+      },
+    },
+    {
+      items: [
+        { video: "/Branding/RAG/video/animacion.mp4", poster: "/Branding/RAG/video/animacion-poster.webp", alt: "Animación del logotipo de RAG", width: 720, height: 720 },
+        rag("portada", "Retícula de construcción del logotipo de RAG", 1200, 1200),
+      ],
+    },
+  ],
+  "1/4": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un foco, un sol y un rayo en un solo símbolo.",
+        body: [
+          "El isotipo une un **foco, los rayos del sol y un relámpago** dentro de un punto de ubicación: la energía solar que llega a cada hogar.",
+          "Lo acompañé de un logotipo en versión horizontal y apilada, y lo desarrollé sobre azul, amarillo y blanco para usarlo en cualquier soporte.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        enevesol("10", "Logotipo de Enevesol en blanco sobre azul"), enevesol("a", "Logotipo de Enevesol en blanco sobre azul, versión compacta"),
+        enevesol("11", "Logotipo de Enevesol en azul sobre amarillo"), enevesol("6", "Logotipo apilado de Enevesol en amarillo sobre azul"),
+        enevesol("d", "Logotipo apilado de Enevesol sobre azul, variante"), enevesol("8", "Logotipo apilado de Enevesol sobre blanco"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Aplicaciones de marca",
+        title: "Presencia en campo y en oficina.",
+        body: [
+          "Llevé la identidad a **uniformes, cascos, papelería y displays**, para que el equipo y cada propuesta comercial transmitan la misma confianza.",
+          "Cada pieza refuerza el reconocimiento de la marca tanto en la instalación como en la venta.",
+        ],
+      },
+    },
+    { items: [enevesol("2", "Instalador de Enevesol con uniforme y casco"), enevesol("3", "Ingeniero de Enevesol en un campo solar")] },
+    { items: [enevesol("4", "Papelería de Enevesol: hoja membretada"), enevesol("5", "Displays roll-up de Enevesol")] },
+    {
+      story: {
+        eyebrow: "Contenido animado",
+        title: "Explicar la energía solar en segundos.",
+        body: [
+          "Desarrollé **animaciones para redes sociales** que explican cómo funcionan los paneles solares, los tipos de radiación y los beneficios del monitoreo, con un lenguaje sencillo y visual.",
+          "Cada animación se adaptó a publicaciones y anuncios, para acompañar a la marca en toda su comunicación digital.",
+        ],
+      },
+    },
+    { items: [enevesolVideo("final", "Animación: cómo funciona un sistema de paneles solares"), enevesolVideo("dos", "Animación en formato de publicación para redes")] },
+    { items: [enevesolVideo("f1", "Animación: los paneles solares y sus células fotovoltaicas"), enevesolVideo("uno", "Animación de paneles solares en formato de publicación")] },
+    { items: [enevesolVideo("movil", "Animación: beneficios del monitoreo desde el celular"), enevesolVideo("tres", "Animación de monitoreo en formato de publicación")] },
+    { items: [enevesolVideo("cel", "Anuncio de paquetes de paneles en un celular"), enevesol("12", "Ícono de la app de Enevesol en un celular")] },
+  ],
+};
+
+// Fila de imágenes entre la introducción y el bloque de color ("perfil/proyecto")
+const PROJECT_INTRO_IMAGES = {
+  "1/6": { items: [deliz("14", "Aplicación de la identidad de Deliz", 2800, 1286)] },
+  "1/8": { items: [memories("fachada", "Lona de Memories en la fachada de un edificio"), memories("equipo-boda", "Equipo de Memories trabajando en una boda")] },
+  "1/7": { items: [rag("i", "Agrupación representada por RAG en concierto"), rag("j", "Cantante en el escenario con el logotipo de RAG")] },
+  "1/4": { items: [enevesol("1", "Paneles solares con el logotipo de Enevesol"), enevesol("7", "Isotipo de Enevesol en amarillo sobre azul"), enevesol("9", "Ilustración del isotipo de Enevesol")] },
+  "1/0": { items: [yadi("foto-panoramica", "Bailarina de Yadi'Studio en un campo de trigo", 2133, 1200)] },
+  "1/2": { items: [hamburger("j", "Logotipo de Ham!Burger sobre muro de ladrillo"), hamburger("reticula", "Retícula de construcción del logotipo de Ham!Burger", 1200, 1200)] },
+};
+
+// Textos del proyecto ("perfil/proyecto"): el hero, la introducción tras el
+// hero, la entrada al bloque de color y el cierre. **texto** se muestra en negrita.
+const PROJECT_STORY = {
+  "1/6": {
+    hero: {
+      title: "Un branding con sabor a éxito.",
+      category: "Identidad visual · Branding gastronómico",
+      description: "Una gran experiencia gastronómica empieza mucho antes del primer bocado. Para Deliz, saludable delicia, creé una identidad que se ve, se siente y se recuerda.",
+      // Datos bajo el texto del hero (sustituyen a los genéricos)
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2014"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca que se siente, se recuerda y conecta.",
+      body: [
+        "La experiencia comienza cuando alguien descubre la marca: al ver su logotipo, al recorrer el menú, al recibir un plato o un empaque que de inmediato transmite una sensación.",
+        "Para Deliz desarrollé una identidad pensada para transmitir **frescura, calidad, cercanía y carácter**: un universo gráfico que refleja una cocina saludable sin renunciar al placer de comer bien.",
+        "Mi objetivo fue crear mucho más que un logotipo: un **sistema visual coherente, reconocible y adaptable**, capaz de acompañar a la marca en su crecimiento y de convertir cada interacción con el cliente en parte de la misma experiencia.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Frescura, confianza y apetito.",
+      body: [
+        "El **verde Deliz** evoca lo natural y saludable; el **café oscuro** aporta calidez y elegancia, y el **blanco** da aire y limpieza a cada pieza.",
+        "La tipografía completa esa personalidad: una script de trazo propio para la marca y una sans firme para la comunicación, de modo que cada pieza conserva el mismo lenguaje sin importar el formato.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una marca que se convierte en experiencia.",
+      body: [
+        "Una identidad fresca, reconocible y con personalidad, que transforma algo cotidiano como comer en una experiencia de marca.",
+        "El reto no era solo hacer algo atractivo, sino **contar una historia, generar una sensación y permanecer en la memoria** de las personas.",
+        "Cuando estrategia y diseño trabajan juntos, una marca deja de ser solo un logotipo y empieza a convertirse en una experiencia.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/8": {
+    hero: {
+      title: "Memories",
+      singleLine: true,
+      category: "Identidad visual · Fotografía y filmación",
+      description: "Memories, estudio de fotografía y filmación de eventos, necesitaba una marca tan emotiva como los momentos que captura. Creé una identidad elegante, atemporal y cercana.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca para guardar momentos.",
+      body: [
+        "Una boda, unos XV años o una sesión de pareja ocurren una sola vez. La marca tenía que **transmitir confianza y sensibilidad**: la certeza de que esos momentos quedarán en buenas manos.",
+        "Para Memories desarrollé una identidad en **blanco y negro, elegante y atemporal**, que deja el protagonismo a las fotografías y acompaña cada etapa del servicio.",
+        "Mi objetivo fue crear un **sistema visual completo**: del logotipo al uniforme, de la caja de entrega a la publicidad en la calle y en el celular.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Blanco y negro, como un buen recuerdo.",
+      body: [
+        "El **negro** y el **blanco** aportan elegancia y hacen que la marca nunca compita con las fotografías; el **rosa recuerdo** suma calidez y romanticismo en piezas especiales.",
+        "La tipografía combina una script de trazo firme para la marca y una sans espaciada para el texto, como en «Fotografía y Filmación».",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una marca que también se recuerda.",
+      body: [
+        "Una identidad elegante, coherente y emotiva, presente en cada punto de contacto: del primer anuncio a la entrega del álbum.",
+        "El reto era **diseñar una marca que acompañe sin robar protagonismo**, porque en Memories las verdaderas protagonistas son las historias de cada cliente.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/7": {
+    hero: {
+      title: "RAG",
+      singleLine: true,
+      category: "Identidad visual · Representación artística",
+      description: "RAG, Representaciones Artísticas de Guanajuato, impulsa y representa a agrupaciones musicales. Creé una identidad con ritmo, presencia y carácter de escenario.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2011"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca que se escucha antes de verse.",
+      body: [
+        "En la industria musical, la imagen de una agencia acompaña a cada artista: en carteles, escenarios y redes. La marca tenía que **transmitir profesionalismo sin perder la emoción del espectáculo**.",
+        "Para RAG desarrollé una identidad que une **música, elegancia y fuerza**, inspirada en el teclado del piano y en el brillo de las luces del escenario.",
+        "Mi objetivo fue crear un **sistema visual reconocible y versátil**, que represente a la agencia y deje brillar a los artistas que impulsa.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Azul de noche, amarillo de reflector.",
+      body: [
+        "El **azul** evoca la noche del espectáculo y aporta seriedad; el **amarillo** es la luz del reflector que pone a la marca en primer plano, y el **negro** y el **blanco** dan contraste al sistema.",
+        "La tipografía combina una serif de alto contraste, elegante como el logotipo, con una sans limpia para la información de cada evento.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una identidad lista para el escenario.",
+      body: [
+        "Una marca elegante, enérgica y fácil de recordar, que representa a la agencia con la misma fuerza que sus artistas en vivo.",
+        "El reto era **unir la formalidad de una agencia con la emoción de la música**, y lograrlo en cada punto de contacto.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/4": {
+    hero: {
+      title: "Enevesol",
+      singleLine: true,
+      category: "Identidad visual · Energía solar",
+      description: "Enevesol, los expertos en paneles solares, necesitaba una marca que transmitiera confianza técnica y energía limpia. Creé una identidad clara, luminosa y fácil de recordar.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2019"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Energía que se ve y se entiende.",
+      body: [
+        "La energía solar es una decisión de futuro, pero también de confianza: las personas necesitan entender qué contratan y sentir que están en buenas manos.",
+        "Para Enevesol desarrollé una identidad que combina **luz, tecnología y cercanía**, pensada para explicar un servicio técnico de forma clara y atractiva.",
+        "Mi objetivo fue construir un **sistema visual sólido y versátil**, que funcione igual en un uniforme de instalación, en papelería o en una animación para redes.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Azul que da confianza, amarillo que da energía.",
+      body: [
+        "El **azul marino** transmite seriedad, tecnología y confianza; el **amarillo solar** aporta luz, optimismo y energía; el **blanco** da claridad, y el **naranja** suma calidez como acento.",
+        "La tipografía refuerza ese carácter: una sans geométrica y contundente para la marca y una sans legible para la información técnica.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una marca que ilumina su propio camino.",
+      body: [
+        "Una identidad clara, luminosa y confiable, que hace fácil entender y elegir la energía solar.",
+        "El reto era **traducir un servicio técnico en una marca cercana**, coherente del uniforme a la pantalla.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/0": {
+    hero: {
+      title: "Yadi'Studio",
+      singleLine: true,
+      category: "Identidad visual · Danza árabe",
+      description: "Yadi'Studio es una escuela de danza árabe que necesitaba una identidad tan elegante y expresiva como su disciplina. Creé una marca que transmite gracia, movimiento y misterio.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2016"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca que se mueve como la danza.",
+      body: [
+        "La danza árabe es elegancia, ritmo y expresión. La marca tenía que **transmitir esa misma emoción** antes incluso de ver bailar a alguien.",
+        "Para Yadi'Studio desarrollé una identidad que combina **ornamento, feminidad y carácter**, inspirada en los arabescos y en el movimiento fluido de los velos.",
+        "Mi objetivo fue crear un **sistema visual reconocible y versátil**, capaz de acompañar al estudio en clases, presentaciones, publicidad y redes sociales.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Violeta: misterio, elegancia y energía.",
+      body: [
+        "La paleta se construye sobre tres tonos de violeta que, juntos, forman el **gradiente de la marca**: del morado profundo, sobrio y elegante, al púrpura vibrante que transmite energía y creatividad.",
+        "La tipografía equilibra lo ornamental y lo limpio: una display con remates decorativos para la marca y una sans espaciada para la comunicación.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una identidad con gracia y movimiento.",
+      body: [
+        "Una marca elegante, expresiva y fácil de reconocer, que traduce la esencia de la danza árabe a un lenguaje visual propio.",
+        "El reto era **transmitir movimiento en una imagen fija**, y hacerlo de forma coherente en cada punto de contacto.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/2": {
+    hero: {
+      title: "Ham-Burguer",
+      // El nombre de la marca se mantiene en una sola línea
+      singleLine: true,
+      category: "Identidad visual · Branding gastronómico",
+      description: "Ham!Burger, la original pizzaburger, necesitaba una identidad tan intensa como su producto. Creé una marca con energía, actitud y apetito, pensada para destacar en la calle y en la mano.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2014"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Energía que se ve, se antoja y se recuerda.",
+      body: [
+        "La comida rápida se elige en segundos: una fachada, un empaque o un logotipo deciden si alguien entra o sigue de largo. Por eso la marca tenía que **llamar la atención al instante**.",
+        "Para Ham!Burger desarrollé una identidad con **actitud, fuerza y sentido del humor**, que refleja la mezcla única de su producto: la original pizzaburger.",
+        "Mi objetivo fue construir un **sistema visual reconocible desde lejos**, coherente en cada punto de contacto y listo para crecer con la marca.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Rojo, amarillo y apetito.",
+      body: [
+        "El **rojo** aporta energía y despierta el apetito; el **amarillo** suma alegría y visibilidad, y el **negro** da contraste y carácter urbano.",
+        "La tipografía acompaña ese tono: una display redondeada y contundente para la marca y los titulares, y una sans amable para el texto, de modo que la marca se reconozca incluso antes de leer su nombre.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una marca con hambre de destacar.",
+      body: [
+        "Una identidad intensa, divertida y fácil de recordar, que convierte una pizzaburger en una experiencia de marca.",
+        "El reto era **destacar en un mercado saturado** sin perder cercanía: una marca que se reconoce de lejos y se disfruta de cerca.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+};
+
+// Convierte **texto** en <strong> dentro de un párrafo
+function renderRich(text) {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, index) => (index % 2 ? <strong key={index}>{part}</strong> : part));
+}
+
+// Bloque de texto editorial: antetítulo y título a la izquierda, cuerpo a la derecha
+function StoryBlock({ block }) {
+  return (
+    <section className={styles.story}>
+      <header>
+        <span>{block.eyebrow}</span>
+        <h2>{block.title}</h2>
+      </header>
+      <div className={styles.storyBody}>
+        {block.body.map((paragraph, index) => <p key={index}>{renderRich(paragraph)}</p>)}
+        {block.credit && (
+          <p className={styles.storyCredit}>
+            {block.credit.label}: <a href={block.credit.href} target="_blank" rel="noreferrer">{block.credit.name}</a>
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// Fila de imágenes: columnas proporcionales a cada imagen, o rejilla de
+// cuadrados (compact). Todas protegidas contra descarga.
+function FeatureRow({ items: row, compact, columns = 3 }) {
+  const totalRatio = row.reduce((sum, item) => sum + item.width / item.height, 0);
+  return (
+    <div
+      className={`${styles.featureRow} ${compact ? styles.featureRowCompact : ""}`}
+      style={compact ? { "--compact-columns": columns } : { "--feature-columns": row.map((item) => `minmax(0, ${(item.width / item.height).toFixed(4)}fr)`).join(" ") }}
+    >
+      {row.map((feature) => feature.video ? (
+        <figure className={`${styles.feature} ${styles.featureVideo}`} key={feature.video}>
+          <VideoTile src={feature.video} poster={feature.poster} label={feature.alt} width={feature.width} height={feature.height} />
+        </figure>
+      ) : (
+        <figure className={styles.feature} key={feature.image}>
+          <Image
+            src={feature.image}
+            alt={feature.alt}
+            width={feature.width}
+            height={feature.height}
+            sizes={`(max-width: 767px) ${compact ? "46vw" : "92vw"}, ${compact ? Math.round(1200 / columns) : Math.round((1200 * (feature.width / feature.height)) / totalRatio)}px`}
+            quality={80}
+            draggable={false}
+          />
+          <span className={styles.mediaShield} aria-hidden="true" />
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+// Tipografías por proyecto ("perfil/proyecto"); el resto usa TYPEFACES.
+// Una lista vacía oculta el módulo hasta tener las fuentes de la marca.
+
+const PROJECT_TYPEFACES = {
+  "1/6": [
+    { name: "Painted Paradise", role: "Logotipo", className: styles.fontPaintedParadise, weights: "Regular", sample: "Deliz, sabor que se recuerda." },
+    { name: "Franklin Gothic Demi", role: "Titulares y texto", className: styles.fontFranklinDemi, weights: "Demi", sample: "Claridad y fuerza en cada aplicación de la marca." },
+  ],
+  "1/8": [
+    { name: "Lobster", role: "Marca y titulares", className: lobster.className, weights: "Regular 400", sample: "Memories" },
+    { name: "Montserrat", role: "Texto y detalles", className: montserrat.className, weights: "Light 300 · Semibold 600", sample: "F O T O G R A F Í A   Y   F I L M A C I Ó N" },
+  ],
+  "1/7": [
+    { name: "Playfair Display", role: "Marca y titulares", className: playfair.className, weights: "Regular 400 · Bold 700", sample: "Representaciones Artísticas." },
+    { name: "Inter", role: "Texto y eventos", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Música en vivo, presencia en cada escenario." },
+  ],
+  "1/4": [
+    { name: "Montserrat Black", role: "Marca y titulares", className: montserratBlack.className, weights: "Extrabold 800 · Black 900", sample: "Los expertos en paneles." },
+    { name: "Inter", role: "Texto e información técnica", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Energía limpia, clara y confiable." },
+  ],
+  "1/0": [
+    { name: "Cinzel Decorative", role: "Marca y titulares", className: cinzelDecorative.className, weights: "Regular 400 · Bold 700", sample: "Magia en cada movimiento." },
+    { name: "Montserrat", role: "Texto y detalles", className: montserrat.className, weights: "Light 300 · Semibold 600", sample: "D A N Z A   Á R A B E" },
+  ],
+  "1/2": [
+    { name: "Lilita One", role: "Marca y titulares", className: lilitaOne.className, weights: "Regular 400", sample: "¡La original pizzaburger!" },
+    { name: "Nunito", role: "Texto", className: nunito.className, weights: "Regular 400 · Extrabold 800", sample: "Sabor, actitud y antojo en cada pedido." },
+  ],
+};
+
+// Filas de la galería: anchos en columnas de 12 que se repiten en ciclo, para
+// que las imágenes varíen de tamaño en horizontal. Si sobra una sola imagen al
+// final, ocupa la fila completa para no dejar huecos.
+const ROW_PATTERN = [[12], [8, 4], [5, 7], [12], [6, 6], [4, 8]];
+
+// Quita emojis (y sus modificadores) de los textos que llegan del dashboard
+function stripEmoji(text) {
+  return String(text || "")
+    .replace(/[\p{Extended_Pictographic}\p{Regional_Indicator}\u{1F3FB}-\u{1F3FF}‍️⃣]/gu, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+}
+
+function layoutGallery(items) {
+  const rows = [];
+  let cursor = 0;
+  let patternIndex = 0;
+  while (cursor < items.length) {
+    const left = items.length - cursor;
+    let spans = ROW_PATTERN[patternIndex % ROW_PATTERN.length];
+    if (spans.length > left) spans = [12];
+    spans.forEach((span) => {
+      rows.push({ ...items[cursor], span, full: span === 12 });
+      cursor += 1;
+    });
+    patternIndex += 1;
+  }
+  return rows;
+}
+
 export default async function DesignProjectPage({ params }) {
   const route = await params;
   const data = await getProfileProject("diseno", route.profileId, route.projectId);
   if (!data) notFound();
 
   const isWebProject = String(route.profileId) === "2" || /web/i.test(`${data.profileName} ${data.profileBio}`);
-  const title = data.title || (data.caption || "Proyecto de diseño").split("#")[0].trim();
-  const description =
+  const story = PROJECT_STORY[`${route.profileId}/${route.projectId}`] || {};
+  // Los textos del hero se muestran sin emojis
+  const title = stripEmoji(story.hero?.title || data.title || (data.caption || "Proyecto de diseño").split("#")[0]);
+  const description = stripEmoji(
+    story.hero?.description ||
     data.caption ||
     data.profileBio ||
-    "Identidad visual desarrollada desde el concepto hasta sus aplicaciones finales.";
-  const gallery = (isWebProject
-    ? [{ id: "cover", image: data.image, caption: data.caption }]
-    : [{ id: "cover", image: data.image, caption: data.caption }, ...BRANDING_DEMO]
-  ).filter((item) => item.image);
-  const technicalData = [
+    "Identidad visual desarrollada desde el concepto hasta sus aplicaciones finales.",
+  );
+  const profileName = stripEmoji(data.profileName);
+  const heroMedia = HERO_MEDIA[`${route.profileId}/${route.projectId}`] || { image: data.image, alt: data.caption || title };
+  const category = stripEmoji(story.hero?.category || data.web?.type || (isWebProject ? "Diseño y desarrollo web" : "Dirección de arte · Identidad visual"));
+  const typefaces = PROJECT_TYPEFACES[`${route.profileId}/${route.projectId}`] || TYPEFACES;
+  const introImages = PROJECT_INTRO_IMAGES[`${route.profileId}/${route.projectId}`];
+  const featureRows = PROJECT_FEATURES[`${route.profileId}/${route.projectId}`] || [];
+  // La galería de ejemplo solo rellena proyectos sin imágenes propias
+  const gallery = layoutGallery((isWebProject || featureRows.length ? [] : BRANDING_DEMO).filter((item) => item.image));
+  const technicalData = (story.hero?.meta || [
     ["Disciplina", data.web?.type || data.meta?.tecnica || (isWebProject ? "Diseño web" : "Branding")],
-    ["Colección", data.meta?.coleccion],
     ["Año", data.meta?.anio],
-    ["Ubicación", data.meta?.ubicacion],
-    ["Formato", data.meta?.formato],
     ["Estudio", data.web?.author || "EW Studio"],
-  ].filter(([, value]) => value);
+  ]).map(([label, value]) => [label, stripEmoji(value)]).filter(([, value]) => value);
 
   return (
-    <main className={styles.projectPage}>
-      <Link href={isWebProject ? "/diseno?vista=web" : "/diseno"} className={styles.backLink} aria-label="Volver a Diseño">
-        <span>←</span> Volver a {isWebProject ? "Web" : "Diseño"}
-      </Link>
+    <main
+      className={styles.projectPage}
+      style={{
+        ...(heroMedia.storyInk || heroMedia.ink ? { "--story-ink": heroMedia.storyInk || heroMedia.ink } : {}),
+        ...(heroMedia.pageBackground ? { "--page-bg": heroMedia.pageBackground } : {}),
+      }}
+    >
+      {/* Hero a pantalla completa: texto a la izquierda, portada a la derecha */}
+      <section
+        className={`${styles.hero} ${heroMedia.heroBackground ? styles.heroFilled : ""}`}
+        style={heroMedia.heroBackground ? { "--hero-bg": heroMedia.heroBackground, "--hero-ink": heroMedia.ink } : undefined}
+      >
+        <Link href={isWebProject ? "/diseno?vista=web" : "/diseno"} className={styles.backLink} aria-label="Volver a Diseño">
+          <span>←</span> Volver a {isWebProject ? "Web" : "Diseño"}
+        </Link>
 
-      <section className={styles.projectLayout}>
-        <div className={styles.mosaic}>
-          {gallery.map((item, index) => (
-            <figure
-              className={`${styles.card} ${styles[`card${index + 1}`]}`}
-              key={`${item.id}-${index}`}
-            >
-              <img
-                src={item.image}
-                alt={item.caption || `${title}, aplicación ${index + 1}`}
-                loading={index === 0 ? "eager" : "lazy"}
-              />
-            </figure>
-          ))}
-        </div>
-
-        <aside className={styles.details}>
+        <div className={`${styles.heroCopy} ${heroMedia.ink ? styles.heroCopyTinted : ""}`} style={heroMedia.ink ? { "--hero-ink": heroMedia.ink } : undefined}>
           <div className={styles.brandLine}>
             <span className={styles.brandDot} />
-            <span>{data.profileName}</span>
+            <span>{profileName}</span>
           </div>
-
-          <h1>{title}</h1>
-          <p className={styles.category}>{data.web?.type || (isWebProject ? "Diseño y desarrollo web" : "Dirección de arte · Identidad visual")}</p>
-
-          <div className={styles.descriptionBlock}>
-            <span>Sobre el proyecto</span>
-            <p>{description}</p>
-          </div>
-
-          <dl className={styles.metaGrid}>
+          <h1 className={story.hero?.singleLine ? styles.heroTitleSingle : undefined}>{title}</h1>
+          <p className={styles.category}>{category}</p>
+          <p className={styles.description}>{description}</p>
+          <dl className={styles.metaRow}>
             {technicalData.map(([label, value]) => (
               <div key={label}>
                 <dt>{label}</dt>
@@ -82,15 +910,74 @@ export default async function DesignProjectPage({ params }) {
               </div>
             ))}
           </dl>
+        </div>
 
-          <div className={styles.colorRow} aria-label="Paleta de color del proyecto">
-            <span className={styles.swatchGold} />
-            <span className={styles.swatchBlue} />
-            <span className={styles.swatchPaper} />
-            <span className={styles.swatchInk} />
-          </div>
-        </aside>
+        {heroMedia.image && (
+          <figure
+            className={`${styles.heroMedia} ${heroMedia.contain ? styles.heroMediaContain : ""}`}
+            style={heroMedia.background ? { background: heroMedia.background } : undefined}
+          >
+            <img src={heroMedia.image} alt={heroMedia.alt} draggable={false} fetchPriority="high" decoding="async" />
+            {/* Capa transparente encima: el clic derecho y el arrastre la tocan a
+                ella, no a la imagen, así no aparece "Guardar imagen como…" */}
+            <span className={styles.mediaShield} aria-hidden="true" />
+          </figure>
+        )}
       </section>
+
+      {story.intro && <StoryBlock block={story.intro} />}
+      {introImages && <FeatureRow {...introImages} />}
+      {story.palette && <StoryBlock block={story.palette} />}
+
+      {!isWebProject && <ColorPanel colors={PROJECT_PALETTES[`${route.profileId}/${route.projectId}`] || PALETTE} />}
+
+      {!isWebProject && typefaces.length > 0 && (
+        <section
+          className={`${styles.typography} ${courgette.variable} ${libreFranklin.variable}`}
+          style={{ "--type-count": typefaces.length, ...(heroMedia.storyInk || heroMedia.ink ? { "--type-ink": heroMedia.storyInk || heroMedia.ink } : {}) }}
+          aria-label="Tipografías del proyecto"
+        >
+          {typefaces.map((typeface) => (
+            <article className={styles.typeface} key={typeface.name}>
+              <header>
+                <span>{typeface.role}</span>
+                <h2>{typeface.name}</h2>
+              </header>
+              <div className={typeface.className}>
+                <p className={styles.typeGlyph} aria-hidden="true">Aa</p>
+                <p className={styles.typeAlphabet}>
+                  ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br />
+                  abcdefghijklmnñopqrstuvwxyz<br />
+                  0123456789 &amp;@?!
+                </p>
+                <p className={styles.typeSample}>{typeface.sample}</p>
+              </div>
+              <footer>{typeface.weights}</footer>
+            </article>
+          ))}
+        </section>
+      )}
+
+      {featureRows.map((row, index) => row.story ? (
+        <StoryBlock block={row.story} key={row.story.title} />
+      ) : (
+        <FeatureRow {...row} key={row.items[0]?.image || row.items[0]?.video || index} />
+      ))}
+
+      {gallery.length > 0 && (
+        <section className={styles.gallery} aria-label={`Imágenes de ${title}`}>
+          {gallery.map((item, index) => (
+            <figure
+              className={`${styles.shot} ${item.full ? styles.shotFull : ""}`}
+              style={{ "--span": item.span }}
+              key={`${item.id}-${index}`}
+            >
+              <Image src={item.image} alt={item.caption || `${title}, aplicación ${index + 1}`} fill sizes={`(max-width: 767px) 92vw, ${Math.round((1200 * item.span) / 12)}px`} />
+            </figure>
+          ))}
+        </section>
+      )}
+      {story.closing && <StoryBlock block={story.closing} />}
     </main>
   );
 }

@@ -7,10 +7,25 @@
 .copy span { color: #d946ef; font-size: 11px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
 .copy h1 { max-width: 12ch; margin: 12px 0 20px; font-size: clamp(48px, 9vw, 112px); line-height: .88; letter-spacing: -.055em; text-transform: uppercase; }
 .copy p { max-width: 48ch; margin: 0; color: rgba(255,255,255,.75); font-size: clamp(16px, 2vw, 22px); line-height: 1.5; }
+.interlude { width: min(88%, 900px); margin: 0 auto; padding-top: 110px; }
+.interlude span { color: #d946ef; font-size: 11px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
+.interlude h2 { max-width: 18ch; margin: 14px 0 20px; font-size: clamp(32px, 5vw, 64px); line-height: .95; letter-spacing: -.045em; }
+.interlude p { max-width: 58ch; margin: 0; color: #d2ced6; font-size: clamp(16px, 1.6vw, 20px); line-height: 1.6; }
+.dataPoints { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px 36px; margin: 44px 0 0; padding: 0; list-style: none; }
+.dataPoints li { padding-top: 16px; border-top: 1px solid #29252d; color: #a9a4ae; font-size: 14px; line-height: 1.6; }
+.dataPoints strong { display: block; margin-bottom: 6px; color: #fff; font-size: 15px; }
+.dataPoints strong::before { content: "●"; margin-right: 10px; color: #00aff0; font-size: 9px; vertical-align: middle; }
 .figma { width: 100%; padding-top: 90px; }
 .figma span { display: block; width: min(88%, 900px); margin: 0 auto 14px; color: #d946ef; font-size: 11px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
 .figma iframe { display: block; width: 100%; height: min(62.5vw, 90vh); border: 0; border-block: 1px solid #29252d; background: #111; }
-.figmaMobile iframe { width: min(420px, 92vw); height: min(860px, 88vh); margin: 0 auto; border: 1px solid #29252d; border-radius: 28px; }
+.figmaMobile iframe { flex: 0 0 auto; width: min(420px, 92vw); height: min(860px, 88vh); margin: 0; border: 0; border-radius: 28px; background: #050505; }
+.figmaRow { display: flex; align-items: center; justify-content: center; gap: clamp(32px, 6vw, 96px); width: min(92%, 1100px); margin: 0 auto; }
+.figmaCopy { max-width: 420px; }
+.figmaCopy h2 { margin: 0 0 18px; font-size: clamp(28px, 3.4vw, 46px); line-height: 1; letter-spacing: -.04em; }
+.figmaCopy p { margin: 0 0 24px; color: #d2ced6; font-size: 16px; line-height: 1.6; }
+.figmaCopy ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; color: #a9a4ae; font-size: 14px; }
+.figmaCopy li::before { content: "●"; margin-right: 10px; color: #00aff0; font-size: 9px; vertical-align: middle; }
+@media (max-width: 767px) { .figmaRow { flex-direction: column; align-items: stretch; } .figmaMobile iframe { align-self: center; } }
 .body { width: min(88%, 900px); margin: 0 auto; padding: 90px 0 150px; }
 .body p { margin: 0 0 44px; color: #d2ced6; font-size: clamp(20px, 3vw, 34px); line-height: 1.45; }
 .body a { color: #d946ef; font-weight: 800; text-decoration: none; }

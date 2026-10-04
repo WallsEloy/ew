@@ -149,12 +149,12 @@ export default function ProcesoScroll({ config }) {
           </Link>
         </div>
 
-        {/* Progreso del recorrido: marca en qué capítulo va */}
+        {/* Progreso del recorrido: el círculo azul marca el capítulo visible */}
         <div className={styles.progreso} aria-hidden="true">
           {capitulos.map((c, i) => (
             <span
               key={c.titulo}
-              className={`${styles.tramo} ${i <= activo ? styles.tramoHecho : ""}`}
+              className={`${styles.tramo} ${i === activo ? styles.tramoActivo : ""}`}
             />
           ))}
         </div>

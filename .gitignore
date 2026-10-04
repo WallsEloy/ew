@@ -55,3 +55,6 @@ Thumbs.db
 /public/perfil/*.apng
 /public/perfil/*.png
 /public/perfil/*.webp
+
+# originales pesados de imágenes (las versiones optimizadas viven en public/)
+/originales/
