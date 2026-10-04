@@ -11,7 +11,7 @@
  */
 export const moduloProceso = {
   video: "/Videos/vi1/puedes_generar_el_mismo_video.mp4",
-  poster: "/Videos/vi1/poster2.jpg",
+  poster: "/Videos/vi1/poster2.webp",
 
   boton: { texto: "Ver el trabajo de diseño", href: "/diseno" },
 

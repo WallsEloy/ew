@@ -12,7 +12,7 @@
 export const moduloVideo = {
   // Rutas dentro de public/. Ojo: public/ no se versiona en este repo.
   video: `/Videos/vi1/${encodeURIComponent("puedes_generar_el_mismo_video (1).mp4")}`,
-  poster: "/Videos/vi1/poster.jpg",
+  poster: "/Videos/vi1/poster.webp",
 
   // Texto de la izquierda
   antetitulo: "Figura 001",

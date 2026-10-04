@@ -11,7 +11,7 @@ export const defaultGrowConfig = {
       eyebrow: "Branding",
       title: "Identidad visual",
       action: "Ver proyecto",
-      image: "/branding-demo/brand-workspace.jpg",
+      image: "/branding-demo/brand-workspace.webp",
       summary: "Una identidad construida para crecer con coherencia en cada punto de contacto.",
       body: "Dirección de arte, sistema visual y aplicaciones desarrolladas como una experiencia de marca completa.",
     },
@@ -54,5 +54,5 @@ export function mergeGrowConfig(saved) {
 }
 
 export function makeBlankGrowProject(index = 0) {
-  return cleanProject({ title: "Nuevo proyecto", action: "Ver proyecto", image: "/branding-demo/brand-workspace.jpg", clientLogo: "" }, defaultGrowConfig.projects[0], index);
+  return cleanProject({ title: "Nuevo proyecto", action: "Ver proyecto", image: "/branding-demo/brand-workspace.webp", clientLogo: "" }, defaultGrowConfig.projects[0], index);
 }

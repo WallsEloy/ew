@@ -40,21 +40,14 @@ Thumbs.db
 # playwright MCP artifacts (screenshots, console/page dumps)
 .playwright-mcp/
 
-# assets estáticos: no se versionan (imágenes y videos del portafolio, ~1.6GB).
-# La carpeta vive solo en local; el repositorio conserva únicamente el código.
-/public/
+# assets estáticos (public/): se versionan ya optimizados (~170 MB, WebP y
+# video H.264). Los originales pesados viven fuera de git en /originales/.
 
 # salida basura de un comando mal escrito en Windows
 /nul
 
 # carpeta fuente del landing (tiene su propio .git; assets ya movidos a public/)
 /landing_page_project - copia/
-
-# experimentos de formato de los memojis en public/perfil (se usan solo los
-# .mp4/.webm/.MOV; los formatos de imagen animada son pruebas y no se versionan)
-/public/perfil/*.apng
-/public/perfil/*.png
-/public/perfil/*.webp
 
 # originales pesados de imágenes (las versiones optimizadas viven en public/)
 /originales/

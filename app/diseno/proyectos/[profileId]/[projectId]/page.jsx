@@ -10,12 +10,12 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 
 const BRANDING_DEMO = [
-  { id: "brand-workspace", image: "/branding-demo/brand-workspace.jpg", caption: "Desarrollo de paleta y sistema visual" },
-  { id: "brand-editorial", image: "/branding-demo/brand-editorial.jpg", caption: "Proceso de construcción de marca" },
-  { id: "brand-color", image: "/branding-demo/brand-color.jpg", caption: "Universo cromático de la identidad" },
-  { id: "brand-digital", image: "/branding-demo/brand-digital.jpg", caption: "Aplicación de identidad en medios digitales" },
-  { id: "brand-application", image: "/branding-demo/brand-application.jpg", caption: "Texturas y recursos gráficos" },
-  { id: "brand-layout", image: "/branding-demo/brand-layout.jpg", caption: "Símbolo y presencia de marca" },
+  { id: "brand-workspace", image: "/branding-demo/brand-workspace.webp", caption: "Desarrollo de paleta y sistema visual" },
+  { id: "brand-editorial", image: "/branding-demo/brand-editorial.webp", caption: "Proceso de construcción de marca" },
+  { id: "brand-color", image: "/branding-demo/brand-color.webp", caption: "Universo cromático de la identidad" },
+  { id: "brand-digital", image: "/branding-demo/brand-digital.webp", caption: "Aplicación de identidad en medios digitales" },
+  { id: "brand-application", image: "/branding-demo/brand-application.webp", caption: "Texturas y recursos gráficos" },
+  { id: "brand-layout", image: "/branding-demo/brand-layout.webp", caption: "Símbolo y presencia de marca" },
 ];
 
 // Paleta provisional del proyecto (ink = color del texto sobre la franja)

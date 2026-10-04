@@ -12,7 +12,7 @@ export const defaultContactoConfig = {
     medios: [
       {
         type: "image",
-        src: "/Imagenes/428646700_2628303167349157_8166977006435626776_n.jpg",
+        src: "/Imagenes/428646700_2628303167349157_8166977006435626776_n.webp",
       },
       { type: "video", sources: ["/perfil/IMG_1327.webm", "/perfil/IMG_1327.MOV"] },
       { type: "video", sources: ["/perfil/IMG_1329.webm", "/perfil/IMG_1329.MOV"] },
@@ -28,7 +28,7 @@ export const defaultContactoConfig = {
     {
       id: "proyectos",
       label: "Proyectos",
-      cover: "/Imagenes/icon_1.jpg",
+      cover: "/Imagenes/icon_1.webp",
       videos: [
         "/Videos/Proyectos/d.mp4",
         "/Videos/Proyectos/recor480.mp4",
@@ -38,13 +38,13 @@ export const defaultContactoConfig = {
     {
       id: "code",
       label: "CODE",
-      cover: "/Imagenes/icon_2.jpg",
+      cover: "/Imagenes/icon_2.webp",
       videos: ["/Videos/code/1108.mp4", "/Videos/code/Codi.mp4"],
     },
     {
       id: "conferencias",
       label: "Conferencias",
-      cover: "/Imagenes/icon_3.jpg",
+      cover: "/Imagenes/icon_3.webp",
       videos: [
         "/Videos/Conferencia/vido2.mp4",
         "/Videos/Conferencia/vido1_1.mp4",
@@ -54,7 +54,7 @@ export const defaultContactoConfig = {
     {
       id: "design",
       label: "Design",
-      cover: "/Imagenes/icon_4.jpg",
+      cover: "/Imagenes/icon_4.webp",
       videos: [
         "/Videos/desing/A1.mp4",
         "/Videos/desing/A2.mp4",
@@ -66,7 +66,7 @@ export const defaultContactoConfig = {
     {
       id: "branding",
       label: "Branding",
-      cover: "/Imagenes/icon_5.jpg",
+      cover: "/Imagenes/icon_5.webp",
       videos: [
         "/Videos/branding/1.mp4",
         "/Videos/branding/A1.mp4",
@@ -78,7 +78,7 @@ export const defaultContactoConfig = {
       ],
     },
     // Sin videos: el story se muestra pero no abre nada.
-    { id: "artes", label: "Artes", cover: "/Imagenes/icon_6.jpg", videos: [] },
+    { id: "artes", label: "Artes", cover: "/Imagenes/icon_6.webp", videos: [] },
   ],
   redes: [
     {

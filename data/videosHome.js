@@ -17,7 +17,7 @@ export const defaultVideosHome = {
     calidad: "comprimida",
     bytes: 442368,
     bytesOriginal: 2585587,
-    poster: "/Videos/vi1/poster.jpg",
+    poster: "/Videos/vi1/poster.webp",
     // Logotipo que corona los textos. Vacío = no se pinta.
     logo: "/SVG/ew_crema.svg",
     antetitulo: "Figura 001",
@@ -39,7 +39,7 @@ export const defaultVideosHome = {
     calidad: "comprimida",
     bytes: 524288,
     bytesOriginal: 2636665,
-    poster: "/Videos/vi1/poster2.jpg",
+    poster: "/Videos/vi1/poster2.webp",
     logo: "/SVG/ew_crema.svg",
     boton: { texto: "Ver el trabajo de diseño", href: "/diseno" },
     capitulos: [
