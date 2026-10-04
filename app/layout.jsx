@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import MobileDockSpacer from "../components/MobileDockSpacer";
 import "./globals.css";
 
 export const metadata = {
@@ -26,6 +27,8 @@ export default function RootLayout({ children }) {
           className="site-mobile-nav-spacer md:hidden h-[94px]"
         />
         {children}
+        {/* Espaciador solo móvil: reserva el alto del dock inferior fijo */}
+        <MobileDockSpacer />
       </body>
     </html>
   );

@@ -166,6 +166,39 @@
   z-index: 1;
 }
 
+/* Hero con video (animación del logo): el video ocupa todo el hero por detrás
+   y el texto queda encima. Su fondo es el mismo del hero, así que no se nota
+   el borde del video. */
+.heroWithVideo { grid-template-columns: minmax(0, 1fr); }
+
+.heroWithVideo .heroMediaVideo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  /* Video hacia la derecha, detrás del texto */
+  place-items: center end;
+  height: auto;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.heroWithVideo .heroMediaVideo video {
+  display: block;
+  width: min(72%, 760px);
+  height: auto;
+  pointer-events: none;
+}
+
+.heroWithVideo .heroCopy,
+.heroWithVideo .backLink {
+  position: relative;
+  z-index: 1;
+}
+
+.heroWithVideo .backLink { position: absolute; z-index: 2; }
+
 .heroMediaContain img {
   width: min(100%, 360px);
   height: auto;
@@ -299,6 +332,7 @@
 }
 
 .fontPaintedParadise { font-family: "Painted Paradise EW", var(--font-courgette), cursive; }
+.fontCourgette { font-family: var(--font-courgette), cursive; }
 .fontFranklinDemi { font-family: "Franklin Gothic Demi EW", var(--font-libre-franklin), "Arial Narrow", sans-serif; font-weight: 700; }
 
 .typography {
@@ -440,6 +474,20 @@
 
 .shot:hover img { transform: scale(1.025); }
 
+/* --- Modo claro (página sobre fondo blanco) -------------------------------- */
+.pageLight { color: #111; }
+.pageLight .storyBody p { color: rgba(0, 0, 0, 0.7); }
+.pageLight .storyBody strong { color: #000; }
+.pageLight .story header span { color: rgba(0, 0, 0, 0.55); }
+.pageLight .storyBody .storyCredit { border-top-color: rgba(0, 0, 0, 0.12); }
+.pageLight .typography { border-bottom-color: rgba(0, 0, 0, 0.1); }
+.pageLight .typeface { border-left-color: rgba(0, 0, 0, 0.1); }
+.pageLight .typeface header span,
+.pageLight .typeface footer { color: rgba(0, 0, 0, 0.5); }
+.pageLight .typeface footer { border-top-color: rgba(0, 0, 0, 0.1); }
+.pageLight .typeAlphabet { color: rgba(0, 0, 0, 0.7); }
+.pageLight .feature { background: #f0f0f0; }
+
 /* --- Móvil ----------------------------------------------------------------- */
 @media (max-width: 767px) {
   /* Apilado en una columna */
@@ -449,6 +497,10 @@
   /* En el celular la imagen (o el logo) va primero y el texto debajo */
   .heroMedia { order: -1; height: 62vh; }
   .heroMediaContain { height: auto; padding: 110px 22% 120px; }
+  .heroWithVideo .heroMediaVideo { height: auto; padding: 0; }
+  .heroWithVideo { min-height: 88vh; align-content: end; }
+  .heroWithVideo .heroMediaVideo { place-items: start end; padding-top: 48px; }
+  .heroWithVideo .heroMediaVideo video { width: 82%; }
   .heroCopy h1 { font-size: clamp(38px, 12vw, 54px); }
   .heroCopy h1.heroTitleSingle { font-size: clamp(32px, 10vw, 52px); }
   .palette { grid-template-columns: 1fr 1fr; grid-auto-flow: row; height: auto; }
@@ -460,6 +512,7 @@
   .featureRowCompact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .typeface { padding-inline: 0; border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
   .typeface:first-child { border-top: 0; }
+  .pageLight .typeface { border-top-color: rgba(0, 0, 0, 0.1); }
   .gallery { grid-auto-rows: 120px; }
   .shot { grid-column: span 12; }
 }

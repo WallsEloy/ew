@@ -6,6 +6,12 @@ body:has([data-auth-page]) > .site-mobile-nav-spacer {
   display: none;
 }
 
+/* Alto del dock inferior móvil (76px) + su separación del borde (14px) +
+   margen de respiro, más la zona segura del iPhone. Ver Navbar.module.css. */
+.site-mobile-dock-spacer {
+  height: calc(112px + env(safe-area-inset-bottom));
+}
+
 .nav-link {
   color: white !important;
   font-weight: normal !important;

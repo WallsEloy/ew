@@ -33,6 +33,18 @@ const PROJECT_PALETTES = {
     { name: "Café oscuro", hex: "#1f1410", ink: "#ffffff" },
     { name: "Blanco", hex: "#ffffff", ink: "#1f1410" },
   ],
+  "1/10": [
+    { name: "Negro", hex: "#000000", ink: "#ffffff" },
+    { name: "Gris Trend", hex: "#f0f0f0", ink: "#000000" },
+    { name: "Blanco", hex: "#ffffff", ink: "#000000" },
+    { name: "Amarillo preventa", hex: "#fccc00", ink: "#000000" },
+  ],
+  "1/9": [
+    { name: "Rosa esperanza", hex: "#e8a6c1", ink: "#5a3a48" },
+    { name: "Malva", hex: "#906878", ink: "#ffffff" },
+    { name: "Gris perla", hex: "#eae9e7", ink: "#5a3a48" },
+    { name: "Blanco", hex: "#ffffff", ink: "#5a3a48" },
+  ],
   "1/8": [
     { name: "Negro", hex: "#040405", ink: "#ffffff" },
     { name: "Blanco", hex: "#ffffff", ink: "#040405" },
@@ -70,6 +82,26 @@ const PROJECT_PALETTES = {
 // hero con el color del logo.
 const HERO_MEDIA = {
   "1/6": { image: "/Branding/Deliz/delizRecurso%201.svg", alt: "Logotipo de Deliz", contain: true, ink: "#009e76" },
+  "1/10": {
+    video: "/Branding/trends/video/logo-hero.mp4",
+    poster: "/Branding/trends/video/logo-hero-poster.webp",
+    alt: "Animación del logotipo de Trend Boutique",
+    contain: true,
+    ink: "#000000",
+    storyInk: "#000000",
+    heroBackground: "#fdfdfd",
+    // Toda la página en blanco, con textos oscuros (modo claro)
+    pageBackground: "#fdfdfd",
+    lightPage: true,
+  },
+  "1/9": {
+    image: "/Branding/Gotitas/isotipo-blanco.svg",
+    alt: "Isotipo de Gotitas de Esperanza",
+    contain: true,
+    ink: "#ffffff",
+    storyInk: "#e8a6c1",
+    heroBackground: "#e8a6c1",
+  },
   "1/8": {
     image: "/Branding/memories/logo-blanco.svg",
     alt: "Logotipo de Memories, fotografía y filmación",
@@ -146,6 +178,9 @@ const hamburger = (name, alt, width = 1425, height = 1425) => ({ image: `/Brandi
 const yadi = (name, alt, width = 1200, height = 1200) => ({ image: `/Branding/Yadi/${name}.webp`, alt, width, height });
 const enevesol = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Enevesol/${name}.webp`, alt, width, height });
 const rag = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/RAG/${name}.webp`, alt, width, height });
+const trend = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/trends/${name}.webp`, alt, width, height });
+const trendVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/trends/video/${name}.mp4`, poster: `/Branding/trends/video/${name}-poster.webp`, alt, width, height });
+const gotitas = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Gotitas/${name}.webp`, alt, width, height });
 const memories = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/memories/${name}.webp`, alt, width, height });
 const memoriesVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/memories/video/${name}.mp4`, poster: `/Branding/memories/video/${name}-poster.webp`, alt, width, height });
 // Videos optimizados (720 px, H.264) con su póster
@@ -302,6 +337,166 @@ const PROJECT_FEATURES = {
     { items: [yadi("mupi", "Mupi nocturno de Yadi'Studio", 2400, 1350), yadi("web", "Perfil digital de Yadi'Studio", 2400, 1350)] },
     // Segunda banda de arabescos, como cierre visual antes del resultado
     { items: [yadi("patron-2", "Patrón de arabescos de Yadi'Studio, variante", 2800, 1189)] },
+  ],
+  "1/10": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un monograma con estilo urbano.",
+        body: [
+          "El isotipo une la **T y la D en un monograma de líneas paralelas**, contenido en un marco redondeado: una marca compacta que funciona como etiqueta, sello o ícono de app.",
+          "Lo construí sobre una retícula y documenté el proceso de trazo, para que el logotipo, el isotipo y el acento caligráfico «Only» convivan con equilibrio.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        trend("isotipo", "Isotipo de Trend", 1626, 1626),
+        trend("logotipo", "Logotipo de Trend Boutique Only", 1626, 1626),
+        trend("isotipo-gris", "Isotipo de Trend sobre gris", 1000, 1000),
+        trend("portada", "Retícula de construcción del isotipo de Trend", 750, 749),
+      ],
+    },
+    { items: [trendVideo("construccion", "Proceso de construcción del logotipo de Trend", 720, 662), trendVideo("construccion-1", "Boceto del logotipo de Trend", 720, 662)] },
+    { items: [trendVideo("construccion-2", "Composición del logotipo e isotipo de Trend", 720, 662), trendVideo("construccion-3", "Retícula de construcción animada del isotipo de Trend", 720, 662)] },
+    {
+      story: {
+        eyebrow: "Papelería y empaque",
+        title: "Cada compra, una pieza de marca.",
+        body: [
+          "Llevé la identidad a **tarjetas, bolsas y cajas**, y diseñé un **patrón con el monograma** que convierte cada empaque en un objeto reconocible.",
+          "El blanco y negro mantiene la marca elegante y deja que la ropa sea la protagonista.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        trend("tarjetas", "Tarjetas de presentación de Trend", 1626, 1626),
+        trend("bolsa", "Bolsa de compra con el patrón de Trend", 1626, 1626),
+        trend("caja", "Caja de envío con el patrón de Trend", 1024, 1024),
+        trend("patron", "Patrón con el monograma de Trend"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Experiencia digital",
+        title: "La boutique en tu bolsillo.",
+        body: [
+          "Diseñé la presencia digital de la boutique: **ícono de app, catálogo digital, sitio web y redes sociales**, para que comprar sea tan fácil como deslizar.",
+          "Las animaciones muestran el recorrido real: del catálogo en el celular a la tienda en línea.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        trend("app-icono", "Ícono de la app de Trend en un celular"),
+        trend("navegador", "Pestaña de navegador con el sitio de Trend", 1799, 1800),
+        trend("instagram", "Publicación de Instagram de Trend", 1500, 1500),
+        trend("catalogo", "Publicación del catálogo de Trend", 1080, 1080),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        trendVideo("catalogo-movil", "Catálogo digital de Trend en un celular"),
+        trendVideo("app-movil", "Recorrido por la app de Trend"),
+        trendVideo("web", "Sitio web de Trend Boutique"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Campañas y publicidad",
+        title: "Lo auténtico es irremplazable.",
+        body: [
+          "Desarrollé **historias animadas, publicaciones de preventa y piezas de exterior** —mupi, vitrina y banner en plaza comercial— con un tono joven, directo y seguro de sí mismo.",
+          "El amarillo de la preventa rompe el blanco y negro solo cuando hay algo urgente que contar.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        trendVideo("historia-1", "Historia animada de Trend: lo auténtico es irremplazable", 540, 1024),
+        trendVideo("historia-2", "Historia animada de Trend: ordena la tuya", 540, 1034),
+        trendVideo("historia-3", "Historia animada de Trend: ser único", 540, 986),
+        trendVideo("historia-4", "Historia animada de Trend", 540, 984),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        trend("preventa-1", "Publicación de preventa de Trend"),
+        trend("preventa-2", "Publicación del primer catálogo digital de Trend"),
+        trend("mupi", "Mupi nocturno con publicidad de Trend"),
+      ],
+    },
+  ],
+  "1/9": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Una mariposa hecha de listones.",
+        body: [
+          "El isotipo forma una **mariposa con listones entrelazados** que, al centro, dibujan una gota: la transformación y la esperanza que la asociación busca llevar a cada persona.",
+          "Lo acompañé de un logotipo tipográfico redondeado y amable, y lo construí sobre una retícula para mantener su equilibrio en cualquier tamaño.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        gotitas("isotipo", "Isotipo de Gotitas de Esperanza en blanco sobre rosa"),
+        gotitas("nombre", "Logotipo tipográfico de Gotitas de Esperanza"),
+        gotitas("portada", "Retícula de construcción del isotipo de Gotitas de Esperanza", 750, 749),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Papelería y reconocimientos",
+        title: "Cercanía en cada documento.",
+        body: [
+          "Llevé la identidad a **sobres, tarjetas, hojas membretadas y reconocimientos**, para que cada comunicación de la asociación transmita la misma calidez y seriedad.",
+          "Los listones de la mariposa se convierten en un recurso gráfico que acompaña cada pieza.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        gotitas("sobres", "Sobres de Gotitas de Esperanza"),
+        gotitas("tarjetas", "Tarjetas de presentación de Gotitas de Esperanza", 1800, 1800),
+        gotitas("hoja-membretada", "Hoja membretada de Gotitas de Esperanza", 1800, 1800),
+        gotitas("reconocimiento", "Reconocimiento enmarcado de Gotitas de Esperanza", 1800, 1800),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Campañas y redes sociales",
+        title: "Una causa que se comparte.",
+        body: [
+          "Diseñé las piezas de la **Marcha en pro de la salud** —cartel, mupi animado y publicaciones— para convocar a la comunidad y acompañar a quienes más lo necesitan.",
+          "En redes sociales, la mariposa se adapta a perfiles y publicaciones manteniendo siempre el mismo lenguaje visual.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        gotitas("cartel-marcha", "Cartel de la Marcha en pro de la salud"),
+        { video: "/Branding/Gotitas/video/mupi.mp4", poster: "/Branding/Gotitas/video/mupi-poster.webp", alt: "Mupi animado de la Marcha en pro de la salud", width: 720, height: 720 },
+        gotitas("redes-1", "Logotipo de Gotitas de Esperanza para redes sociales"),
+        gotitas("redes-2", "Variaciones de la mariposa para redes sociales"),
+      ],
+    },
   ],
   "1/8": [
     {
@@ -485,6 +680,8 @@ const PROJECT_FEATURES = {
 // Fila de imágenes entre la introducción y el bloque de color ("perfil/proyecto")
 const PROJECT_INTRO_IMAGES = {
   "1/6": { items: [deliz("14", "Aplicación de la identidad de Deliz", 2800, 1286)] },
+  "1/10": { items: [trend("banner-plaza", "Banner de Trend en una plaza comercial", 1800, 1799), trend("vitrina", "Vitrina con publicidad de Trend")] },
+  "1/9": { items: [gotitas("logo", "Logotipo de Gotitas de Esperanza"), gotitas("isotipo-grande", "Isotipo de Gotitas de Esperanza en blanco sobre rosa, gran formato")] },
   "1/8": { items: [memories("fachada", "Lona de Memories en la fachada de un edificio"), memories("equipo-boda", "Equipo de Memories trabajando en una boda")] },
   "1/7": { items: [rag("i", "Agrupación representada por RAG en concierto"), rag("j", "Cantante en el escenario con el logotipo de RAG")] },
   "1/4": { items: [enevesol("1", "Paneles solares con el logotipo de Enevesol"), enevesol("7", "Isotipo de Enevesol en amarillo sobre azul"), enevesol("9", "Ilustración del isotipo de Enevesol")] },
@@ -535,6 +732,83 @@ const PROJECT_STORY = {
       credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
     },
   },
+  "1/10": {
+    hero: {
+      title: "Trend",
+      singleLine: true,
+      category: "Identidad visual · Boutique de moda",
+      description: "Trend Boutique «Only» es una tienda de ropa con espíritu joven y urbano. Creé una identidad en blanco y negro, directa y versátil, que vive igual en una etiqueta, una vitrina o la pantalla del celular.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2018"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca con actitud.",
+      body: [
+        "En la moda, la marca es parte de lo que se compra. Trend necesitaba una identidad **reconocible al instante**, capaz de competir en la calle y en redes sociales.",
+        "Para Trend desarrollé una identidad **minimalista y contundente**: un monograma fuerte, un acento caligráfico y un sistema en blanco y negro que deja brillar a las prendas.",
+        "Mi objetivo fue crear un **sistema visual completo**, del empaque a la app, pensado para una boutique que vende tanto en tienda como en línea.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Blanco, negro y un golpe de amarillo.",
+      body: [
+        "El **negro** y el **blanco** dan a la marca un carácter urbano y atemporal; el **gris Trend** suaviza los fondos, y el **amarillo** aparece solo en las preventas para llamar la atención.",
+        "La tipografía combina una sans gruesa y compacta para la marca, una script para el acento «Only» y una sans legible para la información.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una boutique con identidad propia.",
+      body: [
+        "Una identidad minimalista, versátil y fácil de recordar, que acompaña a la boutique en tienda, en la calle y en la pantalla.",
+        "El reto era **crear una marca con presencia sin quitarle protagonismo a la ropa**: un sistema sobrio que se vuelve inconfundible.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/9": {
+    hero: {
+      title: "Gotitas de Esperanza",
+      category: "Identidad visual · Asociación social",
+      description: "Gotitas de Esperanza es una asociación que impulsa la salud y la reintegración social. Creé una identidad cálida y cercana, que transmite apoyo, transformación y esperanza.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2016"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca que acompaña.",
+      body: [
+        "Una asociación social necesita algo más que reconocimiento: necesita **generar confianza y empatía** desde el primer contacto.",
+        "Para Gotitas de Esperanza desarrollé una identidad **suave, humana y optimista**, que habla de cuidado y de la posibilidad de transformarse, como una mariposa.",
+        "Mi objetivo fue crear un **sistema visual cercano y coherente**, útil tanto para documentos formales como para convocar a la comunidad en sus campañas.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Rosa que abraza, malva que da fuerza.",
+      body: [
+        "El **rosa esperanza** transmite calidez y cuidado; el **malva** aporta profundidad y seriedad, y el **gris perla** y el **blanco** dan aire y limpieza a cada pieza.",
+        "La tipografía es redondeada y gruesa en la marca, amable a la vista, y se acompaña de una sans legible para la información.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una identidad que inspira esperanza.",
+      body: [
+        "Una marca cálida, reconocible y coherente, que acompaña a la asociación en sus documentos, campañas y redes.",
+        "El reto era **transmitir seriedad sin perder la ternura**: una identidad que se sienta tan cercana como la causa que representa.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
   "1/8": {
     hero: {
       title: "Memories",
@@ -544,6 +818,7 @@ const PROJECT_STORY = {
       meta: [
         ["Disciplina", "Branding"],
         ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2015"],
       ],
     },
     intro: {
@@ -796,6 +1071,15 @@ const PROJECT_TYPEFACES = {
     { name: "Painted Paradise", role: "Logotipo", className: styles.fontPaintedParadise, weights: "Regular", sample: "Deliz, sabor que se recuerda." },
     { name: "Franklin Gothic Demi", role: "Titulares y texto", className: styles.fontFranklinDemi, weights: "Demi", sample: "Claridad y fuerza en cada aplicación de la marca." },
   ],
+  "1/10": [
+    { name: "Montserrat Black", role: "Marca y titulares", className: montserratBlack.className, weights: "Extrabold 800 · Black 900", sample: "TREND BOUTIQUE" },
+    { name: "Courgette", role: "Acento caligráfico", className: styles.fontCourgette, weights: "Regular 400", sample: "Only" },
+    { name: "Inter", role: "Texto", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Lo auténtico es irremplazable." },
+  ],
+  "1/9": [
+    { name: "Nunito", role: "Marca y titulares", className: nunito.className, weights: "Extrabold 800", sample: "GOTITAS DE ESPERANZA" },
+    { name: "Inter", role: "Texto", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Juntos transformamos vidas." },
+  ],
   "1/8": [
     { name: "Lobster", role: "Marca y titulares", className: lobster.className, weights: "Regular 400", sample: "Memories" },
     { name: "Montserrat", role: "Texto y detalles", className: montserrat.className, weights: "Light 300 · Semibold 600", sample: "F O T O G R A F Í A   Y   F I L M A C I Ó N" },
@@ -854,6 +1138,10 @@ export default async function DesignProjectPage({ params }) {
   if (!data) notFound();
 
   const isWebProject = String(route.profileId) === "2" || /web/i.test(`${data.profileName} ${data.profileBio}`);
+  // Enlace de regreso al área de origen (Web, Isotipos o Diseño)
+  const isIsotiposProject = /isotipo/i.test(data.profileName || "");
+  const backHref = isWebProject ? "/diseno?vista=web" : isIsotiposProject ? "/diseno?vista=isotipos" : "/diseno";
+  const backLabel = isWebProject ? "Web" : isIsotiposProject ? "Isotipos" : "Diseño";
   const story = PROJECT_STORY[`${route.profileId}/${route.projectId}`] || {};
   // Los textos del hero se muestran sin emojis
   const title = stripEmoji(story.hero?.title || data.title || (data.caption || "Proyecto de diseño").split("#")[0]);
@@ -879,7 +1167,7 @@ export default async function DesignProjectPage({ params }) {
 
   return (
     <main
-      className={styles.projectPage}
+      className={`${styles.projectPage} ${heroMedia.lightPage ? styles.pageLight : ""}`}
       style={{
         ...(heroMedia.storyInk || heroMedia.ink ? { "--story-ink": heroMedia.storyInk || heroMedia.ink } : {}),
         ...(heroMedia.pageBackground ? { "--page-bg": heroMedia.pageBackground } : {}),
@@ -887,11 +1175,11 @@ export default async function DesignProjectPage({ params }) {
     >
       {/* Hero a pantalla completa: texto a la izquierda, portada a la derecha */}
       <section
-        className={`${styles.hero} ${heroMedia.heroBackground ? styles.heroFilled : ""}`}
+        className={`${styles.hero} ${heroMedia.heroBackground ? styles.heroFilled : ""} ${heroMedia.video ? styles.heroWithVideo : ""}`}
         style={heroMedia.heroBackground ? { "--hero-bg": heroMedia.heroBackground, "--hero-ink": heroMedia.ink } : undefined}
       >
-        <Link href={isWebProject ? "/diseno?vista=web" : "/diseno"} className={styles.backLink} aria-label="Volver a Diseño">
-          <span>←</span> Volver a {isWebProject ? "Web" : "Diseño"}
+        <Link href={backHref} className={styles.backLink} aria-label={`Volver a ${backLabel}`}>
+          <span>←</span> Volver a {backLabel}
         </Link>
 
         <div className={`${styles.heroCopy} ${heroMedia.ink ? styles.heroCopyTinted : ""}`} style={heroMedia.ink ? { "--hero-ink": heroMedia.ink } : undefined}>
@@ -912,7 +1200,22 @@ export default async function DesignProjectPage({ params }) {
           </dl>
         </div>
 
-        {heroMedia.image && (
+        {heroMedia.video ? (
+          <figure className={`${styles.heroMedia} ${styles.heroMediaContain} ${styles.heroMediaVideo}`}>
+            <video
+              src={heroMedia.video}
+              poster={heroMedia.poster}
+              aria-label={heroMedia.alt}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              disablePictureInPicture
+            />
+            <span className={styles.mediaShield} aria-hidden="true" />
+          </figure>
+        ) : heroMedia.image && (
           <figure
             className={`${styles.heroMedia} ${heroMedia.contain ? styles.heroMediaContain : ""}`}
             style={heroMedia.background ? { background: heroMedia.background } : undefined}
