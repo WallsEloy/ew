@@ -6,7 +6,9 @@ import { getGrowConfig } from "../../../../lib/growConfig";
 import ClientAdvertisingFlow from "../../../../components/ClientAdvertisingFlow";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+// Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
+// como red de seguridad, se vuelve a generar como máximo cada 5 minutos.
+export const revalidate = 300;
 
 // Convierte un enlace de Figma (archivo, prototipo o embed) en la URL del
 // visor embebido. Devuelve null si el enlace no es de figma.com.

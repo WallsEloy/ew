@@ -4,7 +4,7 @@ import BackButton from "./BackButton";
 import styles from "./page.module.css";
 
 export const metadata = {
-  title: "Iniciar sesión | Eloy Walls",
+  title: "Iniciar sesión",
   description: "Accede a tu cuenta de Eloy Walls.",
 };
 

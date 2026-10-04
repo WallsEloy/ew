@@ -43,7 +43,8 @@ export async function PUT(request) {
     }
 
     const saved = await saveNavConfig(config);
-    revalidatePath("/");
+    // El navbar se pinta desde el layout: hay que regenerar todas las páginas
+    revalidatePath("/", "layout");
     return NextResponse.json({ config: saved }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -7,7 +7,9 @@ import ColorPanel from "./ColorPanel";
 import VideoTile from "./VideoTile";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+// Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
+// como red de seguridad, se vuelve a generar como máximo cada 5 minutos.
+export const revalidate = 300;
 
 const BRANDING_DEMO = [
   { id: "brand-workspace", image: "/branding-demo/brand-workspace.webp", caption: "Desarrollo de paleta y sistema visual" },
@@ -1130,6 +1132,18 @@ function layoutGallery(items) {
     patternIndex += 1;
   }
   return rows;
+}
+
+export async function generateMetadata({ params }) {
+  const route = await params;
+  const data = await getProfileProject("diseno", route.profileId, route.projectId);
+  if (!data) return {};
+  const story = PROJECT_STORY[`${route.profileId}/${route.projectId}`] || {};
+  return {
+    // Nombre del proyecto (el del dashboard), no el lema del hero
+    title: stripEmoji(data.title || story.hero?.title || "Proyecto de diseño"),
+    description: stripEmoji(story.hero?.description || data.caption || "").slice(0, 160) || undefined,
+  };
 }
 
 export default async function DesignProjectPage({ params }) {

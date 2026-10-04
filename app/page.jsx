@@ -9,7 +9,9 @@ import { getSlides } from "../lib/supabaseServer";
 import { getVideosHome } from "../lib/videosHomeConfig";
 
 // Render dinámico para reflejar al instante las ediciones del dashboard.
-export const dynamic = "force-dynamic";
+// Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
+// como red de seguridad, se vuelve a generar como máximo cada 5 minutos.
+export const revalidate = 300;
 
 export default async function Home() {
   const { slides } = await getSlides();

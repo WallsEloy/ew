@@ -16,7 +16,7 @@ function Logo({ logo }) {
   if (logo.src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={logo.src} alt={logo.nombre} className={styles.imagen} />
+      <img loading="lazy" decoding="async" src={logo.src} alt={logo.nombre} className={styles.imagen} />
     );
   }
   return <span className={styles.palabra}>{logo.nombre}</span>;

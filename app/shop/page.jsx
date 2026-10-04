@@ -7,7 +7,7 @@ import Storefront from "./Storefront";
 import styles from "./page.module.css";
 
 export const metadata = {
-  title: "Shop · Eloy Walls",
+  title: "Shop",
   description:
     "Adquiere las piezas del estudio en wallpaper, archivo digital, impresión firmada o drop de colección.",
 };

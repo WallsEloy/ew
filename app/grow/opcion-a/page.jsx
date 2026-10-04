@@ -5,10 +5,12 @@ import { getGrowConfig } from "../../../lib/growConfig";
 import styles from "./page.module.css";
 
 export const metadata = {
-  title: "Grow — Proyectos EW",
+  title: "Grow",
   description: "Selección de proyectos creativos, visuales y digitales de EW.",
 };
-export const dynamic = "force-dynamic";
+// Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
+// como red de seguridad, se vuelve a generar como máximo cada 5 minutos.
+export const revalidate = 300;
 
 export default async function GrowOptionA() {
   const { config } = await getGrowConfig();

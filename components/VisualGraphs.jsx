@@ -253,7 +253,7 @@ export default function VisualGraphs() {
                 transition={{ duration: reducedMotion ? 0.08 : 0.42 }}
               >
                 <div className={styles.logoContainer}>
-                  <img src="/SVG/ew_white.svg" alt="EW Logo" className={styles.logo} />
+                  <img loading="lazy" decoding="async" src="/SVG/ew_white.svg" alt="EW Logo" className={styles.logo} />
                 </div>
                 <h2 id="visual-graphs-title">{activeScene.title}</h2>
                 <BloqueCodigo texto={activeScene.text} />

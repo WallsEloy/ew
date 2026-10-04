@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { getProfileProject } from "../../../../../lib/portfolioServer";
 import styles from "../../../../diseno/proyectos/[profileId]/[projectId]/page.module.css";
 
-export const dynamic = "force-dynamic";
+// Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
+// como red de seguridad, se vuelve a generar como máximo cada 5 minutos.
+export const revalidate = 300;
 
 export default async function CodingProjectPage({ params }) {
   const route = await params;

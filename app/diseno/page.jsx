@@ -3,6 +3,11 @@ import { getProfiles } from "../../lib/portfolioServer";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  title: "Diseño",
+  description: "Branding, identidad visual e isotipos de Eloy Walls.",
+};
+
 export default async function DisenoPage({ searchParams }) {
   // Lee de Supabase (fallback local si no hay datos/credenciales).
   const { profiles } = await getProfiles("diseno");

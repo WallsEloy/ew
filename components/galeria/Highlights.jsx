@@ -13,7 +13,7 @@ export default function Highlights({ highlights }) {
           {/* Anillo Neutral/Gris alrededor de la foto de la historia */}
           <div className={styles.highlightRing}>
             {/* Imagen recortada en círculo */}
-            <img
+            <img loading="lazy" decoding="async"
               src={item.image}
               alt={item.title}
               className={styles.highlightImage}

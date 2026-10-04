@@ -21,7 +21,7 @@ export default function Footer() {
           {/* Logo & Tagline */}
           <div className={styles.branding}>
             <Link href="/" className={styles.logoLink} aria-label="Ir al inicio">
-              <img
+              <img loading="lazy" decoding="async"
                 src="/SVG/ew_crema.svg"
                 alt="EW Logo"
                 className={styles.logo}

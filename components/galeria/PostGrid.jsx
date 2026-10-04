@@ -13,7 +13,14 @@ export default function PostGrid({ posts, onClick }) {
           className={`${styles.postItem} ${post.isHorizontal ? styles.postHorizontal : ""}`}
         >
           {/* Imagen que sirve como miniatura (thumbnail) de la publicación */}
-          <img src={post.image} className={styles.postImage} />
+          {/* Las primeras filas se ven al abrir; el resto se pide al acercarse */}
+          <img
+            src={post.image}
+            alt={post.title || post.caption || ""}
+            className={styles.postImage}
+            loading={index < 6 ? "eager" : "lazy"}
+            decoding="async"
+          />
         </div>
       ))}
     </div>

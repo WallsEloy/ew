@@ -6,7 +6,7 @@ import { mergeFlowConfig } from "../data/growFlow";
 import styles from "./ClientAdvertisingFlow.module.css";
 
 function NodeIcon({ image, value, fallback }) {
-  return image ? <img src={image} alt="" /> : (value || fallback);
+  return image ? <img loading="lazy" decoding="async" src={image} alt="" /> : (value || fallback);
 }
 
 function FacebookPageNode({ data }) {
@@ -78,7 +78,7 @@ function LandingPageNode({ data }) {
       </dl>
       <div className={styles.landingPreview}>
         {data?.previewImage ? (
-          <img src={data.previewImage} alt="Landing Page Preview" style={{ display: "block", width: "100%", height: "auto", objectFit: "cover", borderRadius: "4px" }} />
+          <img loading="lazy" decoding="async" src={data.previewImage} alt="Landing Page Preview" style={{ display: "block", width: "100%", height: "auto", objectFit: "cover", borderRadius: "4px" }} />
         ) : (
           <>
             <div className={styles.previewNav}><b>TuMarca</b><span>Inicio · Servicios · Contacto</span></div>
@@ -366,7 +366,7 @@ export default function ClientAdvertisingFlow({ config }) {
       return {
         ...node,
         position: { x: edited?.x ?? node.position.x, y: edited?.y ?? node.position.y },
-        data: { ...node.data, ...(node.type ? { flowTitle: edited?.title || node.data.title || node.data.platform, flowIcon: edited?.icon || "", flowIconImage: edited?.iconImage || "", flowSubColor: edited?.subColor || "", previewImage: edited?.previewImage || "" } : { label: <span className={styles.inlineNodeLabel}>{edited?.iconImage && <img src={edited.iconImage} alt="" />}{!edited?.iconImage && edited?.icon}{edited?.title || node.data.label}</span> }) },
+        data: { ...node.data, ...(node.type ? { flowTitle: edited?.title || node.data.title || node.data.platform, flowIcon: edited?.icon || "", flowIconImage: edited?.iconImage || "", flowSubColor: edited?.subColor || "", previewImage: edited?.previewImage || "" } : { label: <span className={styles.inlineNodeLabel}>{edited?.iconImage && <img loading="lazy" decoding="async" src={edited.iconImage} alt="" />}{!edited?.iconImage && edited?.icon}{edited?.title || node.data.label}</span> }) },
         style: edited?.color || edited?.subColor ? { ...node.style, ...(edited.color ? { "--flow-accent": edited.color } : {}), ...(edited.subColor ? { "--flow-sub-accent": edited.subColor } : {}), ...(edited.color && !node.type ? { background: edited.color } : {}) } : node.style,
       };
     });

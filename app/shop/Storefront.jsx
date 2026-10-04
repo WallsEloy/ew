@@ -100,7 +100,7 @@ export default function Storefront() {
                 className="w-full h-full flex flex-col"
               >
                 <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-[#111] mb-4 border border-white/5">
-                  <img 
+                  <img loading="lazy" decoding="async" 
                     src={product.image} 
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

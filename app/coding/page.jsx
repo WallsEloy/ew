@@ -3,8 +3,10 @@ import Highlights from "../../components/galeria/Highlights";
 import WebShowcase from "../diseno/WebShowcase";
 import { getProfiles } from "../../lib/portfolioServer";
 
-export const metadata = { title: "Coding | Eloy Walls" };
-export const dynamic = "force-dynamic";
+export const metadata = { title: "Coding" };
+// Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
+// como red de seguridad, se vuelve a generar como máximo cada 5 minutos.
+export const revalidate = 300;
 
 export default async function CodingPage() {
   const { profiles } = await getProfiles("coding");

@@ -51,7 +51,7 @@ function PillIcon({ name }) {
   );
 }
 
-export default function Navbar() {
+export default function Navbar({ initialConfig = null }) {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -60,12 +60,14 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const previousScrollY = useRef(0);
 
-  // Config editable desde el dashboard (logos, auth, dock). Se inicializa con
-  // los defaults —idénticos al navbar original— para no parpadear, y se
-  // reemplaza al cargar la config guardada en Supabase.
-  const [config, setConfig] = useState(defaultNavConfig);
+  // Config editable desde el dashboard (logos, auth, dock). Llega ya resuelta
+  // desde el layout (servidor); solo si faltara se pide a la API en el cliente.
+  const [config, setConfig] = useState(() =>
+    initialConfig ? mergeNavConfig(initialConfig) : defaultNavConfig,
+  );
 
   useEffect(() => {
+    if (initialConfig) return undefined;
     let active = true;
     fetch("/api/nav-config")
       .then((r) => r.json())
@@ -76,7 +78,7 @@ export default function Navbar() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [initialConfig]);
 
   useEffect(() => {
     previousScrollY.current = window.scrollY;
