@@ -243,6 +243,13 @@ export default function VisualGraphs() {
         <div className={styles.ambient} aria-hidden="true" />
         <div className={styles.layout}>
           <div className={styles.copyColumn} aria-live="polite">
+            {/* Barra de ventana de la terminal simulada (solo se ve en móvil) */}
+            <div className={styles.terminalBar} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <p>manifiesto.js</p>
+            </div>
             <AnimatePresence mode="sync" initial={false}>
               <motion.div
                 key={activeScene.id}

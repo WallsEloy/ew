@@ -61,6 +61,11 @@
   max-width: 520px;
 }
 
+/* Barra de la terminal simulada: solo existe en móvil (ver media query) */
+.terminalBar {
+  display: none;
+}
+
 /* Centrado respecto a la columna de texto, no respecto a la pantalla: el ancho
    de esta caja es el de la columna (.copy), así que centrar aquí deja el
    logotipo sobre el eje del titular y del bloque de código. Igual que en la
@@ -501,6 +506,129 @@
   .graphSpinner {
     animation: graphSlowSpin 95s linear infinite;
   }
+
+  /* --- Móvil: el texto vive en una terminal simulada arriba y la animación
+     de los puntos queda libre debajo ------------------------------------- */
+  .copyColumn {
+    top: calc(20px + env(safe-area-inset-top));
+    width: calc(100% - 28px);
+    max-width: 420px;
+    padding: 0;
+    overflow: hidden;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    background: rgba(8, 10, 14, 0.86);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    transform: translateX(-50%);
+  }
+
+  .terminalBar {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .terminalBar span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ff5f57;
+  }
+
+  .terminalBar span:nth-child(2) { background: #febc2e; }
+  .terminalBar span:nth-child(3) { background: #28c840; }
+
+  .terminalBar p {
+    margin: 0 0 0 8px;
+    color: #6b7688;
+    font: 600 11px/1 ui-monospace, "SF Mono", Consolas, monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* Las copias (al cambiar de escena) se enciman en la fila bajo la barra */
+  .copy {
+    grid-area: 2 / 1;
+    padding: 14px 16px 16px;
+    text-align: left;
+  }
+
+  .logoContainer {
+    display: none;
+  }
+
+  /* El título se lee como el comando que se acaba de escribir */
+  .copy h2 {
+    font-size: clamp(1.5rem, 7.5vw, 2.1rem);
+    text-align: left;
+  }
+
+  .copy h2::before {
+    content: "$ ";
+    color: #28c840;
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 0.7em;
+    vertical-align: 0.12em;
+  }
+
+  .codigo {
+    max-width: none;
+    margin: 10px 0 0;
+    padding-left: 10px;
+    font-size: 0.74rem;
+    line-height: 1.5;
+  }
+
+  /* Cursor parpadeante al final del código */
+  .codigo::after {
+    content: "▍";
+    display: inline-block;
+    margin-top: 2px;
+    color: #c3e88d;
+    animation: terminalCursor 1s steps(1) infinite;
+  }
+
+  .controls {
+    justify-content: space-between;
+    margin-top: 12px;
+    gap: 10px;
+  }
+
+  .graphButton {
+    padding: 6px 14px;
+    border-width: 1px;
+    font-size: 0.66rem;
+    box-shadow: 0 0 10px rgba(2, 132, 199, 0.6);
+  }
+
+  .progress {
+    gap: 7px;
+  }
+
+  .progress span {
+    width: 9px;
+    height: 9px;
+    flex-basis: 9px;
+  }
+
+  /* La animación baja al espacio libre bajo la terminal */
+  .graphColumn {
+    top: 36%;
+    height: 64%;
+  }
+
+  .graphField {
+    width: 140%;
+    min-width: 140%;
+    height: 66dvh;
+  }
+}
+
+@keyframes terminalCursor {
+  50% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -511,7 +639,8 @@
   .graphField,
   .graphSpinner,
   .activeNode,
-  .gravityNode {
+  .gravityNode,
+  .codigo::after {
     animation: none;
   }
 }
