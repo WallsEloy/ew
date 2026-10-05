@@ -238,15 +238,23 @@ export default function Navbar({ initialConfig = null }) {
           <button 
             className="text-white bg-transparent border-none hover:text-gray-300 focus:outline-none transition-transform active:scale-95 z-50 p-2" 
             style={{ backgroundColor: 'transparent', border: 'none', WebkitAppearance: 'none' }}
+            aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={isMobileMenuOpen}
             onClick={(e) => {
               e.stopPropagation();
               setIsMobileMenuOpen(!isMobileMenuOpen);
               setOpenDropdown(null);
             }}
           >
-            <span 
-              className={`${styles.customHamburIcon} transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-50' : 'opacity-100'}`}
-            ></span>
+            {/* Tres barras que se convierten en una X al abrir el menú */}
+            <span
+              className={`${styles.customHamburIcon} ${isMobileMenuOpen ? styles.hamburOpen : ''}`}
+              aria-hidden="true"
+            >
+              <span />
+              <span />
+              <span />
+            </span>
           </button>
         </div>
 

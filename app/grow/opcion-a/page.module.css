@@ -5,8 +5,10 @@
   box-sizing: border-box;
 }
 
+/* Sin hero: el espacio superior deja libre la barra de navegación, que en
+   escritorio flota sobre el contenido */
 .content {
-  padding: clamp(72px, 10vh, 110px) 24px 150px;
+  padding: clamp(140px, 18vh, 190px) 24px 150px;
 }
 
 .projects {
@@ -101,7 +103,7 @@
   }
 
   .content {
-    padding: 64px 16px 140px;
+    padding: 32px 16px 140px;
   }
 
   .card,

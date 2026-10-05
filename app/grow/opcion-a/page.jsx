@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import GrowProjectCarousel from "../../../components/GrowProjectCarousel";
 import { getGrowConfig } from "../../../lib/growConfig";
 import styles from "./page.module.css";
 
@@ -17,11 +16,6 @@ export default async function GrowOptionA() {
 
   return (
     <main className={styles.page}>
-      <GrowProjectCarousel
-        images={config.projects.map((project) => project.image)}
-        title={config.title}
-        eyebrow={config.eyebrow}
-      />
       <div className={styles.content}>
         <section className={styles.projects} aria-label="Proyectos destacados">
           {config.projects.map((project, index) => (

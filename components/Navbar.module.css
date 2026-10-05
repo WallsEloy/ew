@@ -146,6 +146,7 @@
   }
 
   .mobileHamburger .customHamburIcon {
+    --bar: 4px;
     width: 30px;
     height: 21px;
   }
@@ -164,17 +165,56 @@
 }
 
 /* Unique CSS specifically for user's custom hambur.svg */
+/* Ícono hamburguesa: tres barras redondeadas (misma forma que hambur.svg)
+   que al abrir el menú se cruzan en una X y al cerrarlo vuelven a su sitio */
 .customHamburIcon {
+  --bar: 5px;
+  position: relative;
   display: block;
   width: 35px;
   height: 25px;
-  background-image: url("/SVG/hambur.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+.customHamburIcon span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--bar);
+  border-radius: 999px;
+  background: #fff;
+  transition:
+    top 300ms cubic-bezier(0.65, 0, 0.35, 1),
+    transform 300ms cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 200ms ease;
+}
+
+.customHamburIcon span:nth-child(1) { top: 0; }
+.customHamburIcon span:nth-child(2) { top: calc(50% - var(--bar) / 2); }
+.customHamburIcon span:nth-child(3) { top: calc(100% - var(--bar)); }
+
+/* Abierto: las barras externas se juntan al centro y giran en X */
+.hamburOpen span:nth-child(1) {
+  top: calc(50% - var(--bar) / 2);
+  transform: rotate(45deg);
+}
+
+.hamburOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.2);
+}
+
+.hamburOpen span:nth-child(3) {
+  top: calc(50% - var(--bar) / 2);
+  transform: rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .customHamburIcon span {
+    transition: none;
+  }
 }
 
 /* Dropdown specific styles */
