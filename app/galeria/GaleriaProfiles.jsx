@@ -32,8 +32,10 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
   const esFotografia = slugGaleria(profile.name) === "fotografia";
 
   // Fotografía se divide en sesiones (post.sesion), cada una en su propio
-  // montón; el resto de galerías es una sola cuadrícula.
-  const sesiones = esFotografia ? agruparPorSesion(profile.posts) : [];
+  // montón; las fotos sin sesión van sueltas, siempre a la vista. El resto de
+  // galerías es una sola cuadrícula.
+  const sesiones = esFotografia ? agruparPorSesion(profile.posts.filter((p) => p.sesion)) : [];
+  const sueltas = esFotografia ? profile.posts.filter((p) => !p.sesion) : [];
 
   const abrirFoto = (posts, index) => {
     setModalPosts(posts);
@@ -95,6 +97,7 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
         <SesionesFotos
           key={profile.id}
           sesiones={sesiones}
+          sueltas={sueltas}
           // Con una foto abierta en grande las sesiones no se pliegan solas
           pausado={open}
           onClick={abrirFoto}

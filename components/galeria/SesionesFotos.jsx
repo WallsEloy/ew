@@ -26,7 +26,7 @@ const reducirMovimiento = () =>
  * fila. Al tocar un montón sus fotos vuelan a su lugar en una cuadrícula que se
  * abre debajo; tras 5 s sin tocar ninguna foto regresan solas a su montón.
  */
-export default function SesionesFotos({ sesiones = [], onClick, pausado = false }) {
+export default function SesionesFotos({ sesiones = [], sueltas = [], onClick, pausado = false }) {
   const pilasRef = useRef([]);
   // Índice de sesión -> "abierta" | "cerrando"
   const [estados, setEstados] = useState({});
@@ -39,6 +39,18 @@ export default function SesionesFotos({ sesiones = [], onClick, pausado = false 
 
   return (
     <div className={styles.sesiones}>
+      {/* Fotos fuera de los montones: arriba, siempre a la vista y completas */}
+      {sueltas.map((post, index) => (
+        <button
+          key={post.id}
+          type="button"
+          className={styles.suelta}
+          onClick={() => onClick?.(sueltas, index)}
+        >
+          <img src={post.image} alt={post.title || post.caption || ""} decoding="async" />
+        </button>
+      ))}
+
       <div className={styles.pilas}>
         {sesiones.map((sesion, k) => (
           <button
