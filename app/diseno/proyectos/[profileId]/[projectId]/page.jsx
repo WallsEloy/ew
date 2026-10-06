@@ -35,6 +35,29 @@ const PROJECT_PALETTES = {
     { name: "Café oscuro", hex: "#1f1410", ink: "#ffffff" },
     { name: "Blanco", hex: "#ffffff", ink: "#1f1410" },
   ],
+  "1/14": [
+    { name: "Rosa Sweett", hex: "#ff9ae1", ink: "#000000" },
+    { name: "Negro", hex: "#000000", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#000000" },
+  ],
+  "1/13": [
+    { name: "Índigo", hex: "#270089", ink: "#ffffff" },
+    { name: "Naranja", hex: "#eb6527", ink: "#ffffff" },
+    { name: "Verde", hex: "#008b3e", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#270089" },
+  ],
+  "1/12": [
+    { name: "Azul Josman", hex: "#1c3b6e", ink: "#ffffff" },
+    { name: "Amarillo obra", hex: "#f0be20", ink: "#1c3b6e" },
+    { name: "Gris concreto", hex: "#9ea1a2", ink: "#1c3b6e" },
+    { name: "Blanco", hex: "#ffffff", ink: "#1c3b6e" },
+  ],
+  "1/11": [
+    { name: "Morado neón", hex: "#d200ff", ink: "#ffffff" },
+    { name: "Verde neón", hex: "#00c518", ink: "#000000" },
+    { name: "Negro", hex: "#000000", ink: "#ffffff" },
+    { name: "Degradado Creando", gradient: ["#d200ff", "#00c518"], ink: "#ffffff" },
+  ],
   "1/10": [
     { name: "Negro", hex: "#000000", ink: "#ffffff" },
     { name: "Gris Trend", hex: "#f0f0f0", ink: "#000000" },
@@ -84,6 +107,39 @@ const PROJECT_PALETTES = {
 // hero con el color del logo.
 const HERO_MEDIA = {
   "1/6": { image: "/Branding/Deliz/delizRecurso%201.svg", alt: "Logotipo de Deliz", contain: true, ink: "#009e76" },
+  "1/14": {
+    image: "/Branding/Sweett/logo-hero.webp",
+    alt: "Logotipo de My Sweett Audrina",
+    contain: true,
+    ink: "#000000",
+    storyInk: "#ff9ae1",
+    heroBackground: "#ff9ae1",
+  },
+  "1/13": {
+    image: "/Branding/JOSMAN%20Textucos/logo.svg",
+    alt: "Logotipo de Josman Texturizados y Adhesivos",
+    contain: true,
+    ink: "#270089",
+    storyInk: "#eb6527",
+    heroBackground: "#ffffff",
+  },
+  "1/12": {
+    image: "/Branding/JOSMAN%20Construccion/logo.svg",
+    alt: "Logotipo de Josman Concretos",
+    contain: true,
+    ink: "#f0be20",
+    storyInk: "#f0be20",
+    heroBackground: "#1c3b6e",
+  },
+  "1/11": {
+    image: "/Branding/Creando/logo-hero.webp",
+    alt: "Logotipo de Creando lo Imposible",
+    contain: true,
+    ink: "#00c518",
+    storyInk: "#d200ff",
+    heroBackground: "#000000",
+    pageBackground: "#000000",
+  },
   "1/10": {
     video: "/Branding/trends/video/logo-hero.mp4",
     poster: "/Branding/trends/video/logo-hero-poster.webp",
@@ -180,6 +236,13 @@ const hamburger = (name, alt, width = 1425, height = 1425) => ({ image: `/Brandi
 const yadi = (name, alt, width = 1200, height = 1200) => ({ image: `/Branding/Yadi/${name}.webp`, alt, width, height });
 const enevesol = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Enevesol/${name}.webp`, alt, width, height });
 const rag = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/RAG/${name}.webp`, alt, width, height });
+const sweett = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Sweett/${name}.webp`, alt, width, height });
+const textucos = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/JOSMAN%20Textucos/${name}.webp`, alt, width, height });
+const textucosVideo = (name, alt) => ({ video: `/Branding/JOSMAN%20Textucos/video/${name}.mp4`, poster: `/Branding/JOSMAN%20Textucos/video/${name}-poster.webp`, alt, width: 720, height: 720 });
+const josman = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/JOSMAN%20Construccion/${name}.webp`, alt, width, height });
+const josmanVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/JOSMAN%20Construccion/video/${name}.mp4`, poster: `/Branding/JOSMAN%20Construccion/video/${name}-poster.webp`, alt, width, height });
+const creando = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Creando/${name}.webp`, alt, width, height });
+const creandoVideo = (name, alt) => ({ video: `/Branding/Creando/video/${name}.mp4`, poster: `/Branding/Creando/video/${name}-poster.webp`, alt, width: 720, height: 720 });
 const trend = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/trends/${name}.webp`, alt, width, height });
 const trendVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/trends/video/${name}.mp4`, poster: `/Branding/trends/video/${name}-poster.webp`, alt, width, height });
 const gotitas = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Gotitas/${name}.webp`, alt, width, height });
@@ -339,6 +402,433 @@ const PROJECT_FEATURES = {
     { items: [yadi("mupi", "Mupi nocturno de Yadi'Studio", 2400, 1350), yadi("web", "Perfil digital de Yadi'Studio", 2400, 1350)] },
     // Segunda banda de arabescos, como cierre visual antes del resultado
     { items: [yadi("patron-2", "Patrón de arabescos de Yadi'Studio, variante", 2800, 1189)] },
+  ],
+  "1/14": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un monograma con firma propia.",
+        body: [
+          "El logotipo entrelaza **la A y la S en un monograma de trazo elegante**, acompañado del nombre en una caligrafía con carácter: una marca femenina, segura y con estilo.",
+          "Lo desarrollé en rosa sobre blanco y en negro sobre rosa, y lo construí sobre una retícula para que funcione en una etiqueta pequeña o en una bolsa de compra.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        sweett("logo-rosa", "Logotipo de My Sweett Audrina en rosa sobre blanco"),
+        sweett("logo-negro", "Logotipo de My Sweett Audrina en negro sobre rosa"),
+        sweett("portada", "Retícula de construcción del monograma", 1200, 1200),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Empaque y aplicaciones",
+        title: "Cada compra, un pequeño regalo.",
+        body: [
+          "Llevé la identidad a **bolsas de compra, etiquetas, botones y cubrebocas**, para que cada pieza que sale de la boutique lleve la marca con el mismo cuidado que la ropa.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        sweett("bolsa-rosa", "Bolsa de compra rosa de My Sweett Audrina"),
+        sweett("etiquetas", "Etiquetas colgantes de My Sweett Audrina"),
+        sweett("botones", "Botones con el monograma de la marca"),
+        sweett("cubrebocas", "Cubrebocas con el monograma de la marca"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Tienda en línea",
+        title: "La boutique en el celular.",
+        body: [
+          "Diseñé la **tienda en línea**: catálogo de prendas, ficha de producto con tallas y un proceso de pago sencillo, con el rosa de la marca guiando cada paso.",
+        ],
+      },
+    },
+    { items: [{ video: "/Branding/Sweett/video/tienda.mp4", poster: "/Branding/Sweett/video/tienda-poster.webp", alt: "Recorrido por la tienda en línea de My Sweett Audrina", width: 1280, height: 924 }] },
+  ],
+  "1/13": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Tres trazos que se adhieren.",
+        body: [
+          "El isotipo une **tres franjas curvas en índigo, naranja y verde** que se envuelven entre sí, como capas de material que se adhieren y se refuerzan: «Pegamás fuerte».",
+          "Lo desarrollé con y sin descriptor, en positivo y negativo, y sobre cada color de la marca, construido sobre una retícula para que funcione en un costal, un catálogo o una pantalla.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        textucos("logo-completo", "Logotipo completo de Josman Texturizados y Adhesivos"),
+        textucos("logo-subtitulo", "Logotipo con descriptor"),
+        textucos("logo-simple", "Logotipo sin descriptor"),
+        textucos("logo-reticula", "Logotipo en blanco sobre retícula"),
+        textucos("isotipo", "Isotipo a color"),
+        textucos("isotipo-naranja", "Isotipo sobre naranja"),
+        textucos("isotipo-verde", "Isotipo sobre verde"),
+        textucos("isotipo-indigo", "Isotipo sobre índigo"),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        textucos("logo-naranja", "Logotipo sobre naranja"),
+        textucos("logo-verde", "Logotipo sobre verde"),
+        textucos("logo-indigo", "Logotipo sobre índigo"),
+        textucos("logo-blanco-naranja", "Logotipo en blanco sobre naranja"),
+        textucos("logo-blanco-verde", "Logotipo en blanco sobre verde"),
+        textucos("logo-blanco-indigo", "Logotipo en blanco sobre índigo"),
+      ],
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        textucos("paleta", "Ficha de color de la marca"),
+        textucos("tipografia", "Ficha tipográfica de la marca"),
+        textucos("logo-relieve", "Logotipo en relieve sobre papel"),
+        textucos("portada", "Retícula de construcción del isotipo", 750, 749),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Personajes",
+        title: "Dos expertos que dan la cara.",
+        body: [
+          "Creé **dos personajes ilustrados**, una maestra y un maestro de obra, que acompañan a la marca en empaques, publicidad y redes: cercanos, seguros y con experiencia.",
+        ],
+      },
+    },
+    {
+      items: [
+        textucos("personaje-mujer", "Personaje de Josman: maestra de obra", 689, 1800),
+        textucos("personaje-hombre", "Personaje de Josman: maestro de obra", 682, 1800),
+        textucos("personajes", "Los dos personajes de Josman juntos"),
+        textucos("personajes-2", "Los personajes de Josman en primer plano"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Empaques y productos",
+        title: "Una familia de productos que se reconoce.",
+        body: [
+          "Diseñé el **sistema de empaques** —costales, bolsas y cubetas— con un color por línea de producto y la franja de la marca como elemento común, para que se identifiquen de un vistazo en el anaquel y en la tienda en línea.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        textucos("costales", "Línea completa de costales", 1793, 1800),
+        textucos("productos-casa", "Productos de Josman frente a una casa", 1128, 1128),
+        textucos("bolsa-pega-facil", "Bolsa de adhesivo Pega Fácil"),
+        textucos("bolsa-amazon", "Bolsa de producto con promoción en Amazon"),
+        textucos("bolsa-porcelanato", "Bolsa Fija Porcelanato"),
+        textucos("bolsa-accesible", "Bolsa de producto: siempre accesible"),
+        textucos("costal-cantera", "Costal Fija Cantera Fija Teja"),
+        textucos("costal-reflex", "Costal Reflex"),
+        textucos("costal-azulejo", "Costal Pega Azulejo"),
+        textucos("cubeta", "Cubeta de texturizado"),
+        textucos("cartel-promocion", "Cartel de promoción de productos"),
+        textucos("promocion-amazon", "Promoción de productos en Amazon", 1128, 1128),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Catálogo e impresos",
+        title: "Toda la línea en un solo catálogo.",
+        body: [
+          "Diseñé el **catálogo de productos**, carpetas y trípticos, con fichas técnicas claras y las franjas de la marca como guía visual de cada sección.",
+        ],
+      },
+    },
+    { items: [textucos("catalogo", "Catálogo de Texturizados y Adhesivos", 1800, 1272), textucos("catalogo-libro", "Catálogo impreso de Josman", 1800, 1350)] },
+    { items: [textucos("catalogo-pagina-1", "Página del catálogo: Fija Sillar", 1800, 1272), textucos("catalogo-pagina-2", "Página del catálogo: Fija Cantera Fija Teja", 1800, 1272)] },
+    {
+      compact: true,
+      items: [
+        textucos("carpeta", "Carpeta corporativa de Josman", 1800, 1391),
+        textucos("triptico", "Tríptico de productos", 1800, 1298),
+        textucos("carpeta-portada", "Portada de carpeta con la franja de la marca"),
+        textucos("carpeta-2", "Carpeta corporativa abierta"),
+        textucos("triptico-2", "Tríptico con muestrario de colores"),
+        textucos("carpeta-3", "Carpeta corporativa, variante"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Promocionales y obra",
+        title: "La marca en las manos del maestro.",
+        body: [
+          "Llevé la identidad a **gorras, casco, llana y calendario**: objetos que el cliente usa todos los días y que mantienen la marca presente en la obra.",
+        ],
+      },
+    },
+    { items: [textucos("gorra", "Gorra de Josman Texturizados y Adhesivos", 1800, 1200), textucos("gorra-2", "Gorra de Josman, vista lateral")] },
+    {
+      compact: true,
+      items: [
+        textucos("calendario", "Calendario de pared de Josman"),
+        textucos("casco", "Casco de obra con el logotipo de Josman", 1128, 1128),
+        textucos("llana", "Llana con el isotipo de Josman sobre azulejo", 1128, 1128),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Presencia digital",
+        title: "Del anaquel a la pantalla.",
+        body: [
+          "Diseñé el **sitio web, las redes sociales y el contenido para pantallas** en punto de venta, con los personajes y las franjas de la marca como hilo conductor.",
+        ],
+      },
+    },
+    { items: [textucos("celulares", "Sitio de Josman en dos celulares", 1800, 1350), textucos("celulares-2", "Contenido de Josman en tres celulares")] },
+    {
+      compact: true,
+      items: [
+        textucos("sitio-web", "Sitio web de Josman en una laptop", 1575, 1577),
+        textucos("sitio-web-2", "Sitio web de Josman, segunda vista"),
+        textucos("redes", "Contenido de Josman para redes sociales"),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        textucosVideo("dos-pantallas", "Contenido de Josman en dos pantallas"),
+        textucosVideo("una-pantalla", "Contenido de Josman en una pantalla"),
+        textucosVideo("pantalla-personaje", "Contenido con el personaje de Josman en pantalla"),
+      ],
+    },
+  ],
+  "1/12": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Una revolvedora que firma cada obra.",
+        body: [
+          "El isotipo dibuja una **revolvedora de concreto** con trazos curvos y firmes: un símbolo directo, fácil de reconocer en un camión, un casco o un espectacular.",
+          "Lo acompañé de un logotipo sólido y lo desarrollé sobre blanco, azul y amarillo, en positivo, negativo y relieve, construido sobre una retícula para mantener su fuerza en cualquier tamaño.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        josman("logo-color", "Logotipo de Josman Concretos a color"),
+        josman("isotipo-color", "Isotipo de Josman Concretos a color"),
+        josman("logo-azul", "Logotipo de Josman Concretos sobre azul"),
+        josman("logo-amarillo", "Logotipo de Josman Concretos sobre amarillo"),
+        josman("isotipo-amarillo", "Isotipo azul sobre amarillo"),
+        josman("isotipo-azul", "Isotipo amarillo sobre azul"),
+        josman("logo-reticula", "Logotipo de Josman Concretos sobre retícula"),
+        josman("portada", "Retícula de construcción del isotipo", 750, 749),
+      ],
+    },
+    {
+      compact: true,
+      items: [
+        josman("paleta", "Paleta de color de Josman Concretos", 1128, 1128),
+        josman("logo-relieve", "Logotipo de Josman Concretos en relieve sobre papel"),
+        josman("logo-arena", "Logotipo de Josman Concretos marcado en arena", 1128, 1128),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Uniformes y equipo de seguridad",
+        title: "La marca también se ve en la obra.",
+        body: [
+          "Llevé la identidad a **chalecos, cascos y equipo de trabajo**, para que cada cuadrilla represente a la empresa con orden y seguridad.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        josman("chaleco-1", "Chaleco de seguridad de Josman Concretos"),
+        josman("chaleco-2", "Chaleco de seguridad, vista trasera", 1800, 1760),
+        josman("equipo-obra", "Equipo de Josman Concretos revisando planos en obra"),
+      ],
+    },
+    { items: [josman("casco-1", "Casco de seguridad con el logotipo de Josman", 1128, 1128), josman("casco-2", "Casco de seguridad, vista lateral", 1128, 1128)] },
+    {
+      story: {
+        eyebrow: "Papelería, catálogo y publicidad impresa",
+        title: "Cada producto con su propia ficha.",
+        body: [
+          "Diseñé **tarjetas, papelería, catálogo y flyers** para cada producto —arena, grava, concreto permeable e impermeable—, con el azul y el amarillo como guía para que la información técnica se lea con claridad.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        josman("tarjeta-guante", "Tarjeta de presentación sostenida con guante de obra", 1128, 1128),
+        josman("tarjeta-mano", "Tarjeta de presentación de Josman Concretos", 1128, 1128),
+        josman("papeleria", "Papelería de Josman Concretos"),
+        josman("hoja", "Hoja membretada de Josman Concretos"),
+        josman("catalogo", "Catálogo de productos de Josman Concretos", 1797, 1800),
+        josman("catalogo-abierto", "Catálogo abierto de Josman Concretos"),
+        josman("flyers-productos", "Flyers de productos: arena, concreto y barda", 1128, 1128),
+        josman("flyers-arena", "Flyers de arena y grava"),
+        josman("flyers", "Flyers verticales de Josman Concretos"),
+        josman("banner", "Banner impreso de Josman Concretos"),
+        josman("flyers-set", "Conjunto de flyers de Josman Concretos"),
+        josman("folleto", "Folleto de Josman Concretos"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Artículos promocionales",
+        title: "Una marca para llevar a la obra.",
+        body: [
+          "Desarrollé **termos en los tres colores de la marca** como artículo promocional para clientes y cuadrillas.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        josman("termo-amarillo", "Termo amarillo de Josman Concretos", 1800, 1200),
+        josman("termo-azul", "Termo azul de Josman Concretos", 1800, 1200),
+        josman("termo-gris", "Termo gris de Josman Concretos", 1800, 1200),
+      ],
+    },
+    { items: [josman("termos", "Termos de Josman Concretos en sus tres colores", 1800, 1200), josman("termos-2", "Termos de Josman Concretos, vista cercana", 1796, 1800)] },
+    {
+      story: {
+        eyebrow: "Señalética y publicidad exterior",
+        title: "Solidez que construye el futuro.",
+        body: [
+          "Llevé la identidad a **fachada, letrero luminoso y espectaculares**, con el mensaje «Solidez que construye el futuro» y la revolvedora como protagonista.",
+          "La marca también aparece en el propio concreto y en la obra: el lugar donde la empresa demuestra lo que hace.",
+        ],
+      },
+    },
+    { items: [josman("letrero", "Letrero en la fachada de Josman Concretos", 1800, 1200), josman("luminoso", "Letrero luminoso redondo de Josman Concretos", 1800, 1200)] },
+    { items: [josman("espectacular-1", "Espectacular de Josman Concretos junto a la carretera", 1600, 1200), josman("espectacular-2", "Espectacular: solidez que construye el futuro"), josman("espectacular-3", "Espectacular de Josman Concretos en la ciudad")] },
+    {
+      compact: true,
+      items: [
+        josman("senal-piso", "Logotipo de Josman Concretos sobre pavimento", 1128, 1128),
+        josman("concreto", "Colado de concreto con el logotipo de Josman", 1128, 1128),
+        josman("cuadro", "Cuadro con fotografía de obra de Josman Concretos", 1200, 1200),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Presencia digital",
+        title: "El concreto también se cotiza en línea.",
+        body: [
+          "Diseñé el **sitio web** de la empresa, con fichas de cada producto y su versión para celular, además de **contenido para pantallas** en punto de venta.",
+        ],
+      },
+    },
+    { items: [josman("sitio-web", "Sitio web de Josman Concretos en una laptop", 1080, 1080), josmanVideo("web-movil", "Sitio web de Josman Concretos en un celular")] },
+    { items: [josmanVideo("web-escritorio", "Recorrido por el sitio web de Josman Concretos", 974, 480), josmanVideo("web-vertical", "Sitio web de Josman Concretos en versión móvil", 480, 984)] },
+    { items: [josmanVideo("pantallas", "Contenido de Josman Concretos en dos pantallas"), josmanVideo("television", "Contenido de Josman Concretos en una televisión")] },
+  ],
+  "1/11": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Un universo en órbita.",
+        body: [
+          "El logotipo envuelve las palabras en **órbitas que se cruzan como un átomo**: la energía de una persona que decide moverse y transformar su realidad.",
+          "Lo desarrollé en morado, verde y bicolor, y lo construí sobre una retícula para que brille igual en una pantalla de escenario, en una sudadera o en una publicación.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        creando("logo-bicolor", "Logotipo de Creando lo Imposible en morado y verde"),
+        creando("logo-morado", "Variaciones del logotipo en morado neón"),
+        creando("logo-verde", "Logotipo de Creando lo Imposible en verde neón"),
+      ],
+    },
+    { items: [creandoVideo("logo-animado", "Animación del logotipo de Creando lo Imposible"), creando("portada", "Retícula de construcción del logotipo", 750, 749)] },
+    {
+      story: {
+        eyebrow: "Iconografía",
+        title: "Un ícono para cada salto.",
+        body: [
+          "Diseñé una **familia de pictogramas** que representa cada etapa del proceso —logros, retos y transformaciones— para usarlos en materiales, insignias y contenido digital.",
+        ],
+      },
+    },
+    { items: [creando("pictogramas-1", "Pictogramas de Creando lo Imposible, serie 1"), creando("pictogramas-2", "Pictogramas de Creando lo Imposible, serie 2")] },
+    {
+      story: {
+        eyebrow: "Papelería y reconocimientos",
+        title: "Un logro que se guarda.",
+        body: [
+          "Llevé la identidad a **diplomas y carpetas** con el degradado de la marca, para que cada participante se lleve un recuerdo a la altura de lo que logró.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        creando("diploma", "Diploma de Creando lo Imposible"),
+        creando("carpeta-1", "Carpeta con el degradado de la marca"),
+        creando("carpeta-2", "Carpeta de Creando lo Imposible, vista lateral"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Merchandising",
+        title: "Una marca que se lleva puesta.",
+        body: [
+          "Diseñé una línea de **sudaderas, playeras, pantalones y gorras** con ilustraciones de fuerza —serpientes, alas, guerreros— y frases que la comunidad hace suyas: «Yo soy un hombre astuto, arriesgado, feliz y líder».",
+          "Los acentos neón convierten cada prenda en una extensión de la experiencia del evento.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        creando("sudadera-2", "Sudadera con ilustración de alas"),
+        creando("sudadera-3", "Sudadera con frase de la comunidad"),
+        creando("sudadera-3b", "Sudadera con ilustración de alas y frase"),
+        creando("playera-4", "Playera con ilustración de serpiente y koi"),
+        creando("sudadera-4", "Sudadera con ilustración de guerrero"),
+        creando("sudadera-5", "Sudadera con ilustración tribal"),
+        creando("playera-c5", "Playera de manga larga con ilustración"),
+        creando("pantalon", "Pantalón deportivo de Creando lo Imposible"),
+        creando("gorra", "Gorra de Creando lo Imposible"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Comunicación digital",
+        title: "Del escenario a la pantalla.",
+        body: [
+          "Desarrollé la presencia digital de la marca: **app, redes sociales, publicidad de eventos y sitio web**, para que cada seminario se anuncie con la misma energía con la que se vive.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        creando("app-1", "Ícono de la app de Creando lo Imposible"),
+        creando("app-2", "Ícono de la app en la pantalla de inicio"),
+        creando("instagram-1", "Publicación del evento Básico en Guadalajara"),
+        creando("instagram-2", "Publicaciones del evento Básico en Barcelona"),
+      ],
+    },
+    { items: [creandoVideo("instagram-movil", "Perfil de Instagram de Creando lo Imposible en un celular"), creandoVideo("tiktok-movil", "Contenido de TikTok de Creando lo Imposible en un celular")] },
+    { items: [creandoVideo("web-1", "Sitio web de Creando lo Imposible: próximos eventos"), creandoVideo("web-2", "Sitio web de Creando lo Imposible: experiencias")] },
   ],
   "1/10": [
     {
@@ -682,6 +1172,10 @@ const PROJECT_FEATURES = {
 // Fila de imágenes entre la introducción y el bloque de color ("perfil/proyecto")
 const PROJECT_INTRO_IMAGES = {
   "1/6": { items: [deliz("14", "Aplicación de la identidad de Deliz", 2800, 1286)] },
+  "1/14": { items: [sweett("bolsa-blanca", "Bolsa de compra blanca de My Sweett Audrina"), sweett("tote", "Tote bag negra de My Sweett Audrina")] },
+  "1/13": { items: [textucos("espectacular", "Espectacular de Josman Texturizados y Adhesivos", 1799, 1800), textucos("fachada", "Fachada con el logotipo de Josman", 1128, 1128)] },
+  "1/12": { items: [josman("camion", "Camión revolvedor rotulado con la identidad de Josman Concretos"), josman("camion-obra", "Camión revolvedor de Josman Concretos en una obra", 1128, 1128)] },
+  "1/11": { items: [creandoVideo("escenario-1", "Escenario de un evento de Creando lo Imposible"), creandoVideo("escenario-2", "Conferencia de Creando lo Imposible: transforma tu vida")] },
   "1/10": { items: [trend("banner-plaza", "Banner de Trend en una plaza comercial", 1800, 1799), trend("vitrina", "Vitrina con publicidad de Trend")] },
   "1/9": { items: [gotitas("logo", "Logotipo de Gotitas de Esperanza"), gotitas("isotipo-grande", "Isotipo de Gotitas de Esperanza en blanco sobre rosa, gran formato")] },
   "1/8": { items: [memories("fachada", "Lona de Memories en la fachada de un edificio"), memories("equipo-boda", "Equipo de Memories trabajando en una boda")] },
@@ -730,6 +1224,157 @@ const PROJECT_STORY = {
         "Una identidad fresca, reconocible y con personalidad, que transforma algo cotidiano como comer en una experiencia de marca.",
         "El reto no era solo hacer algo atractivo, sino **contar una historia, generar una sensación y permanecer en la memoria** de las personas.",
         "Cuando estrategia y diseño trabajan juntos, una marca deja de ser solo un logotipo y empieza a convertirse en una experiencia.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/14": {
+    hero: {
+      title: "My Sweett Audrina",
+      category: "Identidad visual · Boutique de moda",
+      description: "My Sweett Audrina es una boutique de moda femenina. Creé una identidad dulce y elegante, con un monograma propio y un rosa que se reconoce en cada bolsa, etiqueta y pantalla.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca dulce con carácter.",
+      body: [
+        "En la moda, la experiencia de compra empieza antes de probarse una prenda: en la bolsa, la etiqueta y la tienda en línea. La marca tenía que **sentirse especial en cada detalle**.",
+        "Para My Sweett Audrina desarrollé una identidad **femenina, elegante y segura**, con un monograma que funciona como sello de la boutique.",
+        "Mi objetivo fue crear un **sistema visual sencillo y coherente**, del empaque al celular.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Rosa que endulza, negro que da estilo.",
+      body: [
+        "El **rosa Sweett** aporta dulzura y personalidad; el **negro** da elegancia y contraste, y el **blanco** deja respirar cada pieza.",
+        "La tipografía combina una serif elegante, como el trazo del logotipo, con una sans limpia para precios, tallas y botones.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una boutique que se reconoce por su sello.",
+      body: [
+        "Una identidad delicada y reconocible que acompaña a la boutique del mostrador a la tienda en línea.",
+        "El reto era **equilibrar dulzura y elegancia**: una marca tierna sin perder carácter.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/13": {
+    hero: {
+      title: "Josman Texturizados y Adhesivos",
+      category: "Identidad visual · Packaging",
+      description: "Josman Texturizados y Adhesivos es la línea de acabados de Josman: adhesivos, pegazulejos y texturizados. Creé una identidad colorida y confiable, pensada para destacar en el anaquel y en la obra.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2021"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Pegamás fuerte.",
+      body: [
+        "En una ferretería, el cliente elige en segundos entre decenas de costales parecidos. La marca tenía que **destacar en el anaquel** y transmitir calidad técnica al mismo tiempo.",
+        "Para esta línea de Josman desarrollé una identidad **vibrante y cercana**, con tres colores que distinguen cada familia de producto y dos personajes que hablan el idioma de la obra.",
+        "Mi objetivo fue crear un **sistema de packaging y comunicación** coherente, del costal al catálogo y de la ferretería a la tienda en línea.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Tres colores, tres capas.",
+      body: [
+        "El **índigo** da solidez y confianza; el **naranja** aporta energía y visibilidad en el anaquel, y el **verde** transmite calidad y resistencia. El **blanco** ordena las fichas técnicas.",
+        "La tipografía combina una sans contundente para nombres de producto con una sans legible para instrucciones y especificaciones.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una marca que se adhiere a la memoria.",
+      body: [
+        "Una identidad colorida y coherente, capaz de ordenar una línea completa de productos sin perder personalidad.",
+        "El reto era **hacer reconocible cada producto sin romper la unidad de la marca**, y lograrlo en empaques, impresos y medios digitales.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/12": {
+    hero: {
+      title: "Josman Concretos",
+      category: "Identidad visual · Construcción",
+      description: "Josman Concretos produce y distribuye concreto y materiales para construcción. Creé una identidad sólida, clara y reconocible, pensada para vivir en la obra, en la carretera y en la pantalla.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2020"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca tan sólida como su concreto.",
+      body: [
+        "En la construcción, la confianza lo es todo: el cliente necesita saber que el material llegará a tiempo y con la calidad prometida. La marca tenía que **transmitir solidez y profesionalismo** desde el primer vistazo.",
+        "Para Josman desarrollé una identidad **fuerte, ordenada y cercana**, con un isotipo que toma la forma de su herramienta principal: la revolvedora.",
+        "Mi objetivo fue crear un **sistema visual completo** que funcione en el camión, en el uniforme, en la papelería técnica y en la publicidad, sin perder coherencia.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Azul de confianza, amarillo de obra.",
+      body: [
+        "El **azul** transmite seriedad y confianza; el **amarillo** remite a la maquinaria y la señalización de obra, y el **gris concreto** conecta con el material. El **blanco** ordena la información técnica.",
+        "La tipografía combina una sans contundente para la marca y los productos con una sans legible para fichas, precios y datos de contacto.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una identidad que se construye en cada obra.",
+      body: [
+        "Una marca sólida y coherente que acompaña a la empresa del camión revolvedor a la pantalla del celular.",
+        "El reto era **unir lo técnico con lo cercano**: una identidad que inspire confianza a constructoras y particulares por igual.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/11": {
+    hero: {
+      title: "Creando lo Imposible",
+      category: "Identidad visual · Desarrollo personal y eventos",
+      description: "Creando lo Imposible organiza seminarios y experiencias de transformación personal. Creé una identidad intensa y luminosa, pensada para brillar en el escenario, en la ropa y en la pantalla.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2022"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca que se vive en el escenario.",
+      body: [
+        "Un evento de transformación personal se recuerda por lo que se siente: la música, las luces y la energía del público. La marca tenía que **transmitir esa intensidad** desde el primer anuncio.",
+        "Para Creando lo Imposible desarrollé una identidad **neón, cósmica y poderosa**, inspirada en la idea de expandirse más allá de los propios límites.",
+        "Mi objetivo fue crear un **sistema visual completo**: del logotipo animado en pantalla gigante a la sudadera que la comunidad lleva después del evento.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Morado y verde que brillan en la oscuridad.",
+      body: [
+        "El **morado neón** representa la transformación y la intuición; el **verde neón** la vida y el crecimiento, y el **negro** les da el escenario para brillar. Juntos forman el **degradado** de la marca.",
+        "La tipografía combina una sans contundente para los mensajes que inspiran y una sans legible para la información de cada evento.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una identidad que hace posible lo imposible.",
+      body: [
+        "Una marca vibrante y reconocible que acompaña a la comunidad del escenario a la vida diaria.",
+        "El reto era **traducir una experiencia emocional en un sistema visual**, coherente en cada punto de contacto: pantalla, ropa, papelería y redes.",
       ],
       credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
     },
@@ -1010,6 +1655,14 @@ const PROJECT_STORY = {
 };
 
 // Convierte **texto** en <strong> dentro de un párrafo
+// true si un color hexadecimal es claro (el texto blanco del navbar no se leería)
+function isLightColor(value) {
+  const hex = String(value || "").trim().replace("#", "");
+  if (!/^[0-9a-f]{6}$/i.test(hex)) return false;
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.6;
+}
+
 function renderRich(text) {
   return text.split(/\*\*(.+?)\*\*/g).map((part, index) => (index % 2 ? <strong key={index}>{part}</strong> : part));
 }
@@ -1072,6 +1725,22 @@ const PROJECT_TYPEFACES = {
   "1/6": [
     { name: "Painted Paradise", role: "Logotipo", className: styles.fontPaintedParadise, weights: "Regular", sample: "Deliz, sabor que se recuerda." },
     { name: "Franklin Gothic Demi", role: "Titulares y texto", className: styles.fontFranklinDemi, weights: "Demi", sample: "Claridad y fuerza en cada aplicación de la marca." },
+  ],
+  "1/14": [
+    { name: "Playfair Display", role: "Marca y titulares", className: playfair.className, weights: "Regular 400 · Bold 700", sample: "My Sweett Audrina" },
+    { name: "Inter", role: "Tienda y detalles", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Nueva colección disponible." },
+  ],
+  "1/13": [
+    { name: "Montserrat Black", role: "Marca y productos", className: montserratBlack.className, weights: "Extrabold 800 · Black 900", sample: "PEGAMÁS FUERTE" },
+    { name: "Inter", role: "Fichas técnicas", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Siempre accesible, donde quiera que estés." },
+  ],
+  "1/12": [
+    { name: "Montserrat Black", role: "Marca y productos", className: montserratBlack.className, weights: "Extrabold 800 · Black 900", sample: "CONCRETO FC/150" },
+    { name: "Inter", role: "Fichas y datos técnicos", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Solidez que construye el futuro." },
+  ],
+  "1/11": [
+    { name: "Montserrat Black", role: "Marca y mensajes", className: montserratBlack.className, weights: "Extrabold 800 · Black 900", sample: "LLEVA LO IMPOSIBLE A TUS MANOS" },
+    { name: "Inter", role: "Texto y eventos", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Transforma tu vida." },
   ],
   "1/10": [
     { name: "Montserrat Black", role: "Marca y titulares", className: montserratBlack.className, weights: "Extrabold 800 · Black 900", sample: "TREND BOUTIQUE" },
@@ -1167,6 +1836,9 @@ export default async function DesignProjectPage({ params }) {
   );
   const profileName = stripEmoji(data.profileName);
   const heroMedia = HERO_MEDIA[`${route.profileId}/${route.projectId}`] || { image: data.image, alt: data.caption || title };
+  // Con hero o página claros, el navbar de escritorio (texto blanco) necesita
+  // una franja oscura detrás para leerse
+  const needsNavBand = Boolean(heroMedia.lightPage || isLightColor(heroMedia.heroBackground));
   const category = stripEmoji(story.hero?.category || data.web?.type || (isWebProject ? "Diseño y desarrollo web" : "Dirección de arte · Identidad visual"));
   const typefaces = PROJECT_TYPEFACES[`${route.profileId}/${route.projectId}`] || TYPEFACES;
   const introImages = PROJECT_INTRO_IMAGES[`${route.profileId}/${route.projectId}`];
@@ -1181,7 +1853,7 @@ export default async function DesignProjectPage({ params }) {
 
   return (
     <main
-      className={`${styles.projectPage} ${heroMedia.lightPage ? styles.pageLight : ""}`}
+      className={`${styles.projectPage} ${heroMedia.lightPage ? styles.pageLight : ""} ${needsNavBand ? styles.withNavBand : ""}`}
       style={{
         ...(heroMedia.storyInk || heroMedia.ink ? { "--story-ink": heroMedia.storyInk || heroMedia.ink } : {}),
         ...(heroMedia.pageBackground ? { "--page-bg": heroMedia.pageBackground } : {}),

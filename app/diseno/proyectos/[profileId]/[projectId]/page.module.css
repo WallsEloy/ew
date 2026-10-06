@@ -1,9 +1,26 @@
 .projectPage {
+  position: relative;
   min-height: 100dvh;
   /* El fondo del hero se extiende a todo el ancho sin generar scroll lateral */
   overflow-x: clip;
   background: var(--page-bg, #101010);
   color: #f6f3eb;
+}
+
+/* Franja oscura detrás del navbar de escritorio cuando el hero es claro: el
+   navbar flota sobre la página con texto blanco */
+@media (min-width: 768px) {
+  .withNavBand::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    height: 104px;
+    background: #050505;
+    content: "";
+    pointer-events: none;
+  }
 }
 
 /* --- Hero a pantalla completa --------------------------------------------- */
@@ -436,6 +453,17 @@
   width: 100%;
   height: auto;
   background: #000;
+  /* Se comporta como imagen animada: sin toques que muestren controles. */
+  pointer-events: none;
+}
+
+/* Oculta el botón de reproducción que Safari/Chrome móvil dibujan encima. */
+.featureVideo video::-webkit-media-controls,
+.featureVideo video::-webkit-media-controls-panel,
+.featureVideo video::-webkit-media-controls-overlay-play-button,
+.featureVideo video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
 }
 
 /* Mismo acercamiento suave que las imágenes de la galería */

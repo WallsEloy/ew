@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-// Video de la galería del proyecto: no se descarga hasta acercarse, se
-// reproduce en silencio y en bucle solo mientras está en pantalla, y deja los
-// controles para activar el sonido. Con "reducir movimiento" no arranca solo.
+// Video de la galería del proyecto: no se descarga hasta acercarse y se
+// reproduce en silencio y en bucle solo mientras está en pantalla, como una
+// imagen animada: sin controles, botón de reproducción ni línea de tiempo.
+// Con "reducir movimiento" se queda en su póster.
 export default function VideoTile({ src, poster, label, width, height }) {
   const videoRef = useRef(null);
 
@@ -38,10 +39,10 @@ export default function VideoTile({ src, poster, label, width, height }) {
       muted
       loop
       playsInline
-      controls
       preload="none"
-      controlsList="nodownload noplaybackrate"
+      tabIndex={-1}
       disablePictureInPicture
+      disableRemotePlayback
       onContextMenu={(event) => event.preventDefault()}
     />
   );

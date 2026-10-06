@@ -315,7 +315,9 @@
     height: 56px;
     border-radius: 50%;
     color: #55565a;
-    transition: color 220ms ease, background 220ms ease, transform 220ms ease, width 260ms ease, height 260ms ease;
+    /* Al tocar solo cambia el color del ícono: sin destello del navegador. */
+    -webkit-tap-highlight-color: transparent;
+    transition: color 220ms ease, width 260ms ease, height 260ms ease;
   }
 
   .pillLink svg {
@@ -347,14 +349,8 @@
     height: 21px !important;
   }
 
-  .pillLink:active {
-    transform: scale(0.9);
-  }
-
   .pillLinkActive {
     color: #00aff0;
-    background: rgba(0, 175, 240, 0.1);
-    box-shadow: 0 0 22px rgba(0, 175, 240, 0.12);
   }
 
   .pillLinkActive img {
