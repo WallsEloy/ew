@@ -35,6 +35,12 @@ const PROJECT_PALETTES = {
     { name: "Café oscuro", hex: "#1f1410", ink: "#ffffff" },
     { name: "Blanco", hex: "#ffffff", ink: "#1f1410" },
   ],
+  "1/15": [
+    { name: "Magenta Estancia", hex: "#af214f", ink: "#ffffff" },
+    { name: "Negro", hex: "#000000", ink: "#ffffff" },
+    { name: "Madera", hex: "#403f3d", ink: "#ffffff" },
+    { name: "Blanco", hex: "#ffffff", ink: "#af214f" },
+  ],
   "1/14": [
     { name: "Rosa Sweett", hex: "#ff9ae1", ink: "#000000" },
     { name: "Negro", hex: "#000000", ink: "#ffffff" },
@@ -107,6 +113,15 @@ const PROJECT_PALETTES = {
 // hero con el color del logo.
 const HERO_MEDIA = {
   "1/6": { image: "/Branding/Deliz/delizRecurso%201.svg", alt: "Logotipo de Deliz", contain: true, ink: "#009e76" },
+  "1/15": {
+    image: "/Branding/Estancia/logo-hero.webp",
+    alt: "Isotipo de Estancia",
+    contain: true,
+    ink: "#e04a7c",
+    storyInk: "#e04a7c",
+    heroBackground: "#000000",
+    pageBackground: "#000000",
+  },
   "1/14": {
     image: "/Branding/Sweett/logo-hero.webp",
     alt: "Logotipo de My Sweett Audrina",
@@ -236,6 +251,8 @@ const hamburger = (name, alt, width = 1425, height = 1425) => ({ image: `/Brandi
 const yadi = (name, alt, width = 1200, height = 1200) => ({ image: `/Branding/Yadi/${name}.webp`, alt, width, height });
 const enevesol = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Enevesol/${name}.webp`, alt, width, height });
 const rag = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/RAG/${name}.webp`, alt, width, height });
+const estancia = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Estancia/${name}.webp`, alt, width, height });
+const estanciaVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/Estancia/video/${name}.mp4`, poster: `/Branding/Estancia/video/${name}-poster.webp`, alt, width, height });
 const sweett = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Sweett/${name}.webp`, alt, width, height });
 const textucos = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/JOSMAN%20Textucos/${name}.webp`, alt, width, height });
 const textucosVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/JOSMAN%20Textucos/video/${name}.mp4`, poster: `/Branding/JOSMAN%20Textucos/video/${name}-poster.webp`, alt, width, height });
@@ -402,6 +419,106 @@ const PROJECT_FEATURES = {
     { items: [yadi("mupi", "Mupi nocturno de Yadi'Studio", 2400, 1350), yadi("web", "Perfil digital de Yadi'Studio", 2400, 1350)] },
     // Segunda banda de arabescos, como cierre visual antes del resultado
     { items: [yadi("patron-2", "Patrón de arabescos de Yadi'Studio, variante", 2800, 1189)] },
+  ],
+  "1/15": [
+    {
+      story: {
+        eyebrow: "Identidad visual y logotipo",
+        title: "Dos trazos que sirven la mesa.",
+        body: [
+          "El isotipo une **dos trazos inclinados en magenta**, como dos rebanadas servidas juntas: una forma simple y reconocible que funciona sola en una servilleta, un vaso o la esquina de una fotografía.",
+          "Lo acompañé de un logotipo de letras redondas y una firma caligráfica, y lo animé para redes y pantallas: primero el trazo que dibuja la forma y después el relleno.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        estancia("logo-magenta", "Isotipo de Estancia en negro sobre magenta"),
+        estancia("logo-madera", "Isotipo de Estancia en magenta sobre madera"),
+        estancia("portada", "Retícula de construcción del isotipo", 750, 749),
+      ],
+    },
+    { items: [estanciaVideo("logo-trazo", "Animación del trazo del isotipo de Estancia"), estanciaVideo("logo-animado", "Animación del isotipo de Estancia")] },
+    {
+      story: {
+        eyebrow: "Fotografía gastronómica",
+        title: "Cada platillo, un retrato.",
+        body: [
+          "Dirigí y retoqué la **fotografía de platillos, postres y bebidas** sobre fondo negro, con luz lateral que resalta texturas y colores, y la firma de la marca en cada imagen.",
+          "Pensé la serie para **Instagram**: una retícula oscura y elegante donde la comida es la protagonista.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        estancia("platillo-2a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-2b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-3a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-3b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-4a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-4b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-5a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-5b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-6a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-6b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-7a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-7b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-8a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-8b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-9a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-9b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-10a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-10b", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-11a", "Fotografía gastronómica de Estancia"),
+        estancia("platillo-11b", "Fotografía gastronómica de Estancia"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Menú impreso",
+        title: "Un menú que se hojea como un libro.",
+        body: [
+          "Diseñé el **menú en formato de libro**, con fotografía a sangre, el magenta como guía y una lectura clara de cada platillo, y lo llevé también a tarjetas de mesa.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      items: [
+        estancia("foto-mesa", "Fotografía de un platillo de Estancia sobre la mesa", 1800, 1800),
+        estancia("menu-ensalada", "Portada del menú de Estancia con una ensalada"),
+        estancia("menu-platillo", "Portada del menú de Estancia con un platillo"),
+      ],
+    },
+    { items: [estancia("menu-libro-1", "Menú de Estancia abierto: bebidas", 1800, 1792), estancia("menu-libro-2", "Menú de Estancia abierto: postres", 1800, 1792)] },
+    { items: [estancia("menu-libro-3", "Menú de Estancia abierto: platos fuertes", 1800, 1792), estancia("menu-libro-4", "Menú de Estancia abierto: especialidades", 1800, 1792)] },
+    { items: [estancia("tarjetas-panoramica", "Tarjetas de Estancia sobre la mesa", 2400, 804)] },
+    {
+      story: {
+        eyebrow: "Publicidad exterior",
+        title: "Descubre la perfección en cada bocado.",
+        body: [
+          "Llevé la marca a la calle con **espectaculares, parabuses y un muro en edificio**: fotografía de producto sobre negro, el magenta como acento y mensajes cortos como «Frescura y elegancia» o «Reserva un momento inolvidable».",
+        ],
+      },
+    },
+    { items: [estancia("espectacular", "Espectacular de Estancia: descubre la perfección en cada bocado", 1800, 1800), estancia("parabus-noche", "Parabús de Estancia de noche")] },
+    { items: [estancia("parabus", "Parabús de Estancia con una bebida", 675, 1200), estancia("muro-edificio", "Anuncio de Estancia en un muro de edificio", 675, 1200), estancia("muro-edificio-2", "Anuncio de Estancia en la fachada de un edificio")] },
+    { items: [estanciaVideo("parabus-animado", "Parabús animado de Estancia: reserva un momento inolvidable")] },
+    {
+      story: {
+        eyebrow: "Presencia digital",
+        title: "La mesa también se aparta en línea.",
+        body: [
+          "Diseñé el **perfil de Instagram y Facebook** y la **app con el menú**: categorías, platillos con fotografía, carrito y pago, con el magenta guiando cada paso.",
+        ],
+      },
+    },
+    { items: [estancia("facebook", "Página de Facebook de Estancia", 1600, 1600), estanciaVideo("instagram-perfil", "Perfil de Instagram de Estancia en un celular")] },
+    { items: [estanciaVideo("app-menu", "Menú de Estancia en la app"), estanciaVideo("app-celular", "Recorrido por la app de Estancia: menú, carrito y pago")] },
   ],
   "1/14": [
     {
@@ -1212,6 +1329,7 @@ const PROJECT_FEATURES = {
 // Fila de imágenes entre la introducción y el bloque de color ("perfil/proyecto")
 const PROJECT_INTRO_IMAGES = {
   "1/6": { items: [deliz("14", "Aplicación de la identidad de Deliz", 2800, 1286)] },
+  "1/15": { items: [estancia("helado-1", "Copa de helado de Estancia con fresa"), estancia("helado-2", "Copa de helado con el logotipo de Estancia")] },
   "1/14": { items: [sweett("bolsa-blanca", "Bolsa de compra blanca de My Sweett Audrina"), sweett("tote", "Tote bag negra de My Sweett Audrina")] },
   "1/13": { items: [textucos("espectacular", "Espectacular de Josman Texturizados y Adhesivos", 1799, 1800), textucos("fachada", "Fachada con el logotipo de Josman", 1128, 1128)] },
   "1/12": { items: [josman("camion", "Camión revolvedor rotulado con la identidad de Josman Concretos"), josman("camion-obra", "Camión revolvedor de Josman Concretos en una obra", 1128, 1128)] },
@@ -1264,6 +1382,44 @@ const PROJECT_STORY = {
         "Una identidad fresca, reconocible y con personalidad, que transforma algo cotidiano como comer en una experiencia de marca.",
         "El reto no era solo hacer algo atractivo, sino **contar una historia, generar una sensación y permanecer en la memoria** de las personas.",
         "Cuando estrategia y diseño trabajan juntos, una marca deja de ser solo un logotipo y empieza a convertirse en una experiencia.",
+      ],
+      credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "1/15": {
+    hero: {
+      title: "Estancia",
+      category: "Identidad visual · Restaurante y panfetería",
+      description: "Estancia es un restaurante y panfetería gourmet. Creé una identidad elegante y apetitosa, con un isotipo propio y un magenta que acompaña cada platillo, del menú a la calle.",
+      meta: [
+        ["Disciplina", "Branding"],
+        ["Diseñador", "Eloy Walls"],
+        ["Fecha", "2022"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una marca que se saborea.",
+      body: [
+        "En un restaurante la marca se prueba antes que la comida: en la fotografía, en el menú y en la primera publicación que alguien ve. Estancia necesitaba **verse tan cuidada como sus platillos**.",
+        "Desarrollé una identidad **oscura, elegante y cálida**, donde el negro deja brillar la comida y el magenta pone el acento.",
+        "Mi objetivo fue crear un **sistema visual completo**: logotipo, fotografía, menú, publicidad exterior y presencia digital, todos con la misma voz.",
+      ],
+    },
+    palette: {
+      eyebrow: "Color y tipografía",
+      title: "Negro que enmarca, magenta que antoja.",
+      body: [
+        "El **magenta Estancia** aporta energía y apetito; el **negro** enmarca la fotografía y le da elegancia, y la **madera** y el **blanco** acompañan las aplicaciones impresas.",
+        "La tipografía combina una sans redonda y gruesa para la marca, un trazo caligráfico para los acentos y una sans limpia para menús y precios.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Una experiencia que empieza antes del primer bocado.",
+      body: [
+        "Una identidad coherente que acompaña a Estancia de la mesa al celular y del menú al espectacular.",
+        "El reto era **hacer que la marca abriera el apetito**: elegante sin ser fría, cercana sin perder sofisticación.",
       ],
       credit: { label: "Diseño y dirección creativa", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
     },
@@ -1765,6 +1921,11 @@ const PROJECT_TYPEFACES = {
   "1/6": [
     { name: "Painted Paradise", role: "Logotipo", className: styles.fontPaintedParadise, weights: "Regular", sample: "Deliz, sabor que se recuerda." },
     { name: "Franklin Gothic Demi", role: "Titulares y texto", className: styles.fontFranklinDemi, weights: "Demi", sample: "Claridad y fuerza en cada aplicación de la marca." },
+  ],
+  "1/15": [
+    { name: "Nunito", role: "Marca y titulares", className: nunito.className, weights: "Extrabold 800", sample: "estancia" },
+    { name: "Courgette", role: "Acento caligráfico", className: styles.fontCourgette, weights: "Regular 400", sample: "panfetería" },
+    { name: "Inter", role: "Menú y precios", className: inter.className, weights: "Regular 400 · Semibold 600", sample: "Reserva un momento inolvidable." },
   ],
   "1/14": [
     { name: "Playfair Display", role: "Marca y titulares", className: playfair.className, weights: "Regular 400 · Bold 700", sample: "My Sweett Audrina" },
