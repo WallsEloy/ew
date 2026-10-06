@@ -925,3 +925,41 @@
     letter-spacing: 0.08em;
   }
 }
+
+/* VISTA LIMPIA (galería de Fotografía): la foto completa, sin recortes ni
+   textos. El marco se ajusta al tamaño de cada foto. */
+.fotoSola {
+  display: flex;
+  justify-content: center;
+  width: 92%;
+  margin: 16px auto 28px;
+  /* Que la barra superior del sitio no tape el borde de arriba de la foto */
+  scroll-margin-top: 96px;
+}
+
+.fotoSolaImg {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 82dvh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 769px) {
+  .fotoSola {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .fotoSolaImg {
+    max-width: min(76vw, 1100px);
+    max-height: min(80dvh, 820px);
+    border-radius: 20px;
+  }
+}

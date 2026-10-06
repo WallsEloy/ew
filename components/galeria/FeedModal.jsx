@@ -129,6 +129,27 @@ function Holograma({ src, activo }) {
   );
 }
 
+// Vista limpia (galería de Fotografía): solo la foto completa, ajustada a su
+// propio tamaño, sin textos, botones ni reverso.
+function FotoSola({ post, index, delay }) {
+  return (
+    // Solo aparece con opacidad: si además subiera, el scroll inicial calcularía
+    // la posición desplazada y la barra del sitio taparía el borde de arriba.
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay }}
+      className={styles.fotoSola}
+    >
+      <img
+        src={post.image}
+        alt={post.caption || `Fotografía ${index + 1}`}
+        className={styles.fotoSolaImg}
+      />
+    </motion.div>
+  );
+}
+
 // Sub-componente para manejar el estado individual de cada post (Me gusta)
 function FeedPost({
   post,
@@ -438,6 +459,7 @@ export default function FeedModal({
   galleryName = "",
   allowPurchase = true,
   allowFlip = true,
+  soloFoto = false,
 }) {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(startIndex);
@@ -538,7 +560,7 @@ export default function FeedModal({
 
   const handleOutsideClick = (event) => {
     const clickedInteractiveContent = event.target.closest(
-      `.${styles.postWrapper}, button`,
+      `.${styles.postWrapper}, .${styles.fotoSola}, button`,
     );
 
     if (!clickedInteractiveContent) onClose();
@@ -574,7 +596,9 @@ export default function FeedModal({
           onWheel={handleDesktopWheel}
           onScroll={handleScroll}
         >
-          {posts.map((post, i) => (
+          {posts.map((post, i) => soloFoto ? (
+            <FotoSola key={post.id} post={post} index={i} delay={i * 0.05} />
+          ) : (
             <FeedPost
               key={post.id}
               post={post}
@@ -601,9 +625,11 @@ export default function FeedModal({
           ›
         </button>
 
-        <div className={styles.counter} aria-live="polite">
-          {activeIndex + 1} / {posts.length}
-        </div>
+        {!soloFoto && (
+          <div className={styles.counter} aria-live="polite">
+            {activeIndex + 1} / {posts.length}
+          </div>
+        )}
       </motion.div>
     </AnimatePresence>
   );

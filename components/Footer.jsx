@@ -38,27 +38,27 @@ export default function Footer() {
             <h3 className={styles.title}>Galerías</h3>
             <ul className={styles.linksList}>
               <li>
-                <Link href="/galeria" className={styles.link}>
+                <Link href="/galeria/humans" className={styles.link}>
                   Humans
                 </Link>
               </li>
               <li>
-                <Link href="/galeria" className={styles.link}>
+                <Link href="/galeria/icecream" className={styles.link}>
                   Ice Cream
                 </Link>
               </li>
               <li>
-                <Link href="/galeria" className={styles.link}>
+                <Link href="/galeria/sketch" className={styles.link}>
                   Sketch
                 </Link>
               </li>
               <li>
-                <Link href="/galeria" className={styles.link}>
+                <Link href="/galeria/fotografia" className={styles.link}>
                   Fotografía
                 </Link>
               </li>
               <li>
-                <Link href="/galeria" className={styles.link}>
+                <Link href="/galeria/anacronismo" className={styles.link}>
                   Anacronismo
                 </Link>
               </li>

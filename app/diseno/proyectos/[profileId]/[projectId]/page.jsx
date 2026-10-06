@@ -238,11 +238,11 @@ const enevesol = (name, alt, width = 1425, height = 1425) => ({ image: `/Brandin
 const rag = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/RAG/${name}.webp`, alt, width, height });
 const sweett = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Sweett/${name}.webp`, alt, width, height });
 const textucos = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/JOSMAN%20Textucos/${name}.webp`, alt, width, height });
-const textucosVideo = (name, alt) => ({ video: `/Branding/JOSMAN%20Textucos/video/${name}.mp4`, poster: `/Branding/JOSMAN%20Textucos/video/${name}-poster.webp`, alt, width: 720, height: 720 });
+const textucosVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/JOSMAN%20Textucos/video/${name}.mp4`, poster: `/Branding/JOSMAN%20Textucos/video/${name}-poster.webp`, alt, width, height });
 const josman = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/JOSMAN%20Construccion/${name}.webp`, alt, width, height });
 const josmanVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/JOSMAN%20Construccion/video/${name}.mp4`, poster: `/Branding/JOSMAN%20Construccion/video/${name}-poster.webp`, alt, width, height });
 const creando = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Creando/${name}.webp`, alt, width, height });
-const creandoVideo = (name, alt) => ({ video: `/Branding/Creando/video/${name}.mp4`, poster: `/Branding/Creando/video/${name}-poster.webp`, alt, width: 720, height: 720 });
+const creandoVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/Creando/video/${name}.mp4`, poster: `/Branding/Creando/video/${name}-poster.webp`, alt, width, height });
 const trend = (name, alt, width = 1800, height = 1800) => ({ image: `/Branding/trends/${name}.webp`, alt, width, height });
 const trendVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/trends/video/${name}.mp4`, poster: `/Branding/trends/video/${name}-poster.webp`, alt, width, height });
 const gotitas = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Gotitas/${name}.webp`, alt, width, height });
@@ -608,6 +608,7 @@ const PROJECT_FEATURES = {
         textucosVideo("pantalla-personaje", "Contenido con el personaje de Josman en pantalla"),
       ],
     },
+    { items: [textucosVideo("desmoldantes", "Video promocional de los desmoldantes de Josman", 960, 540)] },
   ],
   "1/12": [
     {
@@ -736,6 +737,35 @@ const PROJECT_FEATURES = {
     { items: [josman("sitio-web", "Sitio web de Josman Concretos en una laptop", 1080, 1080), josmanVideo("web-movil", "Sitio web de Josman Concretos en un celular")] },
     { items: [josmanVideo("web-escritorio", "Recorrido por el sitio web de Josman Concretos", 974, 480), josmanVideo("web-vertical", "Sitio web de Josman Concretos en versión móvil", 480, 984)] },
     { items: [josmanVideo("pantallas", "Contenido de Josman Concretos en dos pantallas"), josmanVideo("television", "Contenido de Josman Concretos en una televisión")] },
+    {
+      story: {
+        eyebrow: "Contenido para redes sociales",
+        title: "Un concreto para cada obra.",
+        body: [
+          "Produje una **serie de videos verticales**, uno por cada tipo de concreto, con el personaje de la marca presentando sus usos y ventajas en formato para historias y reels.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        josmanVideo("concreto-edad-temprana", "Video vertical de Josman Concretos: concreto de edad temprana", 540, 960),
+        josmanVideo("concreto-antibacterial", "Video vertical de Josman Concretos: concreto antibacterial", 540, 960),
+        josmanVideo("concreto-arquitectonico", "Video vertical de Josman Concretos: concreto arquitectónico", 540, 960),
+        josmanVideo("concreto-autocompactable", "Video vertical de Josman Concretos: concreto autocompactable", 540, 960),
+      ],
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        josmanVideo("concreto-durable", "Video vertical de Josman Concretos: concreto durable", 540, 960),
+        josmanVideo("concreto-ligero", "Video vertical de Josman Concretos: concreto ligero", 540, 960),
+        josmanVideo("concreto-pigmentado", "Video vertical de Josman Concretos: concreto pigmentado", 540, 960),
+        josmanVideo("concreto-termico", "Video vertical de Josman Concretos: concreto térmico", 540, 960),
+      ],
+    },
   ],
   "1/11": [
     {
@@ -829,6 +859,16 @@ const PROJECT_FEATURES = {
     },
     { items: [creandoVideo("instagram-movil", "Perfil de Instagram de Creando lo Imposible en un celular"), creandoVideo("tiktok-movil", "Contenido de TikTok de Creando lo Imposible en un celular")] },
     { items: [creandoVideo("web-1", "Sitio web de Creando lo Imposible: próximos eventos"), creandoVideo("web-2", "Sitio web de Creando lo Imposible: experiencias")] },
+    {
+      story: {
+        eyebrow: "Contenido en video",
+        title: "La marca también se escucha.",
+        body: [
+          "Llevé la identidad a las **entrevistas en video**: la animación del logotipo como entrada, rótulos con nombre y frases clave, y la marca presente durante toda la conversación.",
+        ],
+      },
+    },
+    { items: [creandoVideo("entrevista", "Entrevista en video con la identidad de Creando lo Imposible", 1280, 720)] },
   ],
   "1/10": [
     {

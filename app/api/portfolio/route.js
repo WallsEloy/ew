@@ -69,7 +69,8 @@ export async function PUT(request) {
     const updated = await updateCollection(id, patch);
     // Refresca la web pública afectada (el nombre de la colección también
     // aparece en las páginas de detalle de sus proyectos).
-    revalidatePath(section === "galeria" ? "/galeria" : section === "coding" ? "/coding" : "/diseno");
+    if (section === "galeria") revalidatePath("/galeria", "layout"); // incluye /galeria/<slug>
+    else revalidatePath(section === "coding" ? "/coding" : "/diseno");
     if (section === "coding") revalidatePath("/coding/proyectos/[profileId]/[projectId]", "page");
     else if (section !== "galeria") revalidatePath("/diseno/proyectos/[profileId]/[projectId]", "page");
     return NextResponse.json({ collection: updated }, { status: 200 });

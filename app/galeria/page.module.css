@@ -12,6 +12,17 @@
   border-radius: 20px; /* Bordes redondeados tipo píldora */
   border: none;
   cursor: pointer;
+  background: #fff;
+  color: #000;
+  font-size: 0.9rem;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.profileButton:hover,
+.profileButtonActive {
+  background: #00aff0;
+  color: #fff;
 }
 
 /* 3. HERO: portada de fondo + perfil encima (sólo escritorio) --------------- */

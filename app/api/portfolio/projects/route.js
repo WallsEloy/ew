@@ -12,7 +12,8 @@ export const dynamic = "force-dynamic";
 
 // La web pública que hay que refrescar tras cada cambio.
 function refrescar(section) {
-  revalidatePath(section === "galeria" ? "/galeria" : section === "coding" ? "/coding" : "/diseno");
+  if (section === "galeria") revalidatePath("/galeria", "layout"); // incluye /galeria/<slug>
+  else revalidatePath(section === "coding" ? "/coding" : "/diseno");
   // Las páginas de detalle de proyecto también están en caché
   if (section === "coding") revalidatePath("/coding/proyectos/[profileId]/[projectId]", "page");
   else if (section !== "galeria") revalidatePath("/diseno/proyectos/[profileId]/[projectId]", "page");
