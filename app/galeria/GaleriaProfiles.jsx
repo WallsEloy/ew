@@ -5,6 +5,7 @@ import { rutaGaleria, slugGaleria } from "../../lib/galeriaSlug";
 
 // Components de la versión Galería
 import ProfileCarousel from "../../components/galeria/ProfileCarousel";
+import HeroSketch from "../../components/galeria/HeroSketch";
 import ProfilePresentacion from "../../components/galeria/ProfilePresentacion";
 import ProfileHeader from "../../components/galeria/ProfileHeader";
 import Highlights from "../../components/galeria/Highlights";
@@ -51,7 +52,12 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           la imagen no se corte. En móvil no hay carrusel y esto se lee como un
           bloque normal: categorías, cabecera de perfil e historias. */}
       <div className={styles.hero}>
-        <ProfileCarousel portadas={profile.portadas} name={profile.name} />
+        {/* Sketch tiene su propio hero por capas; las demás, su carrusel de portadas */}
+        {slugGaleria(profile.name) === "sketch" ? (
+          <HeroSketch name={profile.name} />
+        ) : (
+          <ProfileCarousel portadas={profile.portadas} name={profile.name} />
+        )}
 
         <div className={styles.heroContenido}>
           {/* 2. Enlaces a cada galería, sobre la portada; la actual va resaltada */}
@@ -82,8 +88,11 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
 
           {/* 4. Pie del hero: se apoya en la parte baja de la imagen */}
           <div className={styles.heroPie}>
-            {/* Cabecera del Perfil: sólo móvil (en escritorio manda el carrusel) */}
-            <ProfileHeader profile={profile} ocultoEnEscritorio />
+            {/* Cabecera del Perfil: sólo móvil (en escritorio manda el carrusel).
+                Sketch no la lleva: su hero por capas hace de presentación. */}
+            {slugGaleria(profile.name) !== "sketch" && (
+              <ProfileHeader profile={profile} ocultoEnEscritorio />
+            )}
 
             {/* Historias Destacadas (Círculos con momentos guardados) */}
             <Highlights highlights={profile.highlights} />

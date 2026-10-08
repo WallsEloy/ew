@@ -1,0 +1,104 @@
+/* Hero de Sketch. En móvil es un bloque con la proporción de la escena; en
+   escritorio ocupa el mismo lugar y alto que el carrusel de portadas de las
+   demás galerías (ver ProfileCarousel.module.css). */
+.hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1400 / 890;
+  overflow: hidden;
+  background: #000;
+  container-type: size;
+}
+
+/* Velo oscuro abajo para que el perfil e historias se lean encima */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.55) 30%, rgba(0, 0, 0, 0) 62%);
+  pointer-events: none;
+}
+
+/* La escena conserva su proporción y cubre la caja (como background-size:
+   cover), así las capas en porcentaje quedan siempre alineadas. */
+.escena {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, 100cqh * 1400 / 890);
+  height: max(100cqh, 100cqw * 890 / 1400);
+  transform: translate(-50%, -50%);
+}
+
+.escena img {
+  position: absolute;
+  display: block;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.capaA {
+  inset: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Pluma: x 335, y 446 sobre 1400 × 890 */
+.capaB {
+  left: 23.93%;
+  top: 50.11%;
+  width: 53%;
+  z-index: 2;
+  transform-origin: 50% 50%;
+  /* Flota: se balancea 20° a la izquierda y 30° a la derecha y sube y baja
+     un poco, con ritmos distintos para que no se vea mecánico. El retraso
+     negativo hace que arranque derecha (0°) y no en un extremo. */
+  animation:
+    balancear 6s ease-in-out -2.6s infinite alternate,
+    flotar 3.4s ease-in-out infinite alternate;
+  will-change: rotate, translate;
+}
+
+/* Dedos: x 342, y 579 sobre 1400 × 890 */
+.capaC {
+  left: 24.43%;
+  top: 65.06%;
+  width: 26.57%;
+  z-index: 3;
+}
+
+@keyframes balancear {
+  from {
+    rotate: -20deg;
+  }
+  to {
+    rotate: 30deg;
+  }
+}
+
+@keyframes flotar {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -18%;
+  }
+}
+
+@media (min-width: 769px) {
+  .hero {
+    aspect-ratio: auto;
+    height: clamp(420px, 75vh, 860px);
+    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .capaB {
+    animation: none;
+  }
+}
