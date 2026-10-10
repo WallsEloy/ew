@@ -6,14 +6,15 @@ import styles from "./ProfileCarousel.module.css";
 const INTERVALO = 6000;
 
 /*
- * Carrusel de portadas de la cabecera de una galería. SÓLO se ve en escritorio.
+ * Carrusel de portadas de la cabecera de una galería. Se ve en escritorio y, con
+ * `enMovil`, también en móvil (encuadrado en la parte alta de la portada).
  *
  * Las imágenes no van en <img> sino como background-image declarada dentro de la
  * media query de escritorio y alimentada por la variable --portada: un <img> con
  * display:none se descarga igual, y estas portadas pesan cientos de KB que el
  * móvil no necesita. Al ser fondos no tienen alt, de ahí el role + aria-label.
  */
-export default function ProfileCarousel({ portadas = [], name = "" }) {
+export default function ProfileCarousel({ portadas = [], name = "", enMovil = false, encuadreMovil }) {
   const laminas = (portadas || []).filter(Boolean);
   // El carrusel sólo existe a partir de DOS portadas: con una, la cabecera es
   // una portada fija (sin temporizador, sin puntos y sin transición).
@@ -42,7 +43,9 @@ export default function ProfileCarousel({ portadas = [], name = "" }) {
 
   return (
     <div
-      className={`${styles.carrusel} ${esCarrusel ? styles.animado : ""}`}
+      className={`${styles.carrusel} ${esCarrusel ? styles.animado : ""} ${enMovil ? styles.enMovil : ""}`}
+      // Encuadre propio de la portada en móvil (posición y tamaño del fondo)
+      style={encuadreMovil ? { "--encuadre-movil": encuadreMovil.posicion, "--tam-movil": encuadreMovil.tamano, "--proporcion-movil": encuadreMovil.proporcion } : undefined}
       role="img"
       aria-label={
         name

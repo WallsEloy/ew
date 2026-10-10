@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { rutaGaleria, slugGaleria } from "../../lib/galeriaSlug";
+import { menuGalerias, slugGaleria } from "../../lib/galeriaSlug";
 
 // Components de la versión Galería
 import ProfileCarousel from "../../components/galeria/ProfileCarousel";
@@ -31,6 +31,10 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
   // Galería de esta página (la primera si el slug no coincide)
   const profile = profiles.find((p) => slugGaleria(p.name) === activeSlug) || profiles[0];
   const esFotografia = slugGaleria(profile.name) === "fotografia";
+  const slugActivo = slugGaleria(profile.name);
+  const menu = menuGalerias(profiles);
+  const grupoActivo =
+    menu.find((item) => item.tipo === "grupo" && item.miembros.some((m) => m.slug === slugActivo)) || null;
 
   // Fotografía se divide en sesiones (post.sesion), cada una en su propio
   // montón; las fotos sin sesión van sueltas, siempre a la vista. El resto de
@@ -51,31 +55,48 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           del navbar, que es fijo y transparente, y de las categorías— para que
           la imagen no se corte. En móvil no hay carrusel y esto se lee como un
           bloque normal: categorías, cabecera de perfil e historias. */}
-      <div className={styles.hero}>
+      <div
+        className={`${styles.hero} ${slugGaleria(profile.name) === "humans" ? styles.heroPortadaMovil : ""} ${
+          ["sketch", "fotografia"].includes(slugGaleria(profile.name)) ? styles.heroFilaArriba : ""
+        }`}
+      >
         {/* Sketch tiene su propio hero por capas; las demás, su carrusel de portadas */}
         {slugGaleria(profile.name) === "sketch" ? (
           <HeroSketch name={profile.name} />
         ) : (
-          <ProfileCarousel portadas={profile.portadas} name={profile.name} />
+          <ProfileCarousel
+            // Fotografía usa su propia portada (la cámara), en escritorio y móvil
+            portadas={esFotografia ? ["/Fotografia/hero-canon.webp"] : profile.portadas}
+            name={profile.name}
+            // Humans y Fotografía también muestran su portada en el celular
+            enMovil={["humans", "fotografia"].includes(slugGaleria(profile.name))}
+            // Misma proporción que el hero de Sketch (1400 × 890) para que midan igual
+            encuadreMovil={esFotografia ? { posicion: "center", tamano: "cover", proporcion: "1400 / 890" } : undefined}
+          />
         )}
 
         <div className={styles.heroContenido}>
-          {/* 2. Enlaces a cada galería, sobre la portada; la actual va resaltada */}
-          <nav className={styles.buttonsContainer} aria-label="Galerías">
-            {profiles.map((p) => {
-              const activa = p === profile;
-              return (
-                <Link
-                  key={p.id}
-                  href={rutaGaleria(p.name)}
-                  aria-current={activa ? "page" : undefined}
-                  className={`${styles.profileButton} ${activa ? styles.profileButtonActive : ""}`}
-                >
-                  {p.name}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* 2. Las galerías se eligen en el menú Galerías del navbar. Dentro de un
+              grupo (Exposiciones) queda una fila para moverse entre sus galerías. */}
+          <div className={styles.navGalerias}>
+            {grupoActivo && (
+              <nav className={`${styles.buttonsContainer} ${styles.subGalerias}`} aria-label={`Galerías de ${grupoActivo.nombre}`}>
+                {grupoActivo.miembros.map((miembro) => {
+                  const activa = miembro.slug === slugActivo;
+                  return (
+                    <Link
+                      key={miembro.slug}
+                      href={miembro.href}
+                      aria-current={activa ? "page" : undefined}
+                      className={`${styles.subButton} ${activa ? styles.subButtonActive : ""}`}
+                    >
+                      {miembro.nombre}
+                    </Link>
+                  );
+                })}
+              </nav>
+            )}
+          </div>
 
           {/* 3. Presentación: logo, descripción y cuenta atrás. En escritorio se
               centra en el alto libre de la portada; en móvil encabeza el perfil. */}
@@ -89,8 +110,8 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           {/* 4. Pie del hero: se apoya en la parte baja de la imagen */}
           <div className={styles.heroPie}>
             {/* Cabecera del Perfil: sólo móvil (en escritorio manda el carrusel).
-                Sketch no la lleva: su hero por capas hace de presentación. */}
-            {slugGaleria(profile.name) !== "sketch" && (
+                Sketch y Fotografía no la llevan: su hero hace de presentación. */}
+            {!["sketch", "fotografia"].includes(slugGaleria(profile.name)) && (
               <ProfileHeader profile={profile} ocultoEnEscritorio />
             )}
 

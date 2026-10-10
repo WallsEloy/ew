@@ -84,6 +84,39 @@
   }
 }
 
+/* Portada también en móvil (galerías con `enMovil`): bloque arriba de las
+   categorías, encuadrado en la parte alta y derecha, donde está la imagen. */
+@media (max-width: 768px) {
+  .enMovil {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--proporcion-movil, 4 / 3);
+    overflow: hidden;
+    background-color: #050505;
+  }
+
+  .enMovil .lamina {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 45%), var(--portada);
+    /* La portada trae márgenes transparentes: se amplía hasta que la zona con
+       imagen llena el alto y se alinea a la derecha, donde está la figura. */
+    background-position: center, var(--encuadre-movil, 87% 17%);
+    background-size: cover, var(--tam-movil, auto 172%);
+    background-repeat: no-repeat, no-repeat;
+  }
+
+  .enMovil .laminaActiva {
+    opacity: 1;
+  }
+
+  .enMovil .puntos {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animado .lamina {
     transition: none;

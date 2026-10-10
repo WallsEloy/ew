@@ -1,0 +1,527 @@
+/* ───────── Sección Big Data ───────── */
+
+/* Tema claro (por defecto). El tema se elige en bigDataConfig.ts */
+.bd-section {
+  --bd-bg: #ffffff;
+  --bd-fg: #0b1222;
+  --bd-muted: rgba(11, 18, 34, 0.66);
+  --bd-cyan: #1068b0;
+  --bd-violet: #7b3fe4;
+  --bd-line: rgba(74, 92, 255, 0.22);
+  --bd-chip-bg: rgba(255, 255, 255, 0.82);
+  --bd-chip-fg: #1b1f5e;
+  --bd-chip-strong: #0b1222;
+  --bd-step-border: rgba(11, 18, 34, 0.14);
+  --bd-step-active-bg: #3f6bff;
+  --bd-step-active-fg: #ffffff;
+  --bd-number-glow: rgba(255, 255, 255, 0.9);
+  /* Cifras que cambian con la animación: naranja del logotipo */
+  --bd-number: #e63a1e;
+  --bd-title-from: #482278;
+  --bd-title-to: #1068b0;
+  position: relative;
+  /* Sube la sección sobre el espacio vacío que deja la animación del círculo */
+  margin-top: -24vh;
+  background: var(--bd-bg);
+  color: var(--bd-fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* En tema claro la sección es transparente (la página ya es blanca): así no
+   tapa el final de la animación del círculo, que queda encima por el
+   margen negativo */
+.bd-section--light {
+  background: transparent;
+}
+
+/* Tema oscuro */
+.bd-section--dark {
+  --bd-bg: #04050d;
+  --bd-fg: #e9ecff;
+  --bd-muted: rgba(214, 220, 255, 0.66);
+  --bd-cyan: #7fe7ff;
+  --bd-violet: #a678ff;
+  --bd-line: rgba(127, 231, 255, 0.22);
+  --bd-chip-bg: rgba(4, 5, 13, 0.55);
+  --bd-chip-fg: #d6ecff;
+  --bd-chip-strong: #ffffff;
+  --bd-step-border: rgba(214, 220, 255, 0.14);
+  --bd-step-active-bg: #7fe7ff;
+  --bd-step-active-fg: #04050d;
+  --bd-number-glow: rgba(127, 231, 255, 0.35);
+  --bd-title-from: #a678ff;
+  --bd-title-to: #4fb3ff;
+}
+
+/* Canvas compartido: fijo detrás del contenido, sin capturar el mouse */
+.bd-canvas {
+  position: fixed !important;
+  inset: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bd-intro,
+.bd-module {
+  position: relative;
+  z-index: 1;
+}
+
+/* Intro: solo texto (en este sitio no lleva la imagen del teléfono) */
+.bd-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 760px);
+  align-items: center;
+  gap: 32px 48px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 10vh 6vw 8vh;
+}
+
+.bd-intro-copy {
+  min-width: 0;
+}
+
+.bd-intro-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+  justify-self: center;
+  /* ab-web.png es ab.png con el fondo casi blanco convertido en transparente,
+     para que no se vea un recuadro alrededor del teléfono */
+  /* El teléfono está cortado abajo: se desvanece en lugar de terminar en seco */
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+
+.bd-intro-title {
+  margin: 14px 0 0;
+  font-size: clamp(34px, 5vw, 68px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Títulos grandes con el degradado del logotipo. fit-content: el degradado
+   abarca solo el texto, no todo el ancho de la columna. */
+.bd-intro-title,
+.bd-title {
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: 0.08em; /* que no se recorten las descendentes (g, p, y) */
+  background: linear-gradient(90deg, var(--bd-title-from), var(--bd-title-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bd-intro-text {
+  margin: 20px 0 0;
+  max-width: 52ch;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: var(--bd-muted);
+}
+
+/* ───────── Módulo ───────── */
+
+.bd-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  gap: 24px 48px;
+  padding: 96px 6vw 40px;
+  box-sizing: border-box;
+}
+
+.bd-module--split .bd-sticky {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+}
+
+.bd-module--wide .bd-sticky {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.bd-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.bd-module--wide .bd-copy {
+  max-width: 760px;
+}
+
+/* Títulos pequeños en la manuscrita de marca (Dancing Script) */
+.bd-eyebrow {
+  font-family: var(--font-script), cursive;
+  font-size: clamp(22px, 1.8vw, 28px);
+  font-weight: 700;
+  line-height: 1.1;
+  /* Naranja de los puntos del logotipo */
+  color: #e63a1e;
+}
+
+.bd-index {
+  color: inherit;
+  margin-right: 4px;
+}
+
+.bd-title {
+  margin: 0;
+  font-size: clamp(28px, 3.3vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.bd-desc {
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.6;
+  color: var(--bd-muted);
+  max-width: 48ch;
+}
+
+.bd-desc p {
+  margin: 0;
+}
+
+.bd-stage {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Área de la animación a todo el ancho: anula el margen lateral del módulo */
+.bd-module--bleed .bd-stage {
+  margin-inline: -6vw;
+}
+
+.bd-view,
+.bd-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.bd-overlay {
+  pointer-events: none;
+  /* Las etiquetas 3D que salen del área de la escena no deben ensanchar la página */
+  overflow: clip;
+}
+
+/* ───────── Etiquetas 3D ───────── */
+
+.bd-labels {
+  position: absolute;
+  inset: 0;
+}
+
+.bd-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--bd-chip-fg);
+  background: var(--bd-chip-bg);
+  border: 1px solid var(--bd-line);
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  will-change: transform, opacity;
+}
+
+.bd-label--strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bd-chip-strong);
+  border-color: var(--bd-violet);
+}
+
+.bd-label--plain {
+  background: none;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ───────── Pasos / estados ───────── */
+
+.bd-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bd-step {
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bd-muted);
+  border: 1px solid var(--bd-step-border);
+  border-radius: 999px;
+  transition: color 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+}
+
+.bd-step.is-active {
+  color: var(--bd-step-active-fg);
+  background: var(--bd-step-active-bg);
+  border-color: var(--bd-step-active-bg);
+}
+
+.bd-step.is-done {
+  color: var(--bd-fg);
+  border-color: var(--bd-line);
+}
+
+.bd-note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--bd-muted);
+  max-width: 46ch;
+  min-height: 3.1em;
+}
+
+.bd-note strong {
+  color: var(--bd-fg);
+}
+
+/* Columnas de comparación (módulos 04 y 05) */
+.bd-compare {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 0 2%;
+}
+
+.bd-compare h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bd-cyan);
+}
+
+.bd-compare p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--bd-muted);
+  max-width: 38ch;
+}
+
+/* Dos textos en el mismo sitio que se cruzan (Small Data → Database) */
+.bd-swap {
+  display: grid;
+}
+
+.bd-swap > * {
+  grid-area: 1 / 1;
+}
+
+/* Comparación en la columna de texto: solo en pantallas verticales */
+.bd-compare--inline {
+  display: none;
+}
+
+/* Cifra grande a la izquierda del texto (contador de Big Data) */
+.bd-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+}
+
+.bd-stat-num {
+  flex: none;
+  min-width: 5.4ch; /* reserva espacio: el texto no salta cuando crece la cifra */
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--bd-number);
+}
+
+/* Texto bajo la animación: solo en pantallas verticales */
+.bd-under {
+  display: none;
+}
+
+.bd-under h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bd-cyan);
+}
+
+.bd-under p {
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bd-muted);
+  max-width: 34ch;
+}
+
+.bd-counter {
+  font-variant-numeric: tabular-nums;
+  color: var(--bd-fg);
+  font-weight: 600;
+}
+
+/* Número grande superpuesto (Volume, Insight) */
+.bd-big-number {
+  position: absolute;
+  right: 4%;
+  top: 6%;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--bd-number);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 24px var(--bd-number-glow);
+}
+
+/* ───────── Responsive ───────── */
+
+@media (max-width: 900px), (max-aspect-ratio: 1/1) {
+  .bd-intro {
+    grid-template-columns: 1fr;
+    /* Recorta los márgenes blancos de la imagen ampliada */
+    overflow-x: clip;
+  }
+
+  /* Móvil: el teléfono casi a todo el ancho (la imagen tiene márgenes blancos a los lados) */
+  .bd-intro-img {
+    width: 150%;
+    max-width: none;
+    margin-left: -25%;
+    justify-self: start;
+  }
+
+  .bd-module--split .bd-sticky {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .bd-module--bleed .bd-stage {
+    margin-inline: -20px;
+  }
+
+  .bd-sticky {
+    padding: 80px 20px 24px;
+    gap: 16px;
+  }
+
+  .bd-title {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .bd-desc {
+    font-size: 14.5px;
+  }
+
+  .bd-compare {
+    gap: 12px;
+  }
+
+  .bd-compare p {
+    font-size: 12.5px;
+  }
+}
+
+/* Pantallas verticales: la comparación del módulo 04 pasa a la columna de texto */
+@media (max-aspect-ratio: 1/1) {
+  .bd-compare--inline {
+    display: grid;
+    position: static;
+    padding: 0;
+  }
+
+  .bd-compare--overlay {
+    display: none;
+  }
+
+  .bd-compare--single {
+    grid-template-columns: 1fr;
+  }
+
+  .bd-under {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 8px;
+  }
+
+  .bd-under .bd-stat-num {
+    font-size: 32px;
+  }
+
+  .bd-big-number {
+    top: 2%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-step {
+    transition: none;
+  }
+}
+
+/* Clustering en vertical: las etiquetas van a la derecha de cada grupo y deben
+   caber en el ancho del celular */
+@media (max-aspect-ratio: 1/1) {
+  #clustering .bd-label {
+    padding: 3px 8px;
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Data Streams en vertical: etiquetas más compactas para que la fila de
+   abajo (Ventas · Redes sociales · Sensores) no se encime */
+@media (max-aspect-ratio: 1/1) {
+  #data-streams .bd-label:not(.bd-label--strong) {
+    padding: 3px 8px;
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Portafolio EW: en móvil el dock de navegación flota abajo (~90px); el área
+   de cada escena termina arriba de él para que no tape partículas ni etiquetas */
+@media (max-width: 767px) {
+  .bd-sticky {
+    padding-bottom: 104px;
+  }
+}

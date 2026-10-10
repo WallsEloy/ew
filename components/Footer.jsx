@@ -38,14 +38,26 @@ export default function Footer() {
             <h3 className={styles.title}>Galerías</h3>
             <ul className={styles.linksList}>
               <li>
-                <Link href="/galeria/humans" className={styles.link}>
-                  Humans
+                <Link href="/galeria/exposiciones" className={styles.link}>
+                  Exposiciones
                 </Link>
-              </li>
-              <li>
-                <Link href="/galeria/icecream" className={styles.link}>
-                  Ice Cream
-                </Link>
+                <ul className={styles.subLista}>
+                  <li>
+                    <Link href="/galeria/humans" className={styles.link}>
+                      Humans
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/galeria/anacronismo" className={styles.link}>
+                      Anacronismo
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/galeria/icecream" className={styles.link}>
+                      Ice Cream
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li>
                 <Link href="/galeria/sketch" className={styles.link}>
@@ -55,11 +67,6 @@ export default function Footer() {
               <li>
                 <Link href="/galeria/fotografia" className={styles.link}>
                   Fotografía
-                </Link>
-              </li>
-              <li>
-                <Link href="/galeria/anacronismo" className={styles.link}>
-                  Anacronismo
                 </Link>
               </li>
             </ul>

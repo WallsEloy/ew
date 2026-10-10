@@ -25,6 +25,37 @@
   color: #fff;
 }
 
+/* Botones de galerías: primera fila (galerías y subcategorías) y, dentro de
+   una subcategoría, segunda fila con sus galerías, más discreta. */
+.navGalerias {
+  display: flex;
+  flex-direction: column;
+}
+
+.subGalerias {
+  gap: 18px;
+}
+
+.subButton {
+  padding: 2px 0;
+  border-bottom: 2px solid transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.subButton:hover {
+  color: #fff;
+}
+
+.subButtonActive {
+  color: #fff;
+  border-bottom-color: #00aff0;
+}
+
 /* 3. HERO: portada de fondo + perfil encima (sólo escritorio) --------------- */
 
 /* En escritorio las dos capas se apilan en la MISMA celda de un grid: así la
@@ -68,6 +99,59 @@
 @media (min-width: 768px) {
   .heroContenido {
     padding-top: 120px;
+  }
+}
+
+/* Humans en móvil: la portada se ve arriba y el logo, la descripción y la
+   cuenta atrás van ENCIMA de ella, más pequeños, en la zona oscura de abajo a
+   la izquierda. Las categorías y las historias siguen debajo de la imagen. */
+@media (max-width: 768px) {
+  .heroPortadaMovil {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .heroPortadaMovil .heroContenido {
+    display: contents;
+  }
+
+  .heroPortadaMovil > :first-child,
+  .heroPortadaMovil .heroCentro {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .heroPortadaMovil .heroCentro {
+    z-index: 1;
+    align-self: end;
+    justify-self: start;
+    padding-bottom: 6px;
+    zoom: 0.68;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+  }
+
+  .heroPortadaMovil .navGalerias {
+    grid-row: 2;
+  }
+
+  .heroPortadaMovil .heroPie {
+    grid-row: 3;
+  }
+}
+
+/* Sketch y Fotografía en móvil: su fila de botones va ARRIBA del hero */
+@media (max-width: 768px) {
+  .heroFilaArriba {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .heroFilaArriba .heroContenido {
+    display: contents;
+  }
+
+  .heroFilaArriba .navGalerias {
+    order: -1;
   }
 }
 

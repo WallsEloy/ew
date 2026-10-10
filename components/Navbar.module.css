@@ -244,6 +244,50 @@
   transform: scale(1.05) !important;
 }
 
+/* Opción que abre subopciones: botón con flecha que gira al abrirse */
+.dropdownToggle {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.dropdownChevron {
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.dropdownChevronOpen {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+/* Subopciones dentro de una opción del desplegable: más chicas y con una
+   línea a la izquierda que las agrupa bajo su opción. */
+.dropdownSub {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 12px 6px;
+  padding-left: 8px;
+  border-left: 2px solid #e6e6e6;
+}
+
+.dropdownSubItem {
+  color: #555555 !important;
+  text-decoration: none !important;
+  border-radius: 50px !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdownSubItem:hover {
+  color: #ffffff !important;
+  background-color: #000000 !important;
+}
+
 /* Contenedor general del submenú (móvil) sin formato de pastilla: bordes rectos.
    Se define después de .dropdownMenu para ganar el !important por orden. */
 .dropdownMenuFlat {

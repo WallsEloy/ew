@@ -27,11 +27,17 @@ export const defaultNavConfig = {
       label: "Galerias",
       href: "",
       dropdown: [
-        { label: "HUMANS", href: "/galeria" },
-        { label: "Ice Cream", href: "/galeria" },
-        { label: "Sketch", href: "/galeria" },
-        { label: "Fotografia", href: "/galeria" },
-        { label: "Anacronismo", href: "/galeria" }
+        {
+          label: "Exposiciones",
+          href: "/galeria/humans",
+          items: [
+            { label: "Humans", href: "/galeria/humans" },
+            { label: "Anacronismo", href: "/galeria/anacronismo" },
+            { label: "IceCream", href: "/galeria/icecream" }
+          ]
+        },
+        { label: "Sketch", href: "/galeria/sketch" },
+        { label: "Fotografía", href: "/galeria/fotografia" }
       ]
     },
     {
@@ -40,7 +46,8 @@ export const defaultNavConfig = {
       dropdown: [
         { label: "Gráfico", href: "/diseno?vista=branding" },
         { label: "Web", href: "/diseno?vista=web" },
-        { label: "Coding", href: "/coding" }
+        { label: "Coding", href: "/coding" },
+        { label: "Artículos", href: "/diseno/articulos" }
       ]
     },
     {
@@ -48,7 +55,8 @@ export const defaultNavConfig = {
       href: "",
       dropdown: [
         { label: "Opción A", href: "/grow/opcion-a" },
-        { label: "Opción B", href: "#" }
+        { label: "Opción B", href: "#" },
+        { label: "Artículos", href: "/grow/articulos" }
       ]
     },
     {

@@ -54,6 +54,8 @@ function PillIcon({ name }) {
 export default function Navbar({ initialConfig = null }) {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
+  // Opción con subopciones abierta dentro de un desplegable (p. ej. Exposiciones)
+  const [openSub, setOpenSub] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileTopHidden, setIsMobileTopHidden] = useState(false);
   const [isMobileDockCompact, setIsMobileDockCompact] = useState(false);
@@ -123,6 +125,7 @@ export default function Navbar({ initialConfig = null }) {
 
   useEffect(() => {
     setOpenDropdown(null);
+    setOpenSub(null);
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
@@ -133,6 +136,7 @@ export default function Navbar({ initialConfig = null }) {
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name);
+    setOpenSub(null);
   };
 
   const closeMobileNavigation = () => {
@@ -173,14 +177,43 @@ export default function Navbar({ initialConfig = null }) {
     return (
       <div className={`${styles.dropdownMenu} ${isMobile ? `${styles.dropdownMenuFlat} relative w-[92%] mt-2` : 'absolute top-full mt-4 min-w-[150px]'} flex flex-col p-2 z-[999] opacity-100 shadow-xl`} style={isMobile ? {} : { left: '50%', transform: 'translateX(-50%)' }}>
         {items.map((item, index) => (
-          <Link
-            key={index}
-            href={item.href}
-            onClick={closeMobileNavigation}
-            className={`${styles.dropdownItem} py-2 px-4 block text-center text-[13px] ${index < items.length - 1 ? 'mb-1' : ''}`}
-          >
-            {item.label}
-          </Link>
+          <div key={index} className={index < items.length - 1 ? 'mb-1' : ''}>
+            {item.items?.length > 0 ? (
+              // Opción con subopciones (p. ej. Galerías → Exposiciones): es un
+              // desplegable dentro del desplegable, no un enlace.
+              <button
+                type="button"
+                onClick={() => setOpenSub(openSub === `${id}-${index}` ? null : `${id}-${index}`)}
+                aria-expanded={openSub === `${id}-${index}`}
+                className={`${styles.dropdownItem} ${styles.dropdownToggle} py-2 px-4 w-full flex items-center justify-center gap-2 text-[13px]`}
+              >
+                {item.label}
+                <span className={`${styles.dropdownChevron} ${openSub === `${id}-${index}` ? styles.dropdownChevronOpen : ""}`} aria-hidden="true" />
+              </button>
+            ) : (
+              <Link
+                href={item.href}
+                onClick={closeMobileNavigation}
+                className={`${styles.dropdownItem} py-2 px-4 block text-center text-[13px]`}
+              >
+                {item.label}
+              </Link>
+            )}
+            {item.items?.length > 0 && openSub === `${id}-${index}` && (
+              <div className={styles.dropdownSub}>
+                {item.items.map((sub, subIndex) => (
+                  <Link
+                    key={subIndex}
+                    href={sub.href}
+                    onClick={closeMobileNavigation}
+                    className={`${styles.dropdownSubItem} py-1 px-4 block text-center text-[12px]`}
+                  >
+                    {sub.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </div>
     );
