@@ -675,3 +675,93 @@
     );
   }
 }
+
+/* Móvil: con la imagen ya abierta aparece el texto editorial (marca, título,
+   descripción, botón y puntos) abajo, sobre el velo y por encima del dock */
+@media (max-width: 768px), (orientation: portrait) {
+  .editorialCopy {
+    display: block;
+    top: auto;
+    right: 6%;
+    bottom: 104px;
+    left: 6%;
+    width: auto;
+  }
+
+  .editorialCopy .eyebrow {
+    margin-bottom: 8px;
+    font-size: 0.7rem;
+  }
+
+  .editorialCopy h2 {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+  }
+
+  .editorialCopy .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 12px 0 18px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .editorialActions {
+    gap: 18px;
+  }
+
+  .editorialActions > button {
+    padding: 9px 28px;
+    font-size: 0.78rem;
+  }
+
+  .veloRevelado {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.6) 38%,
+      rgba(0, 0, 0, 0) 68%
+    );
+  }
+}
+
+/* Móvil: el texto editorial, el botón y los puntos alineados a la derecha */
+@media (max-width: 768px), (orientation: portrait) {
+  .editorialCopy {
+    text-align: right;
+  }
+
+  .editorialCopy .description {
+    margin-left: auto;
+  }
+
+  .editorialActions {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
+
+  .veloRevelado {
+    background:
+      linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.55) 38%, rgba(0, 0, 0, 0) 68%),
+      linear-gradient(to left, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 60%);
+  }
+}
+
+/* Móvil: degradado oscuro justo detrás del bloque de texto, más denso a la
+   derecha (donde está alineado) y que se funde hacia los bordes */
+@media (max-width: 768px), (orientation: portrait) {
+  .editorialCopy::before {
+    content: "";
+    position: absolute;
+    inset: -40px -8vw -28px -20%;
+    z-index: -1;
+    background: radial-gradient(
+      ellipse 85% 75% at 80% 55%,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.5) 45%,
+      rgba(0, 0, 0, 0) 75%
+    );
+    pointer-events: none;
+  }
+}

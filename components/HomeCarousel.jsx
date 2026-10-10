@@ -360,7 +360,7 @@ export default function HomeCarousel({ slides, focos }) {
 
         <motion.div
           className={styles.dots}
-          style={{ opacity: isDesktop ? initialOpacity : 1 }}
+          style={{ opacity: initialOpacity }}
           aria-label="Seleccionar imagen del carrusel"
         >
           {slidesData.map((slide, index) => (
@@ -486,9 +486,11 @@ export default function HomeCarousel({ slides, focos }) {
               className={styles.slide}
               aria-hidden={activeIndex !== index}
             >
+              {/* El texto inicial se desvanece al abrirse la imagen y entra el
+                  editorial (también en móvil) */}
               <motion.div
                 className={styles.initialCopy}
-                style={{ opacity: isDesktop ? initialOpacity : 1 }}
+                style={{ opacity: initialOpacity }}
               >
                 <h2>{slide.title}</h2>
                 <div className={styles.initialAction}>
@@ -567,9 +569,11 @@ export default function HomeCarousel({ slides, focos }) {
               <motion.div
                 className={styles.editorialCopy}
                 style={{
-                  opacity: isDesktop ? detailOpacity : 0,
-                  x: isDesktop ? detailX : 80,
-                  y: "-50%",
+                  opacity: detailOpacity,
+                  // Escritorio: entra desde la derecha, centrado en vertical.
+                  // Móvil: va abajo (CSS) y entra subiendo un poco.
+                  x: isDesktop ? detailX : 0,
+                  y: isDesktop ? "-50%" : detailBodyY,
                 }}
               >
                 <motion.p
