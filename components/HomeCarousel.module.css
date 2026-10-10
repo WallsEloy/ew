@@ -650,3 +650,28 @@
     animation: none;
   }
 }
+
+/* Móvil y vertical: como en escritorio, la sección es alta y la escena queda
+   fija; al bajar, la franja se abre hasta todo el ancho de la pantalla y cada
+   tramo de scroll pasa a la siguiente imagen del carrusel. */
+@media (max-width: 768px), (orientation: portrait) {
+  .scrollSection {
+    height: 520dvh;
+  }
+
+  .stickyScene {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+  }
+
+  /* El texto va abajo y centrado: el velo oscurece la parte baja de la imagen */
+  .veloRevelado {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.45) 35%,
+      rgba(0, 0, 0, 0) 60%
+    );
+  }
+}

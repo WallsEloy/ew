@@ -62,8 +62,9 @@ const TALL = makeLayout(
   [0, -2.5, 0],
   (s) => [s[0], s[1] + 0.45, s[2]],
   [0, -5, 0],
-  [0, 0, 0],
-  [8, 12.6],
+  [0, -0.3, 0],
+  // Alto 14.2 (antes 12.6): con la escena ampliada en móvil, la fila de arriba se cortaba
+  [8, 14.2],
   0
 );
 

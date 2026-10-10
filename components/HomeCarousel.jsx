@@ -270,7 +270,8 @@ export default function HomeCarousel({ slides, focos }) {
   }, []);
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    const nextScrollMode = isDesktop && progress > 0.015;
+    // Escritorio y móvil: al empezar a bajar, el scroll pasa a controlar el carrusel
+    const nextScrollMode = progress > 0.015;
 
     if (nextScrollMode) setIsMessageOpen(false);
 
@@ -350,9 +351,10 @@ export default function HomeCarousel({ slides, focos }) {
           <div className={styles.rightGlow} />
         </div>
 
+        {/* Marco y memojis se desvanecen al empezar a bajar (también en móvil) */}
         <motion.div
           className={styles.whiteFrame}
-          style={{ opacity: isDesktop ? initialOpacity : 1 }}
+          style={{ opacity: initialOpacity }}
           aria-hidden="true"
         />
 
@@ -378,7 +380,7 @@ export default function HomeCarousel({ slides, focos }) {
 
         <motion.div
           className={`${styles.floatingMemoji} ${isScrollMode ? styles.memojiHidden : ""}`}
-          style={{ opacity: isDesktop ? initialOpacity : 1 }}
+          style={{ opacity: initialOpacity }}
         >
           <button
             type="button"
@@ -397,7 +399,7 @@ export default function HomeCarousel({ slides, focos }) {
 
         <motion.div
           className={`${styles.floatingMemoji} ${styles.floatingMemojiRight} ${isScrollMode ? styles.memojiHidden : ""}`}
-          style={{ opacity: isDesktop ? initialOpacity : 1 }}
+          style={{ opacity: initialOpacity }}
         >
           <button
             type="button"
@@ -498,8 +500,9 @@ export default function HomeCarousel({ slides, focos }) {
               </motion.div>
 
               {(() => {
-                // Modo revelado sólo en escritorio y sólo con imagen horizontal
-                const revelado = isDesktop && horizontales[index];
+                // Modo revelado: en escritorio, con imágenes horizontales; en
+                // móvil, siempre (la franja se abre hasta todo el ancho)
+                const revelado = isDesktop ? horizontales[index] : true;
                 return (
                   <>
                     <motion.div

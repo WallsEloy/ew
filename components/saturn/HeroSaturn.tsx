@@ -41,7 +41,7 @@ export default function HeroSaturn({
       <div className="hero-saturn__content">
         <div className="hero-saturn__logo" data-avoid>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/SVG/ew_isotipo.svg" alt="Eloy Walls" />
+          <img src="/SVG/ew_isotipo-azul.svg" alt="Eloy Walls" />
         </div>
         <span className="hero-saturn__eyebrow" data-avoid>{eyebrow}</span>
         <h1 className="hero-saturn__title" data-avoid>{title}</h1>

@@ -67,6 +67,12 @@ export const BIG_DATA_CONFIG = {
 
   /** Tamaño base de las partículas. */
   particleSize: 1.6,
+  /** Tamaño de las escenas en pantalla: 1 = encuadre original, 1.25 = 25 % más
+   *  grandes (la cámara se acerca). Afecta a todos los módulos. */
+  sceneScale: 1.25,
+  /** Lo mismo en pantallas verticales (móvil): el área ya ocupa todo el ancho,
+   *  así que se amplía menos para que las escenas altas no se corten. */
+  sceneScalePortrait: 1.15,
   /** Velocidad general de las animaciones ambientales (1 = normal). */
   animationSpeed: 1,
   /** Cuánto inclinan las escenas al mover el mouse (grados). */

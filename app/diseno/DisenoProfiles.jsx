@@ -6,6 +6,7 @@ import ProfileHeader from "../../components/galeria/ProfileHeader";
 import Highlights from "../../components/galeria/Highlights";
 import PostGrid from "../../components/galeria/PostGrid";
 import WebShowcase from "./WebShowcase";
+import HeroSketch from "../../components/galeria/HeroSketch";
 import styles from "./page.module.css";
 
 // Ordena los proyectos por año (ficha "anio"), del más reciente al más antiguo.
@@ -27,6 +28,7 @@ function sortByYear(posts = []) {
 
 const isWeb = (profile) => String(profile.id) === "2" || /web/i.test(`${profile.name} ${profile.bio}`);
 const isIsotiposProfile = (profile) => /isotipo/i.test(profile.name);
+const isBrandingProfile = (profile) => /branding/i.test(profile.name);
 
 // Hero del área Isotipos: sustituye la cabecera tipo perfil (avatar, contadores
 // y biografía) por un texto de presentación y un isotipo destacado.
@@ -71,10 +73,15 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
   const profile = profiles[safeCurrent];
   const isWebProfile = isWeb(profile);
   const isIsotipos = isIsotiposProfile(profile);
+  const isBranding = isBrandingProfile(profile);
   const posts = sortByYear(profile.posts);
 
   return (
-    <div className="md:pt-[120px]">
+    <div className={isBranding ? styles.conHero : "md:pt-[120px]"}>
+      {/* Branding usa el mismo hero por capas de Sketch (la pluma flotando),
+          detrás del navbar en escritorio y bajo los botones en móvil */}
+      {isBranding && <HeroSketch name={profile.name} />}
+
       {/* La vista Web ya no tiene botón aquí; sigue accesible con ?vista=web
           (lo usan los enlaces "Volver a Web" de sus proyectos) */}
       <div className={styles.buttonsContainer}>
@@ -92,6 +99,10 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
 
       {isIsotipos ? (
         <IsotiposHero profile={profile} cover={posts[0]?.image} />
+      ) : isBranding ? (
+        <div className={styles.heroHistorias}>
+          <Highlights highlights={profile.highlights} />
+        </div>
       ) : (
         <>
           <ProfileHeader profile={isWebProfile ? { ...profile, name: "Web" } : profile} />

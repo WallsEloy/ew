@@ -39,7 +39,8 @@ export interface SceneRigProps {
  * automático en táctil.
  */
 export default function SceneRig({ fitWidth, fitHeight, progress, tilt = [0, 0], parallax = 1, portrait, zoom, children }: SceneRigProps) {
-  const isPortrait = usePortrait() && !!portrait;
+  const vertical = usePortrait();
+  const isPortrait = vertical && !!portrait;
   let fitW = fitWidth;
   let fitH = fitHeight;
   if (isPortrait) {
@@ -59,7 +60,9 @@ export default function SceneRig({ fitWidth, fitHeight, progress, tilt = [0, 0],
     if (cam) {
       const tanHalf = Math.tan((cam.fov / 2) * DEG);
       const aspect = cam.aspect || 1;
-      const z = Math.max(fitH / 2 / tanHalf, fitW / 2 / (tanHalf * aspect)) * (zoom ? zoom(progress) : 1);
+      const z =
+        (Math.max(fitH / 2 / tanHalf, fitW / 2 / (tanHalf * aspect)) * (zoom ? zoom(progress) : 1)) /
+        (vertical ? BIG_DATA_CONFIG.sceneScalePortrait : BIG_DATA_CONFIG.sceneScale);
       cam.position.z += (z - cam.position.z) * 0.15;
     }
 

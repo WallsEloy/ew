@@ -1,0 +1,140 @@
+/* Carrusel de artículos del home: tira infinita en movimiento continuo */
+.seccion {
+  padding: clamp(56px, 9vw, 110px) 0;
+  background: #050505;
+  color: #fff;
+  overflow: hidden;
+}
+
+.cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(100% - 40px, 1200px);
+  margin: 0 auto 28px;
+}
+
+.cabecera h2 {
+  margin: 0;
+  font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.enlaces {
+  display: flex;
+  gap: 18px;
+}
+
+.enlaces a {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.enlaces a:hover {
+  color: #fff;
+  border-color: #00aff0;
+}
+
+/* Bordes desvanecidos para que las tarjetas entren y salgan suavemente */
+.ventana {
+  cursor: grab;
+  /* El dedo arrastra la tira en horizontal; el scroll vertical sigue funcionando */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.arrastrando {
+  cursor: grabbing;
+}
+
+/* El movimiento (automático y al arrastrar) lo hace el componente */
+.tira {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  will-change: transform;
+}
+
+.tira img {
+  -webkit-user-drag: none;
+}
+
+.tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: clamp(240px, 26vw, 320px);
+  min-height: 210px;
+  padding: 26px 24px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  background: #0d0d10;
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+a.tarjeta:hover {
+  border-color: #00aff0;
+  transform: translateY(-3px);
+}
+
+.acento {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  width: 44px;
+  height: 4px;
+  border-radius: 0 0 4px 4px;
+}
+
+.categoria {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tarjeta h3 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.tarjeta p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.pie {
+  margin-top: auto;
+  padding-top: 8px;
+  color: #00aff0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.proxima .pie {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 767px) {
+  .tarjeta {
+    width: 250px;
+    min-height: 200px;
+  }
+}
+

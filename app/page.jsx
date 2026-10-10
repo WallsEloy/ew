@@ -1,4 +1,5 @@
 import HomeCarousel from "../components/HomeCarousel";
+import CarruselArticulos from "../components/CarruselArticulos";
 import LogosCarrusel from "../components/LogosCarrusel";
 import ProcesoScroll from "../components/ProcesoScroll";
 import VideoModulo from "../components/VideoModulo";
@@ -40,6 +41,8 @@ export default async function Home() {
       {/* Módulo de vídeo (dashboard → Home → Vídeos) */}
       <VideoModulo config={videos.video} />
       <HomeCarousel slides={slides} focos={focos} />
+      {/* Artículos de Grow y Diseño en una tira siempre en movimiento */}
+      <CarruselArticulos />
       {/* Proceso: vídeo recorrido con el scroll (mismo panel) */}
       <ProcesoScroll config={videos.proceso} />
       {/* Tira de logotipos que desfila (data/logosCarrusel.js) */}
