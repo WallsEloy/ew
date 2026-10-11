@@ -125,7 +125,13 @@ respaldo JSON en la carpeta temporal):
 
 - `title`: nombre del proyecto.
 - `caption`: frase corta con hashtags.
-- `cover_path`: portada de la tarjeta (p. ej. `/Web/<Proyecto>/tienda-inicio.webp`).
+- `cover_path`: portada de la tarjeta (p. ej. `/Web/<Proyecto>/tienda-inicio.webp`). La
+  tarjeta mide **16:10**, igual que las capturas de escritorio (1800×1125):
+  usar una captura a esa medida para que no se recorte.
+- Grupo desplegable: `GRUPOS_WEB` en `app/diseno/WebShowcase.jsx` agrega bajo
+  una tarjeta un botón que despliega otros proyectos del mismo tipo
+  (`GrupoDesplegable.jsx`). Hoy: VIBRALTOS (`2/0`) → «Event site» con
+  Sprint Dat y Sun-set como tarjetas de referencia hasta que tengan material.
 - `metadata.web.type`: etiqueta de la tarjeta (`E-COMMERCE`, `UI / UX`…);
   `metadata.web.author`; `metadata.web.video: true` si tiene video.
 

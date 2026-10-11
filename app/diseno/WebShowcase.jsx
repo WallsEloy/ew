@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PortadaCarrusel from "./PortadaCarrusel";
+import GrupoDesplegable from "./GrupoDesplegable";
 import Link from "next/link";
 import styles from "./WebShowcase.module.css";
 
@@ -14,6 +15,12 @@ const CARRUSELES_CODING = {
     "/Coding/DentalMaya/paciente-maria.webp",
     "/Coding/DentalMaya/odontograma-maria.webp",
   ],
+};
+
+// Proyectos que se despliegan bajo una tarjeta de Web, por "perfil/proyecto".
+// Sin material todavía: se muestran como tarjetas de referencia.
+const GRUPOS_WEB = {
+  "2/0": { tipo: "Event site", proyectos: [{ title: "Sprint Dat" }, { title: "Sun-set" }] },
 };
 
 export default function WebShowcase({ profile, variant = "web", basePath = "/diseno" }) {
@@ -46,8 +53,8 @@ export default function WebShowcase({ profile, variant = "web", basePath = "/dis
         {projects.map((project) => (
           <article className={styles.card} key={project.title}>
             <Link className={styles.projectLink} href={`${basePath}/proyectos/${profile.id}/${project.id}`}>
-            {/* En Coding la portada mide 16:10, igual que las capturas: no se recortan */}
-            <div className={`${styles.preview} ${isCoding ? styles.previewCoding : ""}`}>
+            {/* La portada mide 16:10, igual que las capturas (1800×1125): no se recortan */}
+            <div className={styles.preview}>
               {isCoding && CARRUSELES_CODING[`${profile.id}/${project.id}`] ? (
                 <PortadaCarrusel imagenes={CARRUSELES_CODING[`${profile.id}/${project.id}`]} alt={project.title} />
               ) : project.image ? (
@@ -73,6 +80,9 @@ export default function WebShowcase({ profile, variant = "web", basePath = "/dis
               <span className={styles.metrics}><b>♥</b> {project.likes}　<b>◆</b> {project.web?.views || "0"}</span>
             </div>
             </Link>
+            {!isCoding && GRUPOS_WEB[`${profile.id}/${project.id}`] && (
+              <GrupoDesplegable {...GRUPOS_WEB[`${profile.id}/${project.id}`]} />
+            )}
           </article>
         ))}
       </div>

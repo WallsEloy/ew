@@ -1,4 +1,5 @@
 import HeroCodigo from "../../components/HeroCodigo";
+import Highlights from "../../components/galeria/Highlights";
 import WebShowcase from "../diseno/WebShowcase";
 import { getProfiles } from "../../lib/portfolioServer";
 
@@ -25,6 +26,7 @@ export default async function CodingPage() {
     <main className="min-h-screen bg-black md:pt-[120px]">
       {/* Hero con código que se escribe solo (mismo de Web, con datos de software) */}
       <HeroCodigo titulo="Coding" proyectos={profile.posts.length} variante="software" />
+      <Highlights highlights={profile.highlights} />
       <WebShowcase profile={profile} variant="coding" basePath="/coding" />
     </main>
   );

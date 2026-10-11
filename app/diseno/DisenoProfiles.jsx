@@ -101,8 +101,11 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
       {isIsotipos ? (
         <IsotiposHero profile={profile} cover={posts[0]?.image} />
       ) : isWebProfile ? (
-        // Web: hero con código que se escribe solo
-        <HeroCodigo titulo="Web" proyectos={profile.posts.length} />
+        // Web: hero con código que se escribe solo y sus historias destacadas
+        <>
+          <HeroCodigo titulo="Web" proyectos={profile.posts.length} />
+          <Highlights highlights={profile.highlights} />
+        </>
       ) : isBranding ? (
         <div className={styles.heroHistorias}>
           <Highlights highlights={profile.highlights} />

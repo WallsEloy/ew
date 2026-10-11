@@ -102,8 +102,8 @@ y es la que usan el hero y la portada.
 
 ## 6. Tarjeta del muestrario (Coding)
 
-- Las tarjetas de Coding miden **16:10** (`.previewCoding`), la proporción de
-  las capturas de escritorio: no se recortan.
+- Las tarjetas (Web y Coding) miden **16:10** (`.preview` en
+  `WebShowcase.module.css`), la proporción de las capturas de escritorio: no se recortan.
 - La portada es un **carrusel de 4 imágenes** que se funden cada 3.2 s, solo en
   Coding: se define en `CARRUSELES_CODING["1/0"]` de `WebShowcase.jsx`
   (`portada-16x10`, `carolina`, `paciente-maria`, `odontograma-maria`).
