@@ -616,3 +616,24 @@
     width: min(78%, 320px);
   }
 }
+
+/* iPhone con grabación de pantalla: el video llena la pantalla, sin barra
+   blanca (la grabación ya trae la parte superior del sitio) */
+.phoneScreenVideo {
+  padding-top: 0;
+  background: #000;
+}
+
+.phoneScreenVideo video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Un solo iPhone en la fila: centrado y de tamaño de teléfono */
+.featureRowPhoneSolo {
+  grid-template-columns: minmax(0, 360px) !important;
+  justify-content: center;
+}

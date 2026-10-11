@@ -119,7 +119,8 @@ const HERO_MEDIA = {
     ink: "#f4ecdf",
     storyInk: "#ef7d3b",
     heroBackground: "#17102a",
-    pageBackground: "#0c0817",
+    // Toda la página con el mismo morado noche del hero
+    pageBackground: "#17102a",
   },
   // El logotipo del repositorio va como título (PROJECT_STORY.hero.titleLogo),
   // sobre el fondo claro de la marca (su azul marino no se leería sobre negro)
@@ -314,7 +315,8 @@ const PROJECT_FEATURES = {
       },
     },
     { items: [vib("escenarios", "Escenarios Duglass Whisky y Tequila Campo Azul"), vib("djs", "Conoce a los DJs: videos de los artistas")] },
-    { items: [vib("djs-locales", "DJs locales con sus stickers y fotos")] },
+    // DJs locales: la sección en escritorio junto a la grabación del carrusel en un iPhone
+    { items: [vib("djs-locales", "DJs locales con sus stickers y fotos"), { video: "/Web/Vibraltos/video/djs-locales-iphone.mp4", poster: "/Web/Vibraltos/video/djs-locales-iphone-poster.webp", alt: "Grabación del carrusel de DJs locales en un iPhone", width: 600, height: 1298, device: "iphone" }] },
     {
       story: {
         eyebrow: "Mucho más que música",
@@ -335,6 +337,8 @@ const PROJECT_FEATURES = {
         ],
       },
     },
+    // Grabación de pantalla del celular (cuadro por cuadro a 30 fps) en un iPhone
+    { items: [{ video: "/Web/Vibraltos/video/movil-iphone.mp4", poster: "/Web/Vibraltos/video/movil-iphone-poster.webp", alt: "Grabación de pantalla del sitio de VIBRALTOS en un iPhone: entrada del hero y recorrido", width: 600, height: 1298, device: "iphone" }] },
     {
       compact: true,
       columns: 4,
@@ -2102,10 +2106,18 @@ function FeatureRow({ items: row, compact, columns = 3 }) {
   const totalRatio = row.reduce((sum, item) => sum + item.width / item.height, 0);
   return (
     <div
-      className={`${styles.featureRow} ${compact ? styles.featureRowCompact : ""} ${row.some((item) => item.device === "iphone") ? styles.featureRowPhones : ""}`}
+      className={`${styles.featureRow} ${compact ? styles.featureRowCompact : ""} ${row.some((item) => item.device === "iphone") ? styles.featureRowPhones : ""} ${row.length === 1 && row[0].device === "iphone" ? styles.featureRowPhoneSolo : ""}`}
       style={compact ? { "--compact-columns": columns } : { "--feature-columns": row.map((item) => `minmax(0, ${(item.width / item.height).toFixed(4)}fr)`).join(" ") }}
     >
-      {row.map((feature) => feature.video ? (
+      {row.map((feature) => feature.video && feature.device === "iphone" ? (
+        // Grabación de pantalla dentro de un iPhone
+        <figure className={`${styles.feature} ${styles.phone}`} key={feature.video}>
+          <div className={`${styles.phoneScreen} ${styles.phoneScreenVideo}`} style={{ aspectRatio: "9 / 19.5" }}>
+            <VideoTile src={feature.video} poster={feature.poster} label={feature.alt} width={feature.width} height={feature.height} />
+            <span className={styles.phoneIsland} aria-hidden="true" />
+          </div>
+        </figure>
+      ) : feature.video ? (
         <figure className={`${styles.feature} ${styles.featureVideo}`} key={feature.video}>
           <VideoTile src={feature.video} poster={feature.poster} label={feature.alt} width={feature.width} height={feature.height} />
         </figure>
