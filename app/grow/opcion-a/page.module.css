@@ -78,12 +78,12 @@
   min-width: 118px;
   padding: 8px 18px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #d946ef, #9333ea);
+  background: linear-gradient(135deg, #00aff0, #0067d6);
   color: #fff;
   font-size: 10px;
   font-weight: 800;
   text-decoration: none;
-  box-shadow: 0 7px 22px rgba(147, 51, 234, 0.34);
+  box-shadow: 0 7px 22px rgba(0, 140, 230, 0.38);
   transition: transform 180ms ease, filter 180ms ease;
 }
 
@@ -124,5 +124,21 @@
     min-width: 96px;
     padding: 7px 12px;
     font-size: 9px;
+  }
+}
+
+/* Tarjeta sin degradado: el texto pasa a blanco con sombra para leerse
+   directamente sobre la imagen */
+.copySinVelo,
+.copySinVelo span {
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), 0 0 2px rgba(0, 0, 0, 0.9);
+}
+
+/* Escritorio: tarjetas más altas para que la portada luzca más */
+@media (min-width: 641px) {
+  .card,
+  .copy {
+    min-height: clamp(240px, 24vw, 320px);
   }
 }

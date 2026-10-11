@@ -25,6 +25,7 @@ Bienvenido al índice central de documentación del proyecto **EW Portfolio Stud
 | **07** | **[Guía de Desarrollo IA](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/07_guia_desarrollo_ia.md)** | Reglas de estilo (diseño rico, Framer Motion), directrices de componentes e interactividad. |
 | **08** | **[Autenticación con Clerk](file:///C:/REPOS/EloyWasll%20dashboard/portafolio%20STUDIO/EW/doc/documentos/08_autenticacion_clerk.md)** | Autenticación segura de usuarios, control de sesiones, protección de rutas y webhooks. |
 | **09** | **[Flujo publicitario con React Flow](<./documentos/flujo de marqueting/09_flujo_publicitario_react_flow.md>)** | Estado visual actual, topología, componentes y plan para convertir el diagrama de Grow en una herramienta funcional. |
+| **10** | **[Acomodo de páginas web](<./documentos/proyectos web/acomodo_paginas_web.md>)** | Método para construir un proyecto del área Web: material del repositorio y del sitio, capturas, hero con logotipo, filas e iPhones 19.5:9. |
 
 ---
 

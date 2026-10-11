@@ -112,6 +112,23 @@ const PROJECT_PALETTES = {
 // muestra completo y centrado en vez de recortarse; `ink` tiñe el texto del
 // hero con el color del logo.
 const HERO_MEDIA = {
+  // El logotipo del repositorio va como título (PROJECT_STORY.hero.titleLogo);
+  // el sticker tornasol se lee bien sobre el morado noche de la marca
+  "2/0": {
+    image: null,
+    ink: "#f4ecdf",
+    storyInk: "#ef7d3b",
+    heroBackground: "#17102a",
+    pageBackground: "#0c0817",
+  },
+  // El logotipo del repositorio va como título (PROJECT_STORY.hero.titleLogo),
+  // sobre el fondo claro de la marca (su azul marino no se leería sobre negro)
+  "2/3": {
+    image: null,
+    ink: "#262956",
+    storyInk: "#f0127d",
+    heroBackground: "#f8f9fb",
+  },
   "1/6": { image: "/Branding/Deliz/delizRecurso%201.svg", alt: "Logotipo de Deliz", contain: true, ink: "#009e76" },
   "1/15": {
     image: "/Branding/Estancia/logo-hero.webp",
@@ -251,6 +268,12 @@ const hamburger = (name, alt, width = 1425, height = 1425) => ({ image: `/Brandi
 const yadi = (name, alt, width = 1200, height = 1200) => ({ image: `/Branding/Yadi/${name}.webp`, alt, width, height });
 const enevesol = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Enevesol/${name}.webp`, alt, width, height });
 const rag = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/RAG/${name}.webp`, alt, width, height });
+const vib = (name, alt, width = 1800, height = 1125) => ({ image: `/Web/Vibraltos/${name}.webp`, alt, width, height });
+// Capturas de celular: se muestran dentro de un iPhone (device: "iphone")
+const vibMovil = (name, alt) => ({ image: `/Web/Vibraltos/movil-${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
+const oex = (name, alt, width = 1800, height = 1125) => ({ image: `/Web/OrderExpress/${name}.webp`, alt, width, height });
+// Capturas de celular: se muestran dentro de un iPhone (device: "iphone")
+const oexMovil = (name, alt) => ({ image: `/Web/OrderExpress/${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
 const estancia = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Estancia/${name}.webp`, alt, width, height });
 const estanciaVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/Estancia/video/${name}.mp4`, poster: `/Branding/Estancia/video/${name}-poster.webp`, alt, width, height });
 const sweett = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Sweett/${name}.webp`, alt, width, height });
@@ -268,6 +291,130 @@ const memoriesVideo = (name, alt, width = 720, height = 720) => ({ video: `/Bran
 // Videos optimizados (720 px, H.264) con su póster
 const enevesolVideo = (name, alt) => ({ video: `/Branding/Enevesol/video/${name}.mp4`, poster: `/Branding/Enevesol/video/${name}-poster.webp`, alt, width: 720, height: 720 });
 const PROJECT_FEATURES = {
+  "2/0": [
+    {
+      story: {
+        eyebrow: "Sitio del festival",
+        title: "Vibra alto, vibra alteño.",
+        body: [
+          "Diseñé y programé el sitio de **VIBRALTOS Fest**, el festival de música electrónica de Los Altos de Jalisco: un recorrido de una sola página con el atardecer alteño —naranja, rosa, morado y turquesa— como hilo conductor.",
+          "El hero recibe con el logotipo como **sticker** que se pega en pantalla, nubes, agaves y la **cuenta regresiva** al día del festival, con el botón de boletos siempre a la mano.",
+        ],
+      },
+    },
+    { items: [{ video: "/Web/Vibraltos/video/recorrido.mp4", poster: "/Web/Vibraltos/video/recorrido-poster.webp", alt: "Recorrido por el inicio del sitio de VIBRALTOS Fest: la entrada animada del hero y el scroll", width: 1280, height: 800 }] },
+    { items: [vib("descubre", "El festival de Los Altos: presentación del festival"), vib("lineup", "Line up del festival sobre un cielo naranja")] },
+    {
+      story: {
+        eyebrow: "Line up y escenarios",
+        title: "Dos escenarios, una misma vibra.",
+        body: [
+          "El **line up** se presenta como cartel de festival y cada **escenario** tiene su propia identidad con el patrocinador. Los DJs aparecen en videos que suenan al llegar a ellos y los **DJs locales** tienen su propio sticker.",
+        ],
+      },
+    },
+    { items: [vib("escenarios", "Escenarios Duglass Whisky y Tequila Campo Azul"), vib("djs", "Conoce a los DJs: videos de los artistas")] },
+    { items: [vib("djs-locales", "DJs locales con sus stickers y fotos")] },
+    {
+      story: {
+        eyebrow: "Mucho más que música",
+        title: "Un día completo en la cantera.",
+        body: [
+          "El sitio cuenta todo lo que pasa alrededor de la música: **experiencias de marcas**, el **wellness** de la mañana, la **Ruta Alteña** de activaciones por la región y las **Vibracoins**, la moneda del festival para canjear por bebidas.",
+        ],
+      },
+    },
+    { items: [vib("experiencias", "Más que un festival: activaciones de marcas"), vib("wellness", "Wellness de VIBRALTOS: actividades de la mañana")] },
+    { items: [vib("ruta-altena", "Ruta Alteña: mapa de activaciones por la región"), vib("vibracoins", "Vibracoins: la moneda del festival")] },
+    {
+      story: {
+        eyebrow: "Experiencia móvil",
+        title: "El festival en la palma de la mano.",
+        body: [
+          "En el celular el sitio conserva su carácter: el sticker del logotipo, la cuenta regresiva, el line up y los accesos se reorganizan a una columna, con un menú compacto y el reproductor de la playlist siempre disponible.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        vibMovil("hero", "Inicio del sitio de VIBRALTOS en el celular"),
+        vibMovil("lineup", "Line up en el celular"),
+        vibMovil("vibracoins", "Vibracoins en el celular"),
+        vibMovil("accesos", "Tipos de acceso en el celular"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Planear la visita",
+        title: "Todo lo necesario para llegar.",
+        body: [
+          "Cerré el recorrido con lo práctico: una **galería** de momentos, el **programa del día** hora por hora, la **ubicación** con mapa, los **tipos de acceso** y las **preguntas frecuentes**.",
+        ],
+      },
+    },
+    { items: [vib("galeria", "Galería: momentos que se quedan"), vib("calendario", "Así será tu día: programa por horas")] },
+    { items: [vib("ubicacion", "Nos vemos en la cantera: ubicación con mapa"), vib("accesos", "Tipos de acceso General y VIP")] },
+    { items: [vib("faq", "Preguntas frecuentes del festival")] },
+  ],
+  "2/3": [
+    {
+      story: {
+        eyebrow: "Tienda en línea",
+        title: "Comprar tech con estilo express.",
+        body: [
+          "Diseñé y programé la **tienda en línea** de Order Express: un menú lateral de colores de marca, un banner con los productos destacados y un catálogo con filtros por categoría y precio.",
+          "Cada producto tiene su **ficha completa** —galería, colores, especificaciones y descripción— y el carrito resume la compra con subtotal, envío y descuentos antes de pagar.",
+        ],
+      },
+    },
+    { items: [{ video: "/Web/OrderExpress/video/recorrido-tienda.mp4", poster: "/Web/OrderExpress/video/recorrido-tienda-poster.webp", alt: "Recorrido por la página de inicio de la tienda Order Express", width: 1280, height: 800 }] },
+    { items: [oex("tienda-catalogo", "Catálogo de la tienda con filtros por categoría"), oex("tienda-producto", "Ficha de producto con galería, colores y especificaciones")] },
+    { items: [oex("tienda-carrito", "Carrito con lista de productos y resumen de compra")] },
+    {
+      story: {
+        eyebrow: "Experiencia móvil",
+        title: "La tienda completa en el celular.",
+        body: [
+          "En el celular el menú pasa a una barra superior que se desliza, el buscador y el carrito quedan a la mano y el catálogo se reorganiza en una sola columna, sin perder ninguna función.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        oexMovil("movil-tienda-inicio", "Inicio de la tienda Order Express en el celular"),
+        oexMovil("movil-tienda-2", "Secciones destacadas de la tienda en el celular"),
+        oexMovil("movil-tienda-catalogo", "Catálogo de la tienda en el celular"),
+        oexMovil("movil-tienda-producto", "Ficha de producto en el celular"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Panel administrativo",
+        title: "Todo el negocio en un solo panel.",
+        body: [
+          "Detrás de la tienda construí un **panel tipo Tiendanube**: métricas de ventas, pedidos y clientes, catálogo de productos con alta y edición, ventas con filtros por estado y fichas de cliente que suben de nivel con cada compra.",
+          "Los datos viven en **Supabase**: el stock baja solo cuando un pedido se paga, los totales se recalculan con cada producto y las imágenes se guardan en su propio almacenamiento.",
+        ],
+      },
+    },
+    { items: [oex("panel-dashboard", "Dashboard con ventas del día, pedidos pendientes y stock bajo")] },
+    { items: [oex("panel-ventas", "Ventas con filtros por estado del pedido"), oex("panel-productos", "Catálogo de productos del panel")] },
+    { items: [oex("panel-clientes", "Clientes con niveles Nuevo, Regular y VIP"), oex("panel-tienda-en-linea", "Diseño de la tienda en línea con temas")] },
+    {
+      story: {
+        eyebrow: "Canales de venta",
+        title: "Vender en línea, en persona y enviar.",
+        body: [
+          "El panel también integra el **punto de venta** para registrar ventas físicas con el mismo inventario y un módulo de **envíos** con tarifas por ruta y paqueterías.",
+        ],
+      },
+    },
+    { items: [oex("panel-punto-de-venta", "Punto de venta para ventas en persona"), oex("panel-envio-nube", "Módulo de envíos con tarifas y paqueterías")] },
+  ],
   "1/6": [
     { items: [deliz("12", "Identidad de Deliz, aplicación", 2400, 2400), deliz("15", "Identidad de Deliz, aplicación")] },
     {
@@ -1346,6 +1493,72 @@ const PROJECT_INTRO_IMAGES = {
 // Textos del proyecto ("perfil/proyecto"): el hero, la introducción tras el
 // hero, la entrada al bloque de color y el cierre. **texto** se muestra en negrita.
 const PROJECT_STORY = {
+  "2/0": {
+    hero: {
+      title: "VIBRALTOS Fest",
+      // El título se muestra con el logotipo en lugar de texto
+      titleLogo: "/Web/Vibraltos/logo.webp",
+      category: "Sitio web · Festival de música",
+      description: "VIBRALTOS Fest es el festival de música electrónica de Los Altos de Jalisco, presentado por Tequila Ocho. Diseñé y programé su sitio: un recorrido animado con el line up, los escenarios, las experiencias y todo lo necesario para vivir el día.",
+      meta: [
+        ["Disciplina", "Diseño y desarrollo web"],
+        ["Tecnología", "Next.js · GSAP"],
+        ["Año", "2026"],
+        ["Diseñador", "Eloy Walls"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Un festival que se siente desde la primera pantalla.",
+      body: [
+        "Un festival se vende con emoción: el sitio tenía que **transmitir la vibra del día** antes de que alguien comprara su boleto, y a la vez resolver dudas de horarios, accesos y ubicación.",
+        "Construí una página con **identidad propia** —el atardecer alteño, tipografía de cartel y stickers— y **animaciones con GSAP** que acompañan el scroll: el logo que se pega, los textos que se revelan y los videos que suenan al verlos.",
+        "Todo es **responsivo** y está pensado para el celular, donde se comparte y se compra la mayoría de los boletos.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Del primer vistazo al boleto.",
+      body: [
+        "Un sitio que contagia la energía del festival y al mismo tiempo responde todo lo práctico: qué, quién, dónde, cuándo y cómo entrar.",
+        "El reto era **equilibrar espectáculo e información**: animaciones que emocionan sin estorbar al que solo quiere su boleto.",
+      ],
+      credit: { label: "Diseño y desarrollo", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "2/3": {
+    hero: {
+      title: "Order Express",
+      // El título se muestra con el logotipo en lugar de texto
+      titleLogo: "/Web/OrderExpress/logo.svg",
+      category: "E-commerce · Tienda en línea y panel administrativo",
+      description: "Order Express es una tienda de tecnología con su propio panel de administración. Diseñé y programé la tienda en línea, la experiencia móvil y el panel para gestionar ventas, productos, clientes y envíos.",
+      meta: [
+        ["Disciplina", "Diseño y desarrollo web"],
+        ["Tecnología", "Next.js · Supabase"],
+        ["Año", "2026"],
+        ["Diseñador", "Eloy Walls"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una tienda y el negocio detrás de ella.",
+      body: [
+        "Una tienda en línea no termina en el botón de comprar: alguien tiene que surtir el pedido, cobrarlo, enviarlo y llevar el inventario. Order Express necesitaba **las dos caras del comercio** en un solo sistema.",
+        "Construí una **tienda con identidad propia** —el magenta y el azul de la marca, tipografía condensada y fotografía de producto— y un **panel claro y ordenado** para operar el día a día.",
+        "Todo es **responsivo**, rápido y conectado a una base de datos real.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Del escaparate al inventario, en un solo lugar.",
+      body: [
+        "Una tienda que se siente de marca y un panel que no necesita manual: Order Express puede vender, cobrar y enviar desde el mismo sistema.",
+        "El reto era **equilibrar estilo y operación**: una experiencia de compra atractiva sin perder la claridad que exige administrar un negocio.",
+      ],
+      credit: { label: "Diseño y desarrollo", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
   "1/6": {
     hero: {
       title: "Un branding con sabor a éxito.",
@@ -1889,12 +2102,32 @@ function FeatureRow({ items: row, compact, columns = 3 }) {
   const totalRatio = row.reduce((sum, item) => sum + item.width / item.height, 0);
   return (
     <div
-      className={`${styles.featureRow} ${compact ? styles.featureRowCompact : ""}`}
+      className={`${styles.featureRow} ${compact ? styles.featureRowCompact : ""} ${row.some((item) => item.device === "iphone") ? styles.featureRowPhones : ""}`}
       style={compact ? { "--compact-columns": columns } : { "--feature-columns": row.map((item) => `minmax(0, ${(item.width / item.height).toFixed(4)}fr)`).join(" ") }}
     >
       {row.map((feature) => feature.video ? (
         <figure className={`${styles.feature} ${styles.featureVideo}`} key={feature.video}>
           <VideoTile src={feature.video} poster={feature.poster} label={feature.alt} width={feature.width} height={feature.height} />
+        </figure>
+      ) : feature.device === "iphone" ? (
+        // Captura de celular enmascarada dentro de un iPhone (marco, bordes
+        // redondeados e isla dinámica hechos con CSS)
+        <figure className={`${styles.feature} ${styles.phone}`} key={feature.image}>
+          {/* Pantalla en formato 19.5:9 (el de los iPhone actuales); la captura
+              se recorta desde arriba */}
+          <div className={styles.phoneScreen} style={{ aspectRatio: "9 / 19.5" }}>
+            <Image
+              src={feature.image}
+              alt={feature.alt}
+              width={feature.width}
+              height={feature.height}
+              sizes={`(max-width: 767px) 46vw, ${Math.round(1200 / columns)}px`}
+              quality={80}
+              draggable={false}
+            />
+            <span className={styles.phoneIsland} aria-hidden="true" />
+            <span className={styles.mediaShield} aria-hidden="true" />
+          </div>
         </figure>
       ) : (
         <figure className={styles.feature} key={feature.image}>
@@ -2074,7 +2307,14 @@ export default async function DesignProjectPage({ params }) {
             <span className={styles.brandDot} />
             <span>{profileName}</span>
           </div>
-          <h1 className={story.hero?.singleLine ? styles.heroTitleSingle : undefined}>{title}</h1>
+          <h1 className={`${story.hero?.singleLine ? styles.heroTitleSingle : ""} ${story.hero?.titleLogo ? styles.heroTitleLogo : ""}`}>
+            {story.hero?.titleLogo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={story.hero.titleLogo} alt={title} draggable={false} />
+            ) : (
+              title
+            )}
+          </h1>
           <p className={styles.category}>{category}</p>
           <p className={styles.description}>{description}</p>
           <dl className={styles.metaRow}>

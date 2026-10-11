@@ -32,6 +32,11 @@ técnicos y las memorias específicas de cada sistema.
 4. [Especificación React Flow](<./flujo de marqueting/09_flujo_publicitario_react_flow.md>)
 5. [Reglas locales para agentes](<./flujo de marqueting/AGENTS.md>)
 
+### Proyectos web
+
+1. [Contexto de proyectos web](<./proyectos web/claude.md>)
+2. [Acomodo de páginas web](<./proyectos web/acomodo_paginas_web.md>)
+
 ## Regla de correlación
 
 Cada carpeta especializada debe tener su propio `claude.md`, memoria, reglas y

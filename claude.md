@@ -21,6 +21,11 @@ niveles y cada nivel enlaza al anterior y al siguiente.
 - [Especificación técnica 09](<./doc/documentos/flujo de marqueting/09_flujo_publicitario_react_flow.md>)
 - [Reglas para agentes](<./doc/documentos/flujo de marqueting/AGENTS.md>)
 
+### Proyectos web (área Web de Diseño)
+
+- [Contexto de proyectos web](<./doc/documentos/proyectos web/claude.md>)
+- [Acomodo de páginas web](<./doc/documentos/proyectos web/acomodo_paginas_web.md>)
+
 Al trabajar en el flujo, la memoria indica el estado actual, las reglas definen
 los contratos obligatorios y la especificación conserva la arquitectura futura.
 

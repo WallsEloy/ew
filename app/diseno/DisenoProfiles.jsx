@@ -7,6 +7,7 @@ import Highlights from "../../components/galeria/Highlights";
 import PostGrid from "../../components/galeria/PostGrid";
 import WebShowcase from "./WebShowcase";
 import HeroSketch from "../../components/galeria/HeroSketch";
+import HeroCodigo from "../../components/HeroCodigo";
 import styles from "./page.module.css";
 
 // Ordena los proyectos por año (ficha "anio"), del más reciente al más antiguo.
@@ -99,6 +100,9 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
 
       {isIsotipos ? (
         <IsotiposHero profile={profile} cover={posts[0]?.image} />
+      ) : isWebProfile ? (
+        // Web: hero con código que se escribe solo
+        <HeroCodigo titulo="Web" proyectos={profile.posts.length} />
       ) : isBranding ? (
         <div className={styles.heroHistorias}>
           <Highlights highlights={profile.highlights} />

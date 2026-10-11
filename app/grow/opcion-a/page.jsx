@@ -21,8 +21,9 @@ export default async function GrowOptionA() {
           {config.projects.map((project, index) => (
             <article className={styles.card} key={`${project.slug}-${index}`}>
               <Image src={project.image} alt="" fill sizes="(max-width: 768px) 92vw, 760px" className={styles.image} />
-              <div className={styles.scrim} aria-hidden="true" />
-              <div className={styles.copy}>
+              {/* La primera portada (Marketing) va sin degradado */}
+              {index !== 0 && <div className={styles.scrim} aria-hidden="true" />}
+              <div className={`${styles.copy} ${index === 0 ? styles.copySinVelo : ""}`}>
                 <span>{project.eyebrow}</span>
                 <h2>{project.title}</h2>
                 <Link href={`/grow/proyectos/${project.slug}`}>{project.action}</Link>

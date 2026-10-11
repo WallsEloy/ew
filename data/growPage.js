@@ -11,7 +11,7 @@ export const defaultGrowConfig = {
       eyebrow: "Branding",
       title: "Identidad visual",
       action: "Ver proyecto",
-      image: "/branding-demo/brand-workspace.webp",
+      image: "/Grow/Marketing/frame-21.webp",
       summary: "Una identidad construida para crecer con coherencia en cada punto de contacto.",
       body: "Dirección de arte, sistema visual y aplicaciones desarrolladas como una experiencia de marca completa.",
     },

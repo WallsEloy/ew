@@ -30,3 +30,9 @@
 .body p { margin: 0 0 44px; color: #d2ced6; font-size: clamp(20px, 3vw, 34px); line-height: 1.45; }
 .body a { color: #d946ef; font-weight: 800; text-decoration: none; }
 @media (max-width: 767px) { .hero { min-height: 72vh; } .copy { padding: 120px 22px 54px; } .body { padding: 60px 0 140px; } }
+
+/* Hero de Identidad visual: la portada a todo el ancho y completa (sin recorte
+   ni degradado). En escritorio deja libre la barra de navegación. */
+.heroImagen { width: 100%; padding-top: 120px; box-sizing: border-box; }
+.heroImagen img { display: block; width: 100%; height: auto; }
+@media (max-width: 767px) { .heroImagen { padding-top: 0; } }

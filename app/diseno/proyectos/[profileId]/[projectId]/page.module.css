@@ -549,3 +549,70 @@
   .swatch, .swatchLabel { transform: none; opacity: 1; transition: none; }
   .shot img, .feature img { transition: none; }
 }
+
+/* Título con logotipo (p. ej. Order Express): el logo ocupa el lugar del texto */
+.heroTitleLogo img {
+  display: block;
+  width: min(100%, 560px);
+  height: auto;
+  margin: 8px 0 4px;
+}
+
+/* iPhone: la captura va enmascarada dentro de un marco de teléfono */
+.phone {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4% 6%;
+  background: transparent;
+  overflow: visible;
+}
+
+.phoneScreen {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 13% / 7.5%;
+  /* Franja de barra de estado arriba: ahí se apoya la isla dinámica sin tapar
+     el contenido de la captura */
+  padding-top: 8%;
+  background: #fff;
+  box-shadow:
+    0 0 0 clamp(5px, 0.7vw, 9px) #111317,
+    0 0 0 calc(clamp(5px, 0.7vw, 9px) + 2px) #3a3d44,
+    0 24px 50px rgba(0, 0, 0, 0.5);
+}
+
+.phoneScreen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 0 11% 11% / 0 0 6.5% 6.5%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Isla dinámica */
+.phoneIsland {
+  position: absolute;
+  top: 1.6%;
+  left: 50%;
+  z-index: 2;
+  width: 30%;
+  height: 3.2%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #000;
+}
+
+/* Filas de iPhones: en móvil, un teléfono por fila y centrado */
+@media (max-width: 767px) {
+  .featureRowPhones {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+
+  .featureRowPhones .phone {
+    width: min(78%, 320px);
+  }
+}

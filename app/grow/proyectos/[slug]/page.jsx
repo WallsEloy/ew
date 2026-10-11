@@ -57,6 +57,10 @@ export default async function GrowProjectPage({ params }) {
       )}
       {project.slug === "identidad-visual" && (
         <>
+          {/* Hero: la misma portada de la tarjeta en Grow, completa y sin degradado */}
+          <section className={styles.heroImagen}>
+            <Image src={project.image} alt={project.title} width={972} height={413} priority sizes="100vw" />
+          </section>
           <ClientAdvertisingFlow config={config.flow} />
           {/* Texto provisional tras el flujo */}
           <section className={styles.interlude}>
