@@ -16,3 +16,6 @@ escritorio y de celular.
 
 1. [`acomodo_paginas_web.md`](./acomodo_paginas_web.md): método completo, paso a
    paso, con el proyecto Order Express (2/3) como referencia.
+2. [`acomodo_proyecto_coding.md`](./acomodo_proyecto_coding.md): proyecto de
+   Coding Dental Maya (1/0): página, capturas de una app con sesión y
+   portada en carrusel 16:10.

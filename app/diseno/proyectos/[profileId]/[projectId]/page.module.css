@@ -553,7 +553,10 @@
 /* Título con logotipo (p. ej. Order Express): el logo ocupa el lugar del texto */
 .heroTitleLogo img {
   display: block;
-  width: min(100%, 560px);
+  width: auto;
+  max-width: min(100%, 560px);
+  /* Logos altos (p. ej. Dental Maya) no ocupan toda la pantalla */
+  max-height: clamp(180px, 30vh, 300px);
   height: auto;
   margin: 8px 0 4px;
 }

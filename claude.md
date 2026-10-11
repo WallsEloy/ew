@@ -25,6 +25,7 @@ niveles y cada nivel enlaza al anterior y al siguiente.
 
 - [Contexto de proyectos web](<./doc/documentos/proyectos web/claude.md>)
 - [Acomodo de páginas web](<./doc/documentos/proyectos web/acomodo_paginas_web.md>)
+- [Acomodo de un proyecto de Coding (Dental Maya)](<./doc/documentos/proyectos web/acomodo_proyecto_coding.md>)
 
 Al trabajar en el flujo, la memoria indica el estado actual, las reglas definen
 los contratos obligatorios y la especificación conserva la arquitectura futura.

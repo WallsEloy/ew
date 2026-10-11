@@ -36,6 +36,7 @@ técnicos y las memorias específicas de cada sistema.
 
 1. [Contexto de proyectos web](<./proyectos web/claude.md>)
 2. [Acomodo de páginas web](<./proyectos web/acomodo_paginas_web.md>)
+3. [Acomodo de un proyecto de Coding](<./proyectos web/acomodo_proyecto_coding.md>)
 
 ## Regla de correlación
 

@@ -4,13 +4,18 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./HeroCodigo.module.css";
 
 /*
- * Hero del área Web (Diseño): solo código que se escribe solo, letra por letra,
- * con colores de sintaxis y cursor parpadeante. La presentación del área (título,
- * descripción y número de proyectos) es parte del propio código, como datos. Al terminar espera, se borra y vuelve a empezar.
+ * Hero de las áreas Web y Coding: solo código que se escribe solo, letra por
+ * letra, con colores de sintaxis y cursor parpadeante. La presentación del área
+ * (título, descripción y número de proyectos) es parte del propio código, como
+ * datos. Al terminar espera, se borra y vuelve a empezar.
+ *
+ * `variante`: "web" (Diseño · Web, un componente de React) o "software"
+ * (Coding: un servicio en TypeScript con API, base de datos y pruebas).
  */
 
 // Cada línea es una lista de [tipo, texto]; el tipo da el color
-function crearCodigo(titulo, proyectos) {
+function crearCodigo(titulo, proyectos, variante) {
+  if (variante === "software") return codigoSoftware(titulo, proyectos);
   return [
     [["kw", "import"], ["tx", " { "], ["fn", "Marca"], ["tx", " } "], ["kw", "from"], ["st", ' "@/eloy-walls"'], ["tx", ";"]],
     [],
@@ -27,6 +32,30 @@ function crearCodigo(titulo, proyectos) {
     [],
     [["kw", "export default function"], ["fn", " Sitio"], ["tx", "() {"]],
     [["tx", "  "], ["kw", "return"], ["tx", " "], ["tg", "<Marca"], ["at", " area"], ["tx", "={area}"], ["tg", ">"], ["tx", "Ideas que se vuelven web"], ["tg", "</Marca>"], ["tx", ";"]],
+    [["tx", "}"]],
+  ];
+}
+
+// Coding: un servicio en TypeScript que presenta el área como datos del módulo
+function codigoSoftware(titulo, proyectos) {
+  return [
+    [["kw", "import"], ["tx", " { "], ["fn", "crearApi"], ["tx", ", "], ["fn", "conectar"], ["tx", " } "], ["kw", "from"], ["st", ' "@/eloy-walls/core"'], ["tx", ";"]],
+    [],
+    [["kw", "export const"], ["tx", " area = {"]],
+    [["tx", "  categoria: "], ["st", '"Desarrollo de software"'], ["tx", ","]],
+    [["tx", "  titulo: "], ["st", `"${titulo}"`], ["tx", ","]],
+    [["tx", "  descripcion:"]],
+    [["tx", "    "], ["st", '"Aplicaciones, APIs y automatizaciones a la "'], ["tx", " +"]],
+    [["tx", "    "], ["st", '"medida: código limpio, escalable y probado "'], ["tx", " +"]],
+    [["tx", "    "], ["st", '"de la base de datos al despliegue."'], ["tx", ","]],
+    [["tx", "  proyectos: "], ["nu", String(proyectos)], ["tx", ","]],
+    [["tx", "  stack: ["], ["st", '"TypeScript"'], ["tx", ", "], ["st", '"Next.js"'], ["tx", ", "], ["st", '"Node"'], ["tx", ", "], ["st", '"PostgreSQL"'], ["tx", "],"]],
+    [["tx", "};"]],
+    [],
+    [["kw", "export async function"], ["fn", " lanzar"], ["tx", "() {"]],
+    [["tx", "  "], ["kw", "const"], ["tx", " db = "], ["kw", "await"], ["fn", " conectar"], ["tx", "("], ["st", '"postgres"'], ["tx", ");"]],
+    [["tx", "  "], ["kw", "const"], ["tx", " api = "], ["fn", "crearApi"], ["tx", "({ area, db, pruebas: "], ["nu", "true"], ["tx", " });"]],
+    [["tx", "  "], ["kw", "return"], ["tx", " api."], ["fn", "desplegar"], ["tx", "("], ["st", '"producción"'], ["tx", ");"]],
     [["tx", "}"]],
   ];
 }
@@ -54,8 +83,8 @@ function visible(codigo, n) {
   return out;
 }
 
-export default function HeroCodigo({ titulo = "Web", proyectos = 0 }) {
-  const codigo = useMemo(() => crearCodigo(titulo, proyectos), [titulo, proyectos]);
+export default function HeroCodigo({ titulo = "Web", proyectos = 0, variante = "web" }) {
+  const codigo = useMemo(() => crearCodigo(titulo, proyectos, variante), [titulo, proyectos, variante]);
   const total = useMemo(() => contar(codigo), [codigo]);
   const [n, setN] = useState(0);
 
@@ -111,7 +140,9 @@ export default function HeroCodigo({ titulo = "Web", proyectos = 0 }) {
       <div className={styles.soloLectores}>
         <h1 id="hero-codigo-titulo">{titulo}</h1>
         <p>
-          Desarrollo web: sitios y aplicaciones a la medida, rápidos, responsivos y con la identidad de cada marca.
+          {variante === "software"
+            ? "Desarrollo de software: aplicaciones, APIs y automatizaciones a la medida, con código limpio, escalable y probado."
+            : "Desarrollo web: sitios y aplicaciones a la medida, rápidos, responsivos y con la identidad de cada marca."}
           {proyectos > 0 && ` ${proyectos} ${proyectos === 1 ? "proyecto" : "proyectos"}.`}
         </p>
       </div>

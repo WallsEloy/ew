@@ -1,5 +1,4 @@
-import ProfileHeader from "../../components/galeria/ProfileHeader";
-import Highlights from "../../components/galeria/Highlights";
+import HeroCodigo from "../../components/HeroCodigo";
 import WebShowcase from "../diseno/WebShowcase";
 import { getProfiles } from "../../lib/portfolioServer";
 
@@ -15,16 +14,17 @@ export default async function CodingPage() {
   if (!profile) {
     // Sin colección todavía: muestra el grid con cuadros de referencia.
     return (
-      <main className="min-h-screen bg-black pt-[120px]">
+      <main className="min-h-screen bg-black md:pt-[120px]">
+        <HeroCodigo titulo="Coding" variante="software" />
         <WebShowcase profile={{ id: "coding", posts: [] }} variant="coding" basePath="/coding" />
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-black pt-[120px]">
-      <ProfileHeader profile={profile} />
-      <Highlights highlights={profile.highlights} />
+    <main className="min-h-screen bg-black md:pt-[120px]">
+      {/* Hero con código que se escribe solo (mismo de Web, con datos de software) */}
+      <HeroCodigo titulo="Coding" proyectos={profile.posts.length} variante="software" />
       <WebShowcase profile={profile} variant="coding" basePath="/coding" />
     </main>
   );

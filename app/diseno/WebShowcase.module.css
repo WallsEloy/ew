@@ -27,3 +27,13 @@
 .metrics { justify-self: end; color: #777780; white-space: nowrap; }
 .metrics b { color: #a3a3ac; font-size: 9px; }
 @media (max-width: 640px) { .section { padding-inline: 12px; } .heading { align-items: start; flex-direction: column; } .heading p { text-align: left; } .grid { grid-template-columns: 1fr; gap: 26px; } }
+
+/* Portada en carrusel (Coding): imágenes apiladas que se funden */
+.carruselImg { opacity: 0; transition: opacity .9s ease, transform .45s ease, filter .45s ease; }
+.carruselActiva { opacity: 1; }
+.carruselPuntos { position: absolute; top: 14px; right: 14px; z-index: 2; display: flex; gap: 5px; }
+.carruselPuntos span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.4); transition: background .3s ease, transform .3s ease; }
+.carruselPuntos .carruselPuntoActivo { background: #fff; transform: scale(1.2); }
+
+/* Tarjetas de Coding: misma proporción que las capturas de pantalla (16:10) */
+.previewCoding { aspect-ratio: 16 / 10; }

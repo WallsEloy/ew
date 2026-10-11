@@ -1,9 +1,20 @@
 import Image from "next/image";
+import PortadaCarrusel from "./PortadaCarrusel";
 import Link from "next/link";
 import styles from "./WebShowcase.module.css";
 
 // Cuadros de referencia que ocupan el grid mientras no hay proyectos.
 const PLACEHOLDER_COUNT = 4;
+
+// Portadas en carrusel del área Coding, por "perfil/proyecto"
+const CARRUSELES_CODING = {
+  "1/0": [
+    "/Coding/DentalMaya/portada-16x10.webp",
+    "/Coding/DentalMaya/carolina.webp",
+    "/Coding/DentalMaya/paciente-maria.webp",
+    "/Coding/DentalMaya/odontograma-maria.webp",
+  ],
+};
 
 export default function WebShowcase({ profile, variant = "web", basePath = "/diseno" }) {
   const projects = profile.posts || [];
@@ -35,8 +46,11 @@ export default function WebShowcase({ profile, variant = "web", basePath = "/dis
         {projects.map((project) => (
           <article className={styles.card} key={project.title}>
             <Link className={styles.projectLink} href={`${basePath}/proyectos/${profile.id}/${project.id}`}>
-            <div className={styles.preview}>
-              {project.image ? (
+            {/* En Coding la portada mide 16:10, igual que las capturas: no se recortan */}
+            <div className={`${styles.preview} ${isCoding ? styles.previewCoding : ""}`}>
+              {isCoding && CARRUSELES_CODING[`${profile.id}/${project.id}`] ? (
+                <PortadaCarrusel imagenes={CARRUSELES_CODING[`${profile.id}/${project.id}`]} alt={project.title} />
+              ) : project.image ? (
                 <Image src={project.image} alt={project.title} fill sizes="(max-width: 640px) 92vw, 50vw" className={styles.image} />
               ) : (
                 <span className={styles.noImage}>Sin portada</span>
