@@ -2,6 +2,9 @@ import DisenoProfiles from "./DisenoProfiles";
 import { getProfiles } from "../../lib/portfolioServer";
 
 export const dynamic = "force-dynamic";
+// Las consultas a Supabase tampoco se guardan en la caché de fetch: si no, la
+// página se renderiza en cada visita pero con datos viejos (historias, títulos).
+export const fetchCache = "force-no-store";
 
 export const metadata = {
   title: "Diseño",
