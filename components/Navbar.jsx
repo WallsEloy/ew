@@ -91,7 +91,12 @@ export default function Navbar({ initialConfig = null }) {
 
       frame = window.requestAnimationFrame(() => {
         frame = null;
-        if (!window.matchMedia("(max-width: 767px)").matches) return;
+        // Solo en el celular: la barra superior se esconde y el dock se
+        // compacta al bajar. En escritorio el dock conserva su tamaño.
+        if (!window.matchMedia("(max-width: 767px)").matches) {
+          setIsMobileDockCompact(false);
+          return;
+        }
 
         const currentScrollY = Math.max(0, window.scrollY);
         const difference = currentScrollY - previousScrollY.current;
@@ -375,6 +380,7 @@ export default function Navbar({ initialConfig = null }) {
                 href={item.href || '#'}
                 className={`${styles.pillLink} ${isActive ? styles.pillLinkActive : ''}`}
                 aria-label={item.label}
+                title={item.label}
                 aria-current={isActive ? 'page' : undefined}
               >
                 {item.iconType === 'image' && item.icon ? (

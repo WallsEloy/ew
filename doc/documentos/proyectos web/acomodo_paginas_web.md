@@ -5,7 +5,8 @@
 Método para construir la página de un proyecto del área **Web** a partir del
 sitio publicado y su repositorio. Referencia: **Order Express**
 (`/diseno/proyectos/2/3`), construido desde
-`https://github.com/WallsEloy/Ecommer_OEX` y `https://ecommer-oex.vercel.app`.
+`https://github.com/WallsEloy/Ecommer_OEX` y `https://ecommer-oex.vercel.app` (la tienda
+se recapturó después desde `https://nube-store-pi.vercel.app`).
 
 ---
 
@@ -125,7 +126,7 @@ respaldo JSON en la carpeta temporal):
 
 - `title`: nombre del proyecto.
 - `caption`: frase corta con hashtags.
-- `cover_path`: portada de la tarjeta (p. ej. `/Web/<Proyecto>/tienda-inicio.webp`). La
+- `cover_path`: portada de la tarjeta (p. ej. `/Web/<Proyecto>/nube-inicio.webp`). La
   tarjeta mide **16:10**, igual que las capturas de escritorio (1800×1125):
   usar una captura a esa medida para que no se recorte.
 - Grupo desplegable: `GRUPOS_WEB` en `app/diseno/WebShowcase.jsx` agrega bajo
@@ -150,8 +151,10 @@ commit y despliegue: publicar el código pronto.
 
 | Clave | Proyecto | Repositorio | Notas |
 | --- | --- | --- | --- |
-| `2/3` | Order Express | `WallsEloy/Ecommer_OEX` | Logo oscuro → hero claro `#f8f9fb`; tienda + panel |
+| `2/3` | Order Express | `WallsEloy/Ecommer_OEX` | Logo OEPM magenta (`public/storefront/logo.svg` de `Talkies-4estrellas/nube-store`) → hero claro `#f8f9fb`; tienda (capturas `nube-*` de `nube-store-pi.vercel.app`, vistas con `/?view=catalogo`, `carrito`…) + panel |
 | `2/0` | VIBRALTOS Fest | `WallsEloy/vibraltos` | Logo sticker tornasol (`public/assets/hero/logo-vibraltos.webp`) sobre morado noche `#17102a`; capturas por sección con `#id`; video del hero animado (GSAP) recortado a 28 s |
+| `2/1` | Josman (FERCADI) | `Talkies-4estrellas/fercadi-next` (`fercadi-next.vercel.app`) | Letras amarillas `public/images/Logo.png` (recortado a `logo-letras.webp`) sobre el azul marino del sitio `#21225e`, acentos dorados `#ffbf00`; el carrito pasa por un modal de confirmación antes del cajón lateral; productos de ferretería sin foto y el artículo «Salitre» con imagen rota se dejaron fuera |
+| `2/2` | Order Express Paquetería | `WallsEloy/OEX` (`oex-one.vercel.app`) | Logo con texto en Poppins → renderizado a `logo.webp` en el navegador; hero lavanda `#f3f3f9`; secciones del inicio por texto de encabezado; portales de cliente, empresa y admin abiertos sin sesión |
 
 Sitios de una sola página con anclas (`#lineup`, `#faq`…): capturar cada sección
 haciendo scroll a su `id` y esperar ~2.5 s para que terminen sus animaciones.

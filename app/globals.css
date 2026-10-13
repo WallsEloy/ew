@@ -12,6 +12,13 @@ body:has([data-auth-page]) > .site-mobile-nav-spacer {
   height: calc(112px + env(safe-area-inset-bottom));
 }
 
+/* En escritorio el dock mide 62px de alto */
+@media (min-width: 768px) {
+  .site-mobile-dock-spacer {
+    height: 96px;
+  }
+}
+
 .nav-link {
   color: white !important;
   font-weight: normal !important;

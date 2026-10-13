@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Cinzel_Decorative, Courgette, Inter, Libre_Franklin, Lilita_One, Lobster, Montserrat, Nunito, Playfair_Display, Space_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getProfileProject } from "../../../../../lib/portfolioServer";
+import { MARCAS_WEB } from "../../../../../lib/proyectosWeb";
 import ColorPanel from "./ColorPanel";
 import { FeatureRow, StoryBlock } from "./bloques";
 import styles from "./page.module.css";
@@ -122,13 +123,30 @@ const HERO_MEDIA = {
     // Toda la página con el mismo morado noche del hero
     pageBackground: "#17102a",
   },
-  // El logotipo del repositorio va como título (PROJECT_STORY.hero.titleLogo),
-  // sobre el fondo claro de la marca (su azul marino no se leería sobre negro)
+  // El logotipo OEPM del repositorio de la tienda (nube-store) va como título
+  // (PROJECT_STORY.hero.titleLogo), en magenta sobre el fondo claro de la marca
   "2/3": {
     image: null,
     ink: "#262956",
     storyInk: "#f0127d",
     heroBackground: "#f8f9fb",
+  },
+  // Paquetería: mismo logotipo de Order Express (con «Paquetería y mensajería»)
+  // sobre el lavanda claro del sitio
+  "2/2": {
+    image: null,
+    ink: "#262857",
+    storyInk: "#d5126a",
+    heroBackground: "#f3f3f9",
+  },
+  // Josman (FERCADI): las letras amarillas del encabezado del sitio
+  // (public/images/Logo.png del repositorio) sobre su azul marino; los
+  // acentos en el dorado de sus botones
+  "2/1": {
+    image: null,
+    ink: "#f0f8ff",
+    storyInk: "#ffbf00",
+    heroBackground: "#21225e",
   },
   "1/6": { image: "/Branding/Deliz/delizRecurso%201.svg", alt: "Logotipo de Deliz", contain: true, ink: "#009e76" },
   "1/15": {
@@ -275,6 +293,12 @@ const vibMovil = (name, alt) => ({ image: `/Web/Vibraltos/movil-${name}-iphone.w
 const oex = (name, alt, width = 1800, height = 1125) => ({ image: `/Web/OrderExpress/${name}.webp`, alt, width, height });
 // Capturas de celular: se muestran dentro de un iPhone (device: "iphone")
 const oexMovil = (name, alt) => ({ image: `/Web/OrderExpress/${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
+const paq = (name, alt, width = 1800, height = 1125) => ({ image: `/Web/OEX/${name}.webp`, alt, width, height });
+// Capturas de celular: se muestran dentro de un iPhone (device: "iphone")
+const paqMovil = (name, alt) => ({ image: `/Web/OEX/movil-${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
+const fer = (name, alt, width = 1800, height = 1125) => ({ image: `/Web/Josman/${name}.webp`, alt, width, height });
+// Capturas de celular: se muestran dentro de un iPhone (device: "iphone")
+const ferMovil = (name, alt) => ({ image: `/Web/Josman/movil-${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
 const estancia = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Estancia/${name}.webp`, alt, width, height });
 const estanciaVideo = (name, alt, width = 720, height = 720) => ({ video: `/Branding/Estancia/video/${name}.mp4`, poster: `/Branding/Estancia/video/${name}-poster.webp`, alt, width, height });
 const sweett = (name, alt, width = 1425, height = 1425) => ({ image: `/Branding/Sweett/${name}.webp`, alt, width, height });
@@ -368,20 +392,31 @@ const PROJECT_FEATURES = {
         eyebrow: "Tienda en línea",
         title: "Comprar tech con estilo express.",
         body: [
-          "Diseñé y programé la **tienda en línea** de Order Express: un menú lateral de colores de marca, un banner con los productos destacados y un catálogo con filtros por categoría y precio.",
-          "Cada producto tiene su **ficha completa** —galería, colores, especificaciones y descripción— y el carrito resume la compra con subtotal, envío y descuentos antes de pagar.",
+          "Diseñé y programé la **tienda en línea** de Order Express: un menú lateral azul marino con la marca, un banner en carrusel y bloques editoriales de productos destacados, de teclados y consolas a dulces típicos mexicanos.",
+          "El **catálogo** filtra por categoría y precio, cada producto tiene su **ficha** con existencias, especificaciones y garantías, y el **carrito** resume subtotal, envío y descuentos antes de pagar.",
         ],
       },
     },
-    { items: [{ video: "/Web/OrderExpress/video/recorrido-tienda.mp4", poster: "/Web/OrderExpress/video/recorrido-tienda-poster.webp", alt: "Recorrido por la página de inicio de la tienda Order Express", width: 1280, height: 800 }] },
-    { items: [oex("tienda-catalogo", "Catálogo de la tienda con filtros por categoría"), oex("tienda-producto", "Ficha de producto con galería, colores y especificaciones")] },
-    { items: [oex("tienda-carrito", "Carrito con lista de productos y resumen de compra")] },
+    { items: [{ video: "/Web/OrderExpress/video/nube-recorrido.mp4", poster: "/Web/OrderExpress/video/nube-recorrido-poster.webp", alt: "Recorrido por la tienda Order Express: inicio y catálogo", width: 1280, height: 800 }] },
+    { items: [oex("nube-destacados", "Bloques editoriales de productos destacados"), oex("nube-catalogo", "Catálogo con filtros por categoría y precio")] },
+    { items: [oex("nube-producto", "Ficha de producto con existencias y especificaciones"), oex("nube-carrito", "Carrito con lista de productos y resumen de compra")] },
+    {
+      story: {
+        eyebrow: "Más que un catálogo",
+        title: "Lanzamientos, promos y ayuda.",
+        body: [
+          "La tienda tiene vistas propias para los **lanzamientos** con formato editorial, las **ofertas** con precio tachado y un **centro de ayuda** con chat, envíos, garantías y asesoría.",
+        ],
+      },
+    },
+    { items: [oex("nube-novedades", "Novedades: lanzamientos con formato editorial"), oex("nube-ofertas", "Ofertas con descuentos especiales")] },
+    { items: [oex("nube-soporte", "Centro de ayuda con chat, envíos, garantías y asesoría")] },
     {
       story: {
         eyebrow: "Experiencia móvil",
         title: "La tienda completa en el celular.",
         body: [
-          "En el celular el menú pasa a una barra superior que se desliza, el buscador y el carrito quedan a la mano y el catálogo se reorganiza en una sola columna, sin perder ninguna función.",
+          "En el celular el menú lateral se guarda detrás de un botón, el buscador y el carrito quedan arriba y una **barra inferior** da acceso a inicio, búsqueda, rastreo y cuenta; el catálogo y el carrito se reorganizan a una columna.",
         ],
       },
     },
@@ -389,10 +424,20 @@ const PROJECT_FEATURES = {
       compact: true,
       columns: 4,
       items: [
-        oexMovil("movil-tienda-inicio", "Inicio de la tienda Order Express en el celular"),
-        oexMovil("movil-tienda-2", "Secciones destacadas de la tienda en el celular"),
-        oexMovil("movil-tienda-catalogo", "Catálogo de la tienda en el celular"),
-        oexMovil("movil-tienda-producto", "Ficha de producto en el celular"),
+        oexMovil("movil-nube-inicio", "Inicio de la tienda Order Express en el celular"),
+        oexMovil("movil-nube-destacados", "Productos destacados en el celular"),
+        oexMovil("movil-nube-catalogo", "Catálogo de la tienda en el celular"),
+        oexMovil("movil-nube-producto", "Ficha de producto en el celular"),
+      ],
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        oexMovil("movil-nube-carrito", "Carrito en el celular"),
+        oexMovil("movil-nube-novedades", "Novedades en el celular"),
+        oexMovil("movil-nube-ofertas", "Ofertas en el celular"),
+        oexMovil("movil-nube-soporte", "Centro de ayuda en el celular"),
       ],
     },
     {
@@ -418,6 +463,173 @@ const PROJECT_FEATURES = {
       },
     },
     { items: [oex("panel-punto-de-venta", "Punto de venta para ventas en persona"), oex("panel-envio-nube", "Módulo de envíos con tarifas y paqueterías")] },
+  ],
+  "2/2": [
+    {
+      story: {
+        eyebrow: "Sitio corporativo",
+        title: "La paquetería del futuro, hoy.",
+        body: [
+          "Diseñé y programé el sitio de **Order Express Paquetería** con el azul marino y el magenta de la marca: un hero en carrusel con el repartidor 3D, accesos directos para **cotizar, rastrear y crear un envío**, y las paqueterías afiliadas —DHL, FedEx, UPS, Estafeta, Correos— a la vista.",
+          "La página de inicio funciona como una herramienta: **rastreo por número de guía**, un **cotizador** con origen, destino, embalaje y peso, envíos frecuentes por ciudad y los servicios para detalles, medicamentos, documentos y carga.",
+        ],
+      },
+    },
+    { items: [{ video: "/Web/OEX/video/recorrido.mp4", poster: "/Web/OEX/video/recorrido-poster.webp", alt: "Recorrido por la página de inicio de Order Express Paquetería", width: 1280, height: 800 }] },
+    { items: [paq("home-frecuentes", "Afiliados y envíos frecuentes por ciudad"), paq("home-servicios", "Servicios de envío y rastreo por número de guía")] },
+    { items: [paq("home-cotizador", "Cotizador rápido con origen, destino, embalaje y peso"), paq("home-clientes", "Testimonios de clientes y servicios logísticos")] },
+    {
+      story: {
+        eyebrow: "Cotizar, enviar y rastrear",
+        title: "Del presupuesto a la puerta, en pasos.",
+        body: [
+          "Cada tarea tiene su propio flujo: **cotizar** por códigos postales, **crear la guía** con los datos del remitente y el destinatario, y **rastrear** el paquete en tiempo real con su ubicación e historial.",
+        ],
+      },
+    },
+    { items: [paq("cotizar", "Cotiza tu envío en segundos: ruta por códigos postales"), paq("crear-envio", "Prepara tu guía digital: datos del remitente")] },
+    { items: [paq("rastreo", "Sigue tu paquete en tiempo real")] },
+    {
+      story: {
+        eyebrow: "La empresa",
+        title: "Una red logística con contenido propio.",
+        body: [
+          "El sitio presenta la empresa completa: **nosotros**, el catálogo de **servicios**, la **red logística** con sus HUBs, el buscador de **sucursales** con mapa, la bolsa de **trabajo** y un **blog** cuyos artículos se generan con **inteligencia artificial** desde el servidor.",
+        ],
+      },
+    },
+    { items: [paq("nosotros", "Nosotros: reinventamos la paquetería con tecnología"), paq("servicios", "Un servicio para cada tipo de envío")] },
+    { items: [paq("logistica", "Una red logística diseñada como un sistema inteligente"), paq("sucursales", "Encuentra tu sucursal más cercana con mapa")] },
+    { items: [paq("blog", "Blog de Order Express con artículos por categoría"), paq("trabajos", "Construye la logística del futuro: bolsa de trabajo")] },
+    {
+      story: {
+        eyebrow: "Experiencia móvil",
+        title: "La paquetería en el bolsillo.",
+        body: [
+          "En el celular el menú se compacta en una barra flotante con el logotipo, el cambio de **tema claro u oscuro** y el acceso a la cuenta; el cotizador, el rastreo y las sucursales se reorganizan a una columna.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        paqMovil("inicio", "Inicio de Order Express Paquetería en el celular"),
+        paqMovil("servicios", "Servicios de envío en el celular"),
+        paqMovil("cotizador", "Cotizador en el celular"),
+        paqMovil("rastreo", "Rastreo de envíos en el celular"),
+      ],
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        paqMovil("mi-cuenta", "Portal de clientes con monedero digital en el celular"),
+        paqMovil("sucursales", "Buscador de sucursales en el celular"),
+        paqMovil("nosotros", "Nosotros en el celular"),
+        paqMovil("cotizar", "Cotiza tu envío en el celular"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Portales",
+        title: "Un portal para cada tipo de cliente.",
+        body: [
+          "Las personas tienen su **portal de clientes** con monedero digital, accesos rápidos y el historial de envíos. Las empresas, un **portal empresarial** con analítica, **envíos masivos**, soporte y un **editor del sitio** con vista previa en celular para cambiar el hero sin tocar código.",
+          "Un **panel de administración** controla los slides de la portada y el contenido del blog. Los accesos se separan por **roles**: cliente, empresa, editor y administrador.",
+        ],
+      },
+    },
+    { items: [paq("mi-cuenta", "Portal de clientes: monedero, accesos rápidos y envíos recientes")] },
+    { items: [paq("empresa-dashboard", "Panel de analíticas empresarial"), paq("empresa-envios", "Gestión de envíos masivos")] },
+    { items: [paq("empresa-web-editor", "Editor del sitio corporativo con vista previa en celular"), paq("empresa-faqs", "Soporte y preguntas frecuentes empresariales")] },
+    { items: [paq("admin", "Panel de control administrativo: slides de la portada")] },
+  ],
+  "2/1": [
+    {
+      story: {
+        eyebrow: "Catálogo en línea",
+        title: "Presencia segura en tu obra.",
+        body: [
+          "Diseñé y programé el sitio de **Josman**, proveedor de materiales de construcción: un inicio con carrusel de producto y accesos a **concreto**, **renta de equipo**, **cotización** y **texturizados**, sobre el azul marino y el dorado de la marca.",
+          "El menú despliega las cuatro líneas del negocio —**materiales**, **concretos**, **acabados** y **ferretería**— con sus categorías, para llegar a cualquier producto en dos clics.",
+        ],
+      },
+    },
+    { items: [{ video: "/Web/Josman/video/recorrido.mp4", poster: "/Web/Josman/video/recorrido-poster.webp", alt: "Recorrido por el sitio de Josman: inicio, acabados y concretos", width: 1280, height: 800 }] },
+    {
+      story: {
+        eyebrow: "Concretos",
+        title: "Calcular antes de pedir.",
+        body: [
+          "La sección de concretos abre con una **calculadora de volumen**: se elige la forma —losa, columna, tubo, pared, cimiento o escalera—, se capturan las medidas y el pedido suma los metros cúbicos para cotizar.",
+          "Cada tipo de concreto tiene su **ficha técnica** con resistencia, usos y desempeño.",
+        ],
+      },
+    },
+    { items: [fer("concretos", "Calculadora de volumen de concreto")] },
+    { items: [fer("clase-a", "Concretos Clase A por resistencia"), fer("fc200", "Ficha del concreto f'c 200 kg/cm²")] },
+    {
+      story: {
+        eyebrow: "Acabados y ferretería",
+        title: "Del texturizado al último tornillo.",
+        body: [
+          "Los **acabados** de la marca —morteros, adhesivos, selladores y pinturas— se muestran con su empaque y su ficha, y la **ferretería** reúne un catálogo de **más de 15 mil productos** con búsqueda y filtros por grupo y marca.",
+        ],
+      },
+    },
+    { items: [fer("morteros", "Morteros y afinadores de Josman"), fer("coral", "Ficha del Texturizado Coral Fino")] },
+    { items: [fer("pinturas", "Pinturas y recubrimientos"), fer("ferreteria", "Catálogo de ferretería con búsqueda y filtros")] },
+    {
+      story: {
+        eyebrow: "Carrito y cotización",
+        title: "Pedir o cotizar, como prefiera el cliente.",
+        body: [
+          "Los productos de precio fijo se agregan con un **modal de confirmación** y un **carrito lateral** que suma el total; para comprar se inicia sesión. Lo que se vende por obra —concreto, servicios y renta— se resuelve con el **formulario de cotización** o por WhatsApp.",
+        ],
+      },
+    },
+    { items: [fer("modal", "Modal para confirmar producto y cantidad"), fer("carrito", "Carrito lateral con productos y total")] },
+    { items: [fer("cotizacion", "Formulario para solicitar cotización"), fer("contacto", "Contacto con WhatsApp")] },
+    {
+      story: {
+        eyebrow: "Experiencia móvil",
+        title: "El catálogo en la obra.",
+        body: [
+          "En el celular el menú se abre a pantalla completa con sus categorías, el buscador y el carrito quedan en la barra superior, y la calculadora, el catálogo y el carrito se acomodan a una columna para usarlos en sitio.",
+        ],
+      },
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        ferMovil("inicio", "Inicio de Josman en el celular"),
+        ferMovil("menu", "Menú abierto en el celular"),
+        ferMovil("concretos", "Calculadora de volumen en el celular"),
+        ferMovil("morteros", "Morteros y afinadores en el celular"),
+      ],
+    },
+    {
+      compact: true,
+      columns: 4,
+      items: [
+        ferMovil("coral", "Ficha de producto en el celular"),
+        ferMovil("ferreteria", "Catálogo de ferretería en el celular"),
+        ferMovil("carrito", "Carrito en el celular"),
+        ferMovil("cotizacion", "Cotización en el celular"),
+      ],
+    },
+    {
+      story: {
+        eyebrow: "Contenido y cuenta",
+        title: "Tips para la obra y acceso para clientes.",
+        body: [
+          "Una sección de **tutoriales y tips** comparte consejos de construcción —limpieza de terreno, muros de concreto, techos de lámina, salitre— que el equipo redacta con **apoyo de IA** desde el panel. Los clientes inician sesión para comprar y consultar su historial de pedidos.",
+        ],
+      },
+    },
+    { items: [fer("tips", "Tips y tutoriales de construcción"), fer("login", "Inicio de sesión de clientes")] },
   ],
   "1/6": [
     { items: [deliz("12", "Identidad de Deliz, aplicación", 2400, 2400), deliz("15", "Identidad de Deliz, aplicación")] },
@@ -1501,8 +1713,8 @@ const PROJECT_STORY = {
     hero: {
       title: "VIBRALTOS Fest",
       // El título se muestra con el logotipo en lugar de texto
-      titleLogo: "/Web/Vibraltos/logo.webp",
-      category: "Sitio web · Festival de música",
+      titleLogo: MARCAS_WEB["2/0"].logo,
+      category: MARCAS_WEB["2/0"].categoria,
       description: "VIBRALTOS Fest es el festival de música electrónica de Los Altos de Jalisco, presentado por Tequila Ocho. Diseñé y programé su sitio: un recorrido animado con el line up, los escenarios, las experiencias y todo lo necesario para vivir el día.",
       meta: [
         ["Disciplina", "Diseño y desarrollo web"],
@@ -1534,8 +1746,8 @@ const PROJECT_STORY = {
     hero: {
       title: "Order Express",
       // El título se muestra con el logotipo en lugar de texto
-      titleLogo: "/Web/OrderExpress/logo.svg",
-      category: "E-commerce · Tienda en línea y panel administrativo",
+      titleLogo: MARCAS_WEB["2/3"].logo,
+      category: MARCAS_WEB["2/3"].categoria,
       description: "Order Express es una tienda de tecnología con su propio panel de administración. Diseñé y programé la tienda en línea, la experiencia móvil y el panel para gestionar ventas, productos, clientes y envíos.",
       meta: [
         ["Disciplina", "Diseño y desarrollo web"],
@@ -1559,6 +1771,74 @@ const PROJECT_STORY = {
       body: [
         "Una tienda que se siente de marca y un panel que no necesita manual: Order Express puede vender, cobrar y enviar desde el mismo sistema.",
         "El reto era **equilibrar estilo y operación**: una experiencia de compra atractiva sin perder la claridad que exige administrar un negocio.",
+      ],
+      credit: { label: "Diseño y desarrollo", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "2/2": {
+    hero: {
+      title: "Order Express Paquetería",
+      // El título se muestra con el logotipo en lugar de texto
+      titleLogo: MARCAS_WEB["2/2"].logo,
+      category: MARCAS_WEB["2/2"].categoria,
+      description: "Order Express Paquetería es una plataforma de envíos para personas y empresas. Diseñé y programé su sitio corporativo, el cotizador, el rastreo de guías y los portales de clientes, empresas y administración.",
+      meta: [
+        ["Disciplina", "Diseño y desarrollo web"],
+        ["Tecnología", "Next.js · React · IA"],
+        ["Año", "2026"],
+        ["Diseñador", "Eloy Walls"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Una paquetería que se siente como software.",
+      body: [
+        "Una paquetería vive de la confianza: el cliente quiere saber **cuánto cuesta, cuándo llega y dónde está** su paquete. Order Express necesitaba un sitio que respondiera esas tres preguntas en segundos.",
+        "Construí una **plataforma tipo SaaS** con la identidad de la marca —azul marino de confianza y magenta de acción—, ilustraciones 3D y un **modo claro y oscuro**, con herramientas reales en cada pantalla.",
+        "Detrás del sitio hay **portales por rol** y contenido generado con **IA desde el servidor**, sin exponer claves en el navegador.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Cotizar, enviar y rastrear sin llamar a nadie.",
+      body: [
+        "Un sitio corporativo que también es la herramienta de trabajo: personas y empresas resuelven sus envíos solos, y el equipo administra el contenido sin depender de un programador.",
+        "El reto era **equilibrar marca y operación**: una imagen premium y cercana sin esconder las funciones que el cliente viene a usar.",
+      ],
+      credit: { label: "Diseño y desarrollo", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
+    },
+  },
+  "2/1": {
+    hero: {
+      title: "Josman",
+      // El título se muestra con el logotipo en lugar de texto
+      titleLogo: MARCAS_WEB["2/1"].logo,
+      // Las letras son anchas: más chicas que el ancho normal del logotipo
+      titleLogoWidth: 300,
+      category: MARCAS_WEB["2/1"].categoria,
+      description: "Josman es un proveedor de concretos, acabados texturizados, materiales y ferretería. Diseñé y programé su sitio: catálogo por líneas de negocio, calculadora de concreto, carrito, cotizaciones y tips de construcción.",
+      meta: [
+        ["Disciplina", "Diseño y desarrollo web"],
+        ["Tecnología", "Next.js · PostgreSQL"],
+        ["Año", "2026"],
+        ["Diseñador", "Eloy Walls"],
+      ],
+    },
+    intro: {
+      eyebrow: "El proyecto",
+      title: "Todo lo de la obra en un solo sitio.",
+      body: [
+        "Josman vende de todo para construir: concreto premezclado, sus propios **acabados texturizados**, materiales generales y una ferretería de miles de piezas. Cada línea se compra distinto, y el sitio tenía que **ordenar todo sin perder a nadie**.",
+        "Construí un catálogo con la identidad de la marca —azul marino y dorado— donde cada producto tiene su ficha, y dos caminos claros para el cliente: **agregar al carrito** o **pedir una cotización**.",
+        "Los productos, los pedidos y los usuarios viven en **PostgreSQL**, con un panel para importar el catálogo y administrar el contenido.",
+      ],
+    },
+    closing: {
+      eyebrow: "El resultado",
+      title: "Un catálogo que trabaja como vendedor.",
+      body: [
+        "Un sitio que responde lo que pregunta un cliente en el mostrador: qué hay, cuánto necesito y cuánto cuesta, con la cotización a un clic cuando el pedido es por obra.",
+        "El reto era **ordenar un catálogo enorme y muy distinto entre sí** sin que la navegación se volviera complicada.",
       ],
       credit: { label: "Diseño y desarrollo", name: "@eloy_design", href: "https://www.instagram.com/eloy_design/" },
     },
@@ -2239,7 +2519,13 @@ export default async function DesignProjectPage({ params }) {
           <h1 className={`${story.hero?.singleLine ? styles.heroTitleSingle : ""} ${story.hero?.titleLogo ? styles.heroTitleLogo : ""}`}>
             {story.hero?.titleLogo ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={story.hero.titleLogo} alt={title} draggable={false} />
+              // titleLogoWidth (opcional) achica el logotipo de un proyecto
+              <img
+                src={story.hero.titleLogo}
+                alt={title}
+                draggable={false}
+                style={story.hero.titleLogoWidth ? { maxWidth: `min(100%, ${story.hero.titleLogoWidth}px)` } : undefined}
+              />
             ) : (
               title
             )}

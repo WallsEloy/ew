@@ -294,115 +294,176 @@
   border-radius: 0 !important;
 }
 
+/* Dock inferior: en el celular y en el escritorio */
 .mobilePillNav {
-  display: none;
+  position: fixed;
+  right: 16px;
+  /* Cerca del borde inferior; el espacio que ocupa lo reserva
+     .site-mobile-dock-spacer (globals.css) al final de cada página */
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  left: 16px;
+  z-index: 100000;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: auto;
+  max-width: 430px;
+  height: 76px;
+  margin: 0 auto;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  background: rgba(12, 12, 13, 0.92);
+  backdrop-filter: blur(18px);
+  box-sizing: border-box;
+  transition:
+    right 260ms ease,
+    left 260ms ease,
+    height 260ms ease,
+    padding 260ms ease,
+    opacity 220ms ease;
 }
 
-@media (max-width: 767px) {
+.mobilePillNavCompact {
+  right: 52px;
+  left: 52px;
+  height: 48px;
+  padding: 4px 7px;
+}
+
+.pillItemWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.pillDivider {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.17);
+}
+
+.pillLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 56px;
+  border-radius: 50%;
+  color: #55565a;
+  /* Al tocar solo cambia el color del ícono: sin destello del navegador. */
+  -webkit-tap-highlight-color: transparent;
+  transition: color 220ms ease, width 260ms ease, height 260ms ease;
+}
+
+.pillLink svg {
+  width: 34px;
+  height: 34px;
+  fill: currentColor;
+  transition: width 260ms ease, height 260ms ease;
+}
+
+.pillLink img {
+  /* Los SVG externos vienen en negro; este filtro recupera el gris original
+     del Dock (#55565a) sin alterar los archivos fuente. */
+  filter: invert(34%) sepia(5%) saturate(264%) hue-rotate(202deg) brightness(91%) contrast(88%);
+  transition: width 260ms ease, height 260ms ease, filter 220ms ease;
+}
+
+.mobilePillNavCompact .pillLink {
+  width: 36px;
+  height: 36px;
+}
+
+.mobilePillNavCompact .pillLink svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mobilePillNavCompact .pillLink img {
+  width: 21px !important;
+  height: 21px !important;
+}
+
+.pillLinkActive {
+  color: #00aff0;
+}
+
+.pillLinkActive img {
+  filter: invert(49%) sepia(98%) saturate(1854%) hue-rotate(161deg) brightness(97%) contrast(101%);
+}
+
+.pillLink:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Escritorio: el mismo dock, centrado y más angosto, siempre del mismo
+   tamaño (no se compacta con el scroll). */
+@media (min-width: 768px) {
   .mobilePillNav {
-    position: fixed;
-    right: 16px;
-    /* Cerca del borde inferior; el espacio que ocupa lo reserva
-       .site-mobile-dock-spacer (globals.css) al final de cada página */
-    bottom: calc(14px + env(safe-area-inset-bottom));
-    left: 16px;
-    z-index: 100000;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    width: auto;
-    max-width: 430px;
-    height: 76px;
-    margin: 0 auto;
-    padding: 8px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 999px;
-    background: rgba(12, 12, 13, 0.92);
-    backdrop-filter: blur(18px);
-    box-sizing: border-box;
-    transition:
-      right 260ms ease,
-      left 260ms ease,
-      height 260ms ease,
-      padding 260ms ease,
-      opacity 220ms ease;
-  }
-
-  .mobilePillNavCompact {
-    right: 52px;
-    left: 52px;
-    height: 48px;
-    padding: 4px 7px;
-  }
-
-  .pillItemWrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-  }
-
-  .pillDivider {
-    position: absolute;
-    top: 10px;
-    bottom: 10px;
-    left: 0;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.17);
+    right: auto;
+    left: 50%;
+    width: 380px;
+    height: 62px;
+    padding: 6px 10px;
+    transform: translateX(-50%);
+    transition: width 260ms ease, height 260ms ease, padding 260ms ease, opacity 220ms ease;
   }
 
   .pillLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 56px;
-    border-radius: 50%;
-    color: #55565a;
-    /* Al tocar solo cambia el color del ícono: sin destello del navegador. */
-    -webkit-tap-highlight-color: transparent;
-    transition: color 220ms ease, width 260ms ease, height 260ms ease;
+    width: 46px;
+    height: 46px;
   }
 
   .pillLink svg {
-    width: 34px;
-    height: 34px;
-    fill: currentColor;
-    transition: width 260ms ease, height 260ms ease;
+    width: 26px;
+    height: 26px;
   }
 
   .pillLink img {
-    /* Los SVG externos vienen en negro; este filtro recupera el gris original
-       del Dock (#55565a) sin alterar los archivos fuente. */
-    filter: invert(34%) sepia(5%) saturate(264%) hue-rotate(202deg) brightness(91%) contrast(88%);
-    transition: width 260ms ease, height 260ms ease, filter 220ms ease;
+    width: 25px !important;
+    height: 25px !important;
   }
 
-  .mobilePillNavCompact .pillLink {
-    width: 36px;
-    height: 36px;
+  /* En escritorio el dock es blanco con íconos negros; el activo, azul */
+  .mobilePillNav {
+    border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
   }
 
-  .mobilePillNavCompact .pillLink svg {
-    width: 22px;
-    height: 22px;
+  .pillDivider {
+    background: rgba(0, 0, 0, 0.14);
   }
 
-  .mobilePillNavCompact .pillLink img {
-    width: 21px !important;
-    height: 21px !important;
+  .pillLink {
+    color: #000;
   }
 
-  .pillLinkActive {
+  .pillLink img {
+    filter: brightness(0);
+  }
+
+  .pillLink:hover {
+    color: #55565a;
+  }
+
+  .pillLink:hover img {
+    filter: brightness(0) opacity(0.65);
+  }
+
+  .pillLinkActive,
+  .pillLinkActive:hover {
     color: #00aff0;
   }
 
-  .pillLinkActive img {
+  .pillLinkActive img,
+  .pillLinkActive:hover img {
     filter: invert(49%) sepia(98%) saturate(1854%) hue-rotate(161deg) brightness(97%) contrast(101%);
-  }
-
-  .pillLink:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
   }
 }

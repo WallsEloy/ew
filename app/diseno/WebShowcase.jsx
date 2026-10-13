@@ -1,6 +1,7 @@
 import Image from "next/image";
 import PortadaCarrusel from "./PortadaCarrusel";
 import GrupoDesplegable from "./GrupoDesplegable";
+import { MARCAS_WEB } from "../../lib/proyectosWeb";
 import Link from "next/link";
 import styles from "./WebShowcase.module.css";
 
@@ -62,11 +63,28 @@ export default function WebShowcase({ profile, variant = "web", basePath = "/dis
               ) : (
                 <span className={styles.noImage}>Sin portada</span>
               )}
-              <div className={styles.shade} />
-              <span className={styles.kind}>{project.web?.type || "UI / UX"}</span>
-              {project.web?.video && <span className={styles.video} aria-label="Proyecto con vídeo">●</span>}
-              <div className={styles.previewTitle}><small>Proyecto {isCoding ? "coding" : "web"}</small><strong>{project.title || project.caption}</strong></div>
+              {/* En Web la portada va limpia, sin textos encima: el nombre lo
+                  da el logotipo del pie */}
+              {isCoding && (
+                <>
+                  <div className={styles.shade} />
+                  <span className={styles.kind}>{project.web?.type || "UI / UX"}</span>
+                  {project.web?.video && <span className={styles.video} aria-label="Proyecto con vídeo">●</span>}
+                  <div className={styles.previewTitle}><small>Proyecto coding</small><strong>{project.title || project.caption}</strong></div>
+                </>
+              )}
             </div>
+            {!isCoding && MARCAS_WEB[`${profile.id}/${project.id}`] ? (
+              // Web: logotipo del proyecto (el del hero) a la izquierda y su
+              // categoría a la derecha
+              <div className={styles.metaMarca}>
+                <span className={styles.marcaLogo} style={MARCAS_WEB[`${profile.id}/${project.id}`].altoTarjeta ? { height: MARCAS_WEB[`${profile.id}/${project.id}`].altoTarjeta } : undefined}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={MARCAS_WEB[`${profile.id}/${project.id}`].logo} alt={`Logotipo de ${project.title}`} decoding="async" />
+                </span>
+                <span className={styles.marcaCategoria}>{MARCAS_WEB[`${profile.id}/${project.id}`].categoria}</span>
+              </div>
+            ) : (
             <div className={styles.meta}>
               <span
                 className={styles.avatar}
@@ -79,6 +97,7 @@ export default function WebShowcase({ profile, variant = "web", basePath = "/dis
               {project.web?.badge && <span className={styles.pro}>{project.web.badge}</span>}
               <span className={styles.metrics}><b>♥</b> {project.likes}　<b>◆</b> {project.web?.views || "0"}</span>
             </div>
+            )}
             </Link>
             {!isCoding && GRUPOS_WEB[`${profile.id}/${project.id}`] && (
               <GrupoDesplegable {...GRUPOS_WEB[`${profile.id}/${project.id}`]} />
