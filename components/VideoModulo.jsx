@@ -213,7 +213,7 @@ export default function VideoModulo({ config }) {
       else muestras.fill(128); // sin analizador: línea plana
 
       ctx2d.lineWidth = Math.max(1, 1.4 * dpr);
-      ctx2d.strokeStyle = "#ffe7a4"; // --vi-oro-luz
+      ctx2d.strokeStyle = "#ffffff"; // blanca, como los botones
       ctx2d.lineJoin = "round";
       ctx2d.lineCap = "round";
       ctx2d.beginPath();
@@ -312,10 +312,13 @@ export default function VideoModulo({ config }) {
         {/* Logotipo que corona los textos; se cambia en el dashboard */}
         {logo && <img src={logo} alt="" className={styles.logo} />}
 
-        <p className={styles.antetitulo}>
-          <span className={styles.regla} aria-hidden="true" />
-          {antetitulo}
-        </p>
+        {/* Antetítulo opcional: vacío en el dashboard = no se pinta */}
+        {antetitulo && (
+          <p className={styles.antetitulo}>
+            <span className={styles.regla} aria-hidden="true" />
+            {antetitulo}
+          </p>
+        )}
 
         <h2 id="modulo-video-titulo" className={styles.titulo}>
           {titulo}
@@ -342,7 +345,7 @@ export default function VideoModulo({ config }) {
               está a un clic. Con sonido, vuelve a ser discreto. */}
           <button
             type="button"
-            className={`${styles.control} ${!conSonido ? styles.controlLlamada : ""}`}
+            className={`${styles.control} ${conSonido ? styles.controlActivo : styles.controlLlamada}`}
             onClick={alternarSonido}
             aria-pressed={conSonido}
             aria-label={conSonido ? "Silenciar el vídeo" : "Activar el sonido del vídeo"}
@@ -356,7 +359,7 @@ export default function VideoModulo({ config }) {
 
         <button
           type="button"
-          className={styles.control}
+          className={`${styles.control} ${!enPausa ? styles.controlActivo : ""}`}
           onClick={alternarReproduccion}
           aria-label={enPausa ? "Reproducir el vídeo" : "Pausar el vídeo"}
         >

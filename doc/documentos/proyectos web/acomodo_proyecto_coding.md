@@ -118,6 +118,19 @@ y es la que usan el hero y la portada.
 4. Actualizar la fila en Supabase (título, tipo, portada) con respaldo previo.
 5. Verificar en escritorio y celular.
 
+## 8. Project Lab Dashboard (`1/1`)
+
+- Repositorio: `https://github.com/WallsEloy/GestionProyect` (Next.js 16, React Flow,
+  Zustand, Recharts, dnd-kit). El sitio `https://gestion-proyect.vercel.app` pide sesión,
+  así que las pantallas salen de capturas y una grabación que dio el usuario.
+- Originales (12 PNG de ~1916×910 y un video de 4 min 19 s, 83 MB) en
+  `originales/Coding/Gestion_Proyectos/` (fuera de git); en `public/Coding/Gestion_Proyectos/`
+  solo las versiones optimizadas: WebP a 1800 px (≈2.1:1) y dos cortes H.264 de la grabación
+  (`video/procesos.mp4` 52–74 s y `video/conocimiento.mp4` 156–182 s, 1280×606, `crf 30`, sin audio).
+- Sin logotipo propio: el hero acepta `titleLogo` opcional y, si falta, pone el nombre en texto.
+- Portada: capturas completas centradas sobre `#0a0a0b` a 1800×1125 (`portada-*.webp`) en
+  `CARRUSELES_CODING["1/1"]`, para que la tarjeta 16:10 no las recorte.
+
 ## Servidor local
 
 El repo está en OneDrive: `.next` es una junction fuera de OneDrive y el

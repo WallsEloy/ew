@@ -20,7 +20,7 @@ export const defaultVideosHome = {
     poster: "/Videos/vi1/poster.webp",
     // Logotipo que corona los textos. Vacío = no se pinta.
     logo: "/SVG/ew_crema.svg",
-    antetitulo: "Figura 001",
+    antetitulo: "",
     titulo: "La pieza sale de la vitrina",
     texto:
       "Diez segundos en bucle. La figura abandona el ciclorama, camina hacia la cámara y alarga la mano. Todo el color de la escena está en el oro.",
@@ -116,7 +116,8 @@ export function mergeVideosHome(guardado) {
       poster: texto(v.poster, d.video.poster),
       // Cadena vacía es una elección válida: significa "sin logotipo"
       logo: typeof v.logo === "string" ? v.logo : d.video.logo,
-      antetitulo: texto(v.antetitulo, d.video.antetitulo),
+      // Igual que el logotipo: vacío significa "sin antetítulo"
+      antetitulo: typeof v.antetitulo === "string" ? v.antetitulo.trim() : d.video.antetitulo,
       titulo: texto(v.titulo, d.video.titulo),
       texto: texto(v.texto, d.video.texto),
       ficha: ficha.length ? ficha : d.video.ficha,

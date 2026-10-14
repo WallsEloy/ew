@@ -16,6 +16,13 @@ const CARRUSELES_CODING = {
     "/Coding/DentalMaya/paciente-maria.webp",
     "/Coding/DentalMaya/odontograma-maria.webp",
   ],
+  // Project Lab: capturas completas sobre el fondo de la app, ajustadas a 16:10
+  "1/1": [
+    "/Coding/Gestion_Proyectos/portada-dashboard.webp",
+    "/Coding/Gestion_Proyectos/portada-planeacion-procesos.webp",
+    "/Coding/Gestion_Proyectos/portada-gantt.webp",
+    "/Coding/Gestion_Proyectos/portada-conocimiento.webp",
+  ],
 };
 
 // Proyectos que se despliegan bajo una tarjeta de Web, por "perfil/proyecto".
