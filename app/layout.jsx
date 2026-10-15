@@ -37,6 +37,15 @@ export default async function RootLayout({ children }) {
         {children}
         {/* Espaciador solo móvil: reserva el alto del dock inferior fijo */}
         <MobileDockSpacer />
+        {/* Celular en horizontal: el navegador no deja bloquear el giro, así que
+            se tapa la página con este aviso hasta volver a vertical (globals.css) */}
+        <div className="aviso-girar" role="alert" aria-live="polite">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/SVG/ew_white.svg" alt="" className="aviso-girar__logo" />
+          <span className="aviso-girar__telefono" aria-hidden="true" />
+          <p>Gira tu teléfono</p>
+          <small>El sitio se ve en vertical</small>
+        </div>
       </body>
     </html>
   );

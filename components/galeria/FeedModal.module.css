@@ -963,3 +963,53 @@
     border-radius: 20px;
   }
 }
+
+/* Foto con enlace a su proyecto: el botón va debajo, así que la foto cede un
+   poco de alto para que quepan los dos sin taparse */
+.fotoSolaConEnlace {
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.fotoSolaConEnlace .fotoSolaImg {
+  max-height: calc(82dvh - 56px);
+}
+
+.fotoSolaEnlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(10, 10, 12, 0.6);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.fotoSolaEnlace:hover,
+.fotoSolaEnlace:focus-visible {
+  border-color: #fff;
+  background: #fff;
+  color: #000;
+}
+
+.fotoSolaEnlace span {
+  transition: transform 0.2s ease;
+}
+
+.fotoSolaEnlace:hover span {
+  transform: translateX(3px);
+}
+
+@media (min-width: 769px) {
+  .fotoSolaConEnlace .fotoSolaImg {
+    max-height: min(calc(80dvh - 60px), 760px);
+  }
+}

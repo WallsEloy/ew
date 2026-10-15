@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import ProfileHeader from "../../components/galeria/ProfileHeader";
 import Highlights from "../../components/galeria/Highlights";
 import PostGrid from "../../components/galeria/PostGrid";
 import WebShowcase from "./WebShowcase";
+import Carteles from "./Carteles";
 import HeroSketch from "../../components/galeria/HeroSketch";
 import HeroCodigo from "../../components/HeroCodigo";
 import styles from "./page.module.css";
@@ -30,6 +32,9 @@ function sortByYear(posts = []) {
 const isWeb = (profile) => String(profile.id) === "2" || /web/i.test(`${profile.name} ${profile.bio}`);
 const isIsotiposProfile = (profile) => /isotipo/i.test(profile.name);
 const isBrandingProfile = (profile) => /branding/i.test(profile.name);
+// Categorías que en Branding se muestran debajo del hero (Isotipos y Carteles)
+const vaBajoHero = (profile) => /isotipo|cartel/i.test(profile.name);
+const isCartelesProfile = (profile) => /cartel/i.test(profile.name);
 
 // Hero del área Isotipos: sustituye la cabecera tipo perfil (avatar, contadores
 // y biografía) por un texto de presentación y un isotipo destacado.
@@ -75,30 +80,41 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
   const isWebProfile = isWeb(profile);
   const isIsotipos = isIsotiposProfile(profile);
   const isBranding = isBrandingProfile(profile);
+  const isCarteles = isCartelesProfile(profile);
   const posts = sortByYear(profile.posts);
 
   return (
-    <div className={isBranding ? styles.conHero : "md:pt-[120px]"}>
+    <div className={isBranding || isCarteles ? styles.conHero : "md:pt-[120px]"}>
       {/* Branding usa el mismo hero por capas de Sketch (la pluma flotando),
           detrás del navbar en escritorio y bajo los botones en móvil */}
-      {isBranding && <HeroSketch name={profile.name} />}
+      {/* Carteles usa el mismo hero que Branding */}
+      {(isBranding || isCarteles) && <HeroSketch name={profile.name} />}
 
-      {/* La vista Web ya no tiene botón aquí; sigue accesible con ?vista=web
-          (lo usan los enlaces "Volver a Web" de sus proyectos) */}
+      {/* Fila de áreas, la misma en Diseño y en Coding: Branding · Isotipos ·
+          Web · Coding. Las de Diseño cambian de vista aquí mismo (la colección
+          Web se llama "Diseño" en la base, por eso se rotula "Web"); Coding es
+          otra página. */}
       <div className={styles.buttonsContainer}>
-        {profiles.map((p, i) => isWeb(p) ? null : (
+        {/* En Branding, Isotipos y Carteles no van aquí: bajan debajo del hero */}
+        {[...profiles.map((p, i) => ({ p, i })).filter(({ p }) => !isWeb(p)), ...profiles.map((p, i) => ({ p, i })).filter(({ p }) => isWeb(p))]
+          .filter(({ p }) => !(isBranding && vaBajoHero(p)))
+          .map(({ p, i }) => (
           <button
             key={p.id}
             onClick={() => setCurrent(i)}
             className={`${styles.profileButton} ${i === safeCurrent ? styles.profileButtonActive : ""}`}
             aria-pressed={i === safeCurrent}
           >
-            {p.name}
+            {isWeb(p) ? "Web" : p.name}
           </button>
         ))}
+        <Link href="/coding" className={styles.profileButton}>Coding</Link>
       </div>
 
-      {isIsotipos ? (
+      {isCarteles ? (
+        // Carteles: cuadrícula de categorías, cada una abre su carrusel
+        <Carteles titulo={profile.name} descripcion={profile.bio} />
+      ) : isIsotipos ? (
         <IsotiposHero profile={profile} cover={posts[0]?.image} />
       ) : isWebProfile ? (
         // Web: hero con código que se escribe solo y sus historias destacadas
@@ -107,9 +123,19 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
           <Highlights highlights={profile.highlights} />
         </>
       ) : isBranding ? (
-        <div className={styles.heroHistorias}>
-          <Highlights highlights={profile.highlights} />
-        </div>
+        <>
+          <div className={styles.heroHistorias}>
+            <Highlights highlights={profile.highlights} />
+          </div>
+          {/* Isotipos y Carteles, debajo del hero de Branding */}
+          <div className={styles.botonesBajoHero}>
+            {profiles.map((p, i) => vaBajoHero(p) ? (
+              <button key={p.id} onClick={() => setCurrent(i)} className={styles.profileButton}>
+                {p.name}
+              </button>
+            ) : null)}
+          </div>
+        </>
       ) : (
         <>
           <ProfileHeader profile={isWebProfile ? { ...profile, name: "Web" } : profile} />
@@ -117,7 +143,7 @@ export default function DisenoProfiles({ profiles = [], initialProfile = 0 }) {
         </>
       )}
 
-      {isWebProfile ? <WebShowcase profile={profile} /> : (
+      {isCarteles ? null : isWebProfile ? <WebShowcase profile={profile} /> : (
         <div className={styles.designGrid}>
           <PostGrid
             posts={posts}

@@ -1,0 +1,462 @@
+/* --- Cuadrícula de categorías ------------------------------------------- */
+.area {
+  padding: 8px 20px 80px;
+  color: #f4f4f6;
+  /* Los carteles inclinados de la pila no deben ensanchar la página */
+  overflow-x: clip;
+}
+
+.cabecera {
+  margin: 8px 0 26px;
+}
+
+.cabecera span {
+  color: #00aff0;
+  font: 700 10px/1.2 ui-monospace, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.cabecera h2 {
+  margin: 7px 0 8px;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.cabecera p {
+  max-width: 56ch;
+  margin: 0;
+  color: #85858d;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.modulo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* La portada con los otros carteles asomando detrás, como una pila */
+.portada {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+}
+
+.portada img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 8px;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.frente {
+  z-index: 3;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.detras {
+  opacity: 0.55;
+}
+
+.detras1 {
+  z-index: 2;
+  transform: rotate(4deg) translate(4%, -1%);
+}
+
+.detras2 {
+  z-index: 1;
+  transform: rotate(-4deg) translate(-4%, -1%);
+}
+
+.modulo:hover .frente,
+.modulo:focus-visible .frente {
+  transform: translateY(-6px);
+}
+
+.modulo:hover .detras1,
+.modulo:focus-visible .detras1 {
+  transform: rotate(8deg) translate(12%, -2%);
+  opacity: 0.8;
+}
+
+.modulo:hover .detras2,
+.modulo:focus-visible .detras2 {
+  transform: rotate(-8deg) translate(-12%, -2%);
+  opacity: 0.8;
+}
+
+.modulo:focus-visible {
+  outline: none;
+}
+
+.modulo:focus-visible .frente {
+  outline: 2px solid #00aff0;
+  outline-offset: 3px;
+}
+
+.pie {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pie strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pie small {
+  color: #85858d;
+  font-size: 11px;
+}
+
+@media (max-width: 768px) {
+  .area {
+    padding-inline: 12px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 14px;
+  }
+}
+
+/* --- Carrusel de una categoría -------------------------------------------- */
+.visor {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  /* El visor se desplaza en vertical: primero el carrusel y, debajo, las
+     aplicaciones de la categoría (si tiene) */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(5, 5, 7, 0.96);
+  backdrop-filter: blur(10px);
+  animation: aparecer 0.25s ease;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.visorCabecera {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px 10px;
+}
+
+.visorCabecera > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.visorCabecera strong {
+  font-size: 18px;
+}
+
+.visorCabecera > div span {
+  overflow: hidden;
+  color: #8a8a92;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contador {
+  flex: none;
+  color: #d8d8dd;
+  font: 600 12px/1 ui-monospace, monospace;
+  letter-spacing: 0.1em;
+}
+
+.cerrar {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cerrar:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Pista deslizable: cada cartel se detiene centrado */
+.pista {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 28px;
+  min-height: 0;
+  /* Medio ancho a cada lado: el primer y el último cartel pueden centrarse */
+  padding: 10px 50%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* Sólo en horizontal: el gesto vertical pasa al visor para bajar a las
+     aplicaciones */
+  overscroll-behavior-x: contain;
+  /* El arrastre horizontal lo maneja el carrusel (dedo y mouse) */
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+/* Mientras se arrastra, la pista sigue al dedo sin imanes ni suavizado */
+.arrastrando {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+}
+
+.pista::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: none;
+  height: 100%;
+  margin: 0;
+  scroll-snap-align: center;
+  opacity: 0.35;
+  transform: scale(0.9);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  cursor: pointer;
+}
+
+.slideActivo {
+  opacity: 1;
+  transform: none;
+  cursor: default;
+}
+
+.slide img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-height: calc(100vh - 160px);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  background: rgba(10, 10, 12, 0.7);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.flecha:hover:not(:disabled) {
+  background: #fff;
+  color: #000;
+}
+
+.flecha:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.flechaIzq {
+  left: 22px;
+}
+
+.flechaDer {
+  right: 22px;
+}
+
+.puntos {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 0 22px;
+}
+
+.puntos button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.puntos .puntoActivo {
+  background: #fff;
+  transform: scale(1.3);
+}
+
+/* Celular: flechas fuera (se desliza con el dedo) y carteles más grandes */
+@media (max-width: 768px) {
+  .flecha {
+    display: none;
+  }
+
+  .pista {
+    gap: 14px;
+    padding: 6px 50%;
+  }
+
+  .slide img {
+    max-height: calc(100vh - 150px);
+    max-width: 82vw;
+    object-fit: contain;
+  }
+
+  .visorCabecera {
+    padding: 14px 14px 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portada img,
+  .slide {
+    transition: none;
+  }
+
+  .visor {
+    animation: none;
+  }
+}
+
+/* Primera pantalla del visor: cabecera, carrusel, flechas y puntos */
+.pantalla {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+}
+
+.puntos {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Aviso de que hay más abajo (va junto a los puntos: anula su tamaño de punto) */
+.puntos .bajar,
+.bajar {
+  width: auto;
+  height: auto;
+  white-space: nowrap;
+  margin-left: 14px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: #d8d8dd;
+  font: 600 11px/1 ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: rebote 2.2s ease-in-out infinite;
+}
+
+.puntos .bajar:hover,
+.bajar:hover {
+  background: #fff;
+  color: #000;
+}
+
+@keyframes rebote {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+/* Aplicaciones: debajo del carrusel, dentro del visor */
+.aplicaciones {
+  padding: 48px max(22px, 6vw) 80px;
+}
+
+.aplicaciones header {
+  margin-bottom: 24px;
+}
+
+.aplicaciones h3 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3vw, 36px);
+  letter-spacing: -0.03em;
+}
+
+.aplicaciones p {
+  max-width: 60ch;
+  margin: 0;
+  color: #8a8a92;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.aplicacionesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.aplicacionesGrid img,
+.aplicacionesGrid video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .aplicaciones {
+    padding: 36px 14px 60px;
+  }
+
+  .aplicacionesGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bajar {
+    animation: none;
+  }
+}

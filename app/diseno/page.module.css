@@ -3,7 +3,15 @@
 .buttonsContainer {
   display: flex;
   gap: 10px; /* Distancia entre botón y botón */
+  flex-wrap: wrap; /* Con cinco áreas no caben en el celular: bajan de línea */
   padding: 20px 20px 20px; /* Separación respecto a los bordes de la pantalla */
+}
+
+/* Botones que en Branding van debajo del hero (Isotipos) */
+.botonesBajoHero {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px 4px;
 }
 
 /* 2. DISEÑO: Estilo Individual de cada Botón de Perfil */

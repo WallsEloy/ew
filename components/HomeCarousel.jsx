@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   AnimatePresence,
   motion,
@@ -32,6 +33,21 @@ function readableTextColor(hex) {
 
 // Estilo del botón del slide. Si buttonColor está vacío, se devuelve undefined
 // y el botón conserva el estilo por defecto del tema (amarillo del CSS module).
+// Sección a la que lleva el botón de cada slide. La tabla home_slides no tiene
+// columna de enlace, así que se deduce del texto del slide (título derecho,
+// subtítulo y título). Sin coincidencia, el botón no navega.
+const ENLACES_SLIDE = [
+  [/humans/i, "/galeria/humans"],
+  [/fotograf/i, "/galeria/fotografia"],
+  [/ice\s*cream/i, "/galeria/icecream"],
+  [/branding/i, "/diseno"],
+];
+
+function enlaceDelSlide(slide) {
+  const texto = `${slide.rightTitle || ""} ${slide.logoText || ""} ${slide.title || ""}`;
+  return ENLACES_SLIDE.find(([patron]) => patron.test(texto))?.[1] || null;
+}
+
 function slideButtonStyle(color) {
   if (!color) return undefined;
   return {
@@ -136,6 +152,7 @@ function ChromaKeyMemoji({ src }) {
 }
 
 export default function HomeCarousel({ slides, focos }) {
+  const router = useRouter();
   // El contenido llega por prop (desde Supabase). Fallback al seed por defecto.
   const slidesData =
     Array.isArray(slides) && slides.length > 0 ? slides : defaultHomeSlides;
@@ -495,7 +512,11 @@ export default function HomeCarousel({ slides, focos }) {
                 <h2>{slide.title}</h2>
                 <div className={styles.initialAction}>
                   <h3>{slide.logoText}</h3>
-                  <button type="button" style={slideButtonStyle(slide.buttonColor)}>
+                  <button
+                    type="button"
+                    style={slideButtonStyle(slide.buttonColor)}
+                    onClick={enlaceDelSlide(slide) ? () => router.push(enlaceDelSlide(slide)) : undefined}
+                  >
                     {slide.buttonText}
                   </button>
                 </div>
@@ -592,7 +613,11 @@ export default function HomeCarousel({ slides, focos }) {
                   className={styles.editorialActions}
                   style={{ y: detailBodyY }}
                 >
-                  <button type="button" style={slideButtonStyle(slide.buttonColor)}>
+                  <button
+                    type="button"
+                    style={slideButtonStyle(slide.buttonColor)}
+                    onClick={enlaceDelSlide(slide) ? () => router.push(enlaceDelSlide(slide)) : undefined}
+                  >
                     {slide.buttonText}
                   </button>
                   <div

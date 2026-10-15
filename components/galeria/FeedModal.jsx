@@ -139,13 +139,19 @@ function FotoSola({ post, index, delay }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay }}
-      className={styles.fotoSola}
+      className={`${styles.fotoSola} ${post.enlace ? styles.fotoSolaConEnlace : ""}`}
     >
       <img
         src={post.image}
         alt={post.caption || `Fotografía ${index + 1}`}
         className={styles.fotoSolaImg}
       />
+      {/* Enlace al proyecto: debajo de la foto, nunca encima de ella */}
+      {post.enlace && (
+        <Link href={post.enlace.href} className={styles.fotoSolaEnlace}>
+          {post.enlace.texto} <span aria-hidden="true">→</span>
+        </Link>
+      )}
     </motion.div>
   );
 }
