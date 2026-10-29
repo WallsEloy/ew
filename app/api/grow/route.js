@@ -16,6 +16,7 @@ export async function PUT(request) {
     if (!config || typeof config !== "object") return NextResponse.json({ error: "Configuración inválida." }, { status: 400 });
     const saved = await saveGrowConfig(config);
     revalidatePath("/grow/opcion-a");
+    revalidatePath("/grow/proyectos");
     revalidatePath("/grow/proyectos/[slug]", "page");
     return NextResponse.json({ config: saved });
   } catch (error) {

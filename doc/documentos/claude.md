@@ -38,6 +38,13 @@ técnicos y las memorias específicas de cada sistema.
 2. [Acomodo de páginas web](<./proyectos web/acomodo_paginas_web.md>)
 3. [Acomodo de un proyecto de Coding](<./proyectos web/acomodo_proyecto_coding.md>)
 
+### Grow
+
+1. [Contexto de Grow](./grow/claude.md)
+2. [Landing de GoGo Food](./grow/gogo_landing.md)
+3. [Landing del Club Privado de Inversionistas](./grow/club_landing.md)
+4. [Landing de ARTIFACT (Art Toy)](./grow/artifact_landing.md)
+
 ## Regla de correlación
 
 Cada carpeta especializada debe tener su propio `claude.md`, memoria, reglas y

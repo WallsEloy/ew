@@ -142,3 +142,252 @@
     min-height: clamp(240px, 24vw, 320px);
   }
 }
+
+/* --- Tarjeta "post" (como la de marketing) -------------------------------
+   Barra oscura de red social con avatar y líneas de nombre, y debajo la
+   imagen. Proporciones tomadas de frame-21.webp (972 × 413, barra de 95). */
+.cardPost {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.postBarra {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  height: clamp(58px, 7vw, 74px);
+  padding: 0 18px;
+  background: #1b1b1b;
+}
+
+.postAvatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(38px, 4.6vw, 48px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.postAvatar img {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+}
+
+.postLineas {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.postLineas i {
+  display: block;
+  width: clamp(120px, 22vw, 168px);
+  height: 11px;
+  border-radius: 999px;
+  background: #d9d9d9;
+}
+
+/* Segunda línea: el usuario, más corta y con el punto de ubicación */
+.postLineas i + i {
+  width: clamp(70px, 12vw, 92px);
+  height: 3px;
+  position: relative;
+}
+
+.postLineas i + i::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  width: 7px;
+  height: 7px;
+  border: 2px solid #d9d9d9;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.postImagen {
+  position: relative;
+  flex: 1;
+  isolation: isolate;
+}
+
+.cardPost .copy {
+  height: 100%;
+}
+
+@media (max-width: 640px) {
+  .postBarra {
+    gap: 8px;
+    height: 46px;
+    padding: 0 10px;
+  }
+
+  .postAvatar {
+    width: 32px;
+  }
+
+  .postLineas {
+    gap: 5px;
+  }
+
+  .postLineas i {
+    width: 120px;
+    height: 7px;
+  }
+
+  .postLineas i + i {
+    width: 52px;
+    height: 2px;
+  }
+
+  .postLineas i + i::after {
+    right: -10px;
+    width: 5px;
+    height: 5px;
+    border-width: 1.5px;
+  }
+
+  .cardPost,
+  .cardPost .copy {
+    min-height: 0;
+  }
+
+  .postImagen {
+    min-height: 110px;
+  }
+}
+
+@media (min-width: 641px) {
+  .cardPost .copy {
+    min-height: 0;
+  }
+
+  .postImagen {
+    min-height: clamp(170px, 17vw, 246px);
+  }
+}
+
+/* Acceso al club privado (Grow → Proyectos) */
+.club {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 760px);
+  margin: 0 auto clamp(28px, 5vh, 48px);
+  padding: 22px 26px;
+  border: 1px solid #fff;
+  border-radius: 22px;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.club:hover {
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.club span {
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.club strong {
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.club em {
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Etiqueta de categoría en la barra del post */
+.postCategoria {
+  margin-left: auto;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .postCategoria {
+    padding: 4px 9px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  /* En celular las líneas del nombre ceden espacio a la categoría */
+  .postBarra .postLineas i {
+    width: 70px;
+  }
+}
+
+/* Botones de categoría (Grow → Proyectos) */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: min(100%, 760px);
+  margin: 0 auto clamp(24px, 4vh, 36px);
+}
+
+.filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+
+.filtro:hover {
+  border-color: #fff;
+}
+
+.filtro:focus-visible {
+  outline: 2px solid #00aff0;
+  outline-offset: 3px;
+}
+
+.filtroActivo {
+  border-color: #fff;
+  background: #fff;
+  color: #000;
+}
+
+
+.sinProyectos {
+  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}

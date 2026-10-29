@@ -1,7 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
 import { getGrowConfig } from "../../../lib/growConfig";
-import styles from "./page.module.css";
+import TarjetasGrow from "../TarjetasGrow";
 
 export const metadata = {
   title: "Grow",
@@ -13,25 +11,6 @@ export const revalidate = 300;
 
 export default async function GrowOptionA() {
   const { config } = await getGrowConfig();
-
-  return (
-    <main className={styles.page}>
-      <div className={styles.content}>
-        <section className={styles.projects} aria-label="Proyectos destacados">
-          {config.projects.map((project, index) => (
-            <article className={styles.card} key={`${project.slug}-${index}`}>
-              <Image src={project.image} alt="" fill sizes="(max-width: 768px) 92vw, 760px" className={styles.image} />
-              {/* La primera portada (Marketing) va sin degradado */}
-              {index !== 0 && <div className={styles.scrim} aria-hidden="true" />}
-              <div className={`${styles.copy} ${index === 0 ? styles.copySinVelo : ""}`}>
-                <span>{project.eyebrow}</span>
-                <h2>{project.title}</h2>
-                <Link href={`/grow/proyectos/${project.slug}`}>{project.action}</Link>
-              </div>
-            </article>
-          ))}
-        </section>
-      </div>
-    </main>
-  );
+  // Marketing: todo lo que no está asignado a la sección Proyectos
+  return <TarjetasGrow proyectos={config.projects.filter((project) => project.seccion !== "proyectos")} />;
 }

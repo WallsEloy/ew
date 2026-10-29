@@ -54,5 +54,6 @@ export function mergeGrowConfig(saved) {
 }
 
 export function makeBlankGrowProject(index = 0) {
-  return cleanProject({ title: "Nuevo proyecto", action: "Ver proyecto", image: "/branding-demo/brand-workspace.webp", clientLogo: "" }, defaultGrowConfig.projects[0], index);
+  // Las tarjetas nuevas usan el estilo de la de marketing: un post de red social
+  return cleanProject({ title: "Nuevo proyecto", action: "Ver proyecto", image: "/branding-demo/brand-workspace.webp", clientLogo: "", estilo: "post", avatar: "", avatarColor: "#ff2d6f" }, defaultGrowConfig.projects[0], index);
 }

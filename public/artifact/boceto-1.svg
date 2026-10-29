@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" font-family="Courier New, monospace">
+  <rect width="800" height="1000" fill="#efebe3"/>
+  <g fill="none" stroke="#2b2b2b" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke="#9a968e" stroke-width="1" stroke-dasharray="6 6">
+      <line x1="400" y1="60" x2="400" y2="940"/>
+      <line x1="140" y1="420" x2="660" y2="420"/>
+      <line x1="140" y1="760" x2="660" y2="760"/>
+      <ellipse cx="400" cy="300" rx="230" ry="200"/>
+    </g>
+    <ellipse cx="400" cy="95" rx="120" ry="22" stroke-width="3"/>
+    <ellipse cx="402" cy="97" rx="116" ry="19" stroke-width="1.2" opacity=".5"/>
+    <path d="M300 168 L322 112 L346 166" stroke-width="3"/>
+    <path d="M454 166 L478 112 L500 168" stroke-width="3"/>
+    <path d="M232 230 Q232 160 300 160 L500 160 Q568 160 568 230 L568 380 Q568 446 500 446 L300 446 Q232 446 232 380 Z" stroke-width="3.4"/>
+    <path d="M236 236 Q238 166 302 164 L498 165 Q565 168 563 236" stroke-width="1.2" opacity=".55"/>
+    <path d="M268 286 Q268 272 282 272 L518 272 Q532 272 532 286 L532 318 Q532 332 518 332 L282 332 Q268 332 268 318 Z" stroke-width="3"/>
+    <g stroke-width="1.1" opacity=".6">
+      <line x1="290" y1="282" x2="330" y2="322"/><line x1="320" y1="282" x2="360" y2="322"/><line x1="350" y1="282" x2="390" y2="322"/>
+      <line x1="380" y1="282" x2="420" y2="322"/><line x1="410" y1="282" x2="450" y2="322"/><line x1="440" y1="282" x2="480" y2="322"/>
+    </g>
+    <rect x="584" y="250" width="26" height="26" stroke-width="2.4"/>
+    <rect x="622" y="282" width="16" height="16" stroke-width="2"/>
+    <rect x="590" y="330" width="20" height="20" stroke-width="2"/>
+    <path d="M318 470 Q318 446 346 446 L454 446 Q482 446 482 470 L486 640 Q486 690 434 692 L366 692 Q314 690 314 640 Z" stroke-width="3.2"/>
+    <path d="M318 500 Q262 540 254 610 Q252 634 274 632 Q290 628 300 590 L318 548" stroke-width="3"/>
+    <path d="M482 500 Q538 540 546 610 Q548 634 526 632 Q510 628 500 590 L482 548" stroke-width="3"/>
+    <path d="M346 690 L342 748 Q342 770 368 770 Q392 770 392 748 L390 692" stroke-width="3"/>
+    <path d="M410 692 L408 748 Q408 770 432 770 Q458 770 458 748 L454 690" stroke-width="3"/>
+    <ellipse cx="400" cy="790" rx="200" ry="36" stroke-width="3"/>
+    <path d="M200 790 L200 826 Q400 880 600 826 L600 790" stroke-width="3"/>
+    <g stroke-width="1" opacity=".45">
+      <line x1="540" y1="200" x2="560" y2="220"/><line x1="530" y1="380" x2="560" y2="410"/><line x1="520" y1="400" x2="550" y2="430"/>
+      <line x1="450" y1="600" x2="478" y2="628"/><line x1="440" y1="620" x2="470" y2="650"/><line x1="430" y1="640" x2="462" y2="672"/>
+    </g>
+    <path d="M200 104 L276 98" stroke-width="1.2"/>
+    <path d="M168 296 L262 300" stroke-width="1.2"/>
+  </g>
+  <g fill="#2b2b2b" font-size="18">
+    <text x="60" y="110">halo removible</text>
+    <text x="604" y="236">glitch</text>
+    <text x="580" y="520">vinil mate</text>
+    <text x="60" y="300">visor lima</text>
+    <text x="570" y="850">base numerada</text>
+    <text x="60" y="960" font-size="22" font-weight="bold">ARTIFACT · SERIE 001 · v.03</text>
+    <text x="620" y="960" font-size="16">22 cm</text>
+  </g>
+</svg>

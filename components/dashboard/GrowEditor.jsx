@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { defaultGrowConfig, makeBlankGrowProject, mergeGrowConfig } from "../../data/growPage";
 
+const CATEGORIAS_PROYECTOS = ["Negocio", "Crowdfunding"];
+
 const input = "box-border w-full rounded border border-[#333] bg-[#111] px-3 py-2 text-sm text-white outline-none focus:border-[#d946ef]";
 const label = "mb-1 block text-[11px] uppercase tracking-wide text-gray-400";
 const button = "rounded border border-[#333] bg-[#1a1a1a] px-3 py-2 text-sm text-white disabled:opacity-40";
@@ -78,10 +80,22 @@ export default function GrowEditor() {
             <div className="mb-4 flex items-center gap-2"><strong>Proyecto {index + 1}</strong><div className="flex-1" /><button className={button} disabled={config.projects.length === 1} onClick={() => patch({ projects: config.projects.filter((_, i) => i !== index) })}>Quitar</button></div>
             <div className="grid gap-3 md:grid-cols-2">
               <label><span className={label}>Slug de la página</span><input className={input} value={project.slug} onChange={(event) => patchProject(index, { slug: event.target.value })} /></label>
-              <label><span className={label}>Categoría</span><input className={input} value={project.eyebrow} onChange={(event) => patchProject(index, { eyebrow: event.target.value })} /></label>
+              <label><span className={label}>Categoría</span>{project.seccion === "proyectos" ? (
+                // En Proyectos la categoría es una de dos: Negocio o Crowdfunding
+                <select className={input} value={CATEGORIAS_PROYECTOS.includes(project.eyebrow) ? project.eyebrow : ""} onChange={(event) => patchProject(index, { eyebrow: event.target.value })}>
+                  <option value="" disabled>Elige una categoría</option>
+                  {CATEGORIAS_PROYECTOS.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
+              ) : (
+                <input className={input} value={project.eyebrow} onChange={(event) => patchProject(index, { eyebrow: event.target.value })} />
+              )}</label>
               <label><span className={label}>Título</span><input className={input} value={project.title} onChange={(event) => patchProject(index, { title: event.target.value })} /></label>
               <label><span className={label}>Texto del botón</span><input className={input} value={project.action} onChange={(event) => patchProject(index, { action: event.target.value })} /></label>
               <label className="md:col-span-2"><span className={label}>Imagen</span><input className={input} value={project.image} onChange={(event) => patchProject(index, { image: event.target.value })} /><input className="mt-2 text-xs" type="file" accept="image/*" disabled={uploading === `${index}-image`} onChange={(event) => event.target.files?.[0] && uploadImage(index, event.target.files[0], "image")} /></label>
+              <label><span className={label}>Sección del menú Grow</span><select className={input} value={project.seccion || "marketing"} onChange={(event) => patchProject(index, { seccion: event.target.value })}><option value="marketing">Marketing</option><option value="proyectos">Proyectos</option></select></label>
+              <label><span className={label}>Estilo de tarjeta</span><select className={input} value={project.estilo || "normal"} onChange={(event) => patchProject(index, { estilo: event.target.value })}><option value="normal">Normal (degradado blanco)</option><option value="post">Post (como la de marketing)</option></select></label>
+              {project.estilo === "post" && <label><span className={label}>Color del avatar</span><input className={`${input} h-10`} type="color" value={project.avatarColor || "#ff2d6f"} onChange={(event) => patchProject(index, { avatarColor: event.target.value })} /></label>}
+              {project.estilo === "post" && <label className="md:col-span-2"><span className={label}>Logo del avatar del post (URL)</span><input className={input} value={project.avatar || ""} onChange={(event) => patchProject(index, { avatar: event.target.value })} /><input className="mt-2 text-xs" type="file" accept="image/*" disabled={uploading === `${index}-avatar`} onChange={(event) => event.target.files?.[0] && uploadImage(index, event.target.files[0], "avatar")} /></label>}
               <label className="md:col-span-2"><span className={label}>Logo superior derecha (URL)</span><input className={input} value={project.clientLogo || ""} onChange={(event) => patchProject(index, { clientLogo: event.target.value })} /><input className="mt-2 text-xs" type="file" accept="image/*" disabled={uploading === `${index}-clientLogo`} onChange={(event) => event.target.files?.[0] && uploadImage(index, event.target.files[0], "clientLogo")} /></label>
               <label className="md:col-span-2"><span className={label}>Figma (enlace para compartir)</span><input className={input} placeholder="https://www.figma.com/design/…" value={project.figmaUrl || ""} onChange={(event) => patchProject(index, { figmaUrl: event.target.value })} /></label>
               <label className="md:col-span-2"><span className={label}>Prototipo de Figma (enlace)</span><input className={input} placeholder="https://www.figma.com/proto/…" value={project.figmaPrototypeUrl || ""} onChange={(event) => patchProject(index, { figmaPrototypeUrl: event.target.value })} /></label>

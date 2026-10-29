@@ -4,6 +4,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGrowConfig } from "../../../../lib/growConfig";
 import ClientAdvertisingFlow from "../../../../components/ClientAdvertisingFlow";
+import GogoLanding from "../../../../components/gogo/GogoLanding";
+import { fuenteGogo } from "../../../../components/gogo/fuente";
+import { GOGO } from "../../../../data/gogo";
+import CampanaLanding from "../../../../components/artifact/CampanaLanding";
+import { grotesca, serif } from "../../../../components/artifact/fuentes";
+import { ARTIFACT, CAMPANA_ARTIFACT } from "../../../../data/artifact";
+import { CAMPANA_HUMANS } from "../../../../data/humansFotolibro";
+
+// Campañas de crowdfunding con landing propia (misma plantilla)
+const CAMPANAS = { artifact: CAMPANA_ARTIFACT, "humans-fotolibro": CAMPANA_HUMANS };
 import styles from "./page.module.css";
 
 // Página en caché: el dashboard la regenera al guardar (revalidatePath) y,
@@ -30,8 +40,41 @@ function getFigmaEmbedUrl(rawUrl, { mobile = false } = {}) {
   }
 }
 
+// GoGo Food tiene su propia landing; los metadatos incluyen Open Graph
+export async function generateMetadata({ params }) {
+  if (params.slug === "artifact") {
+    const descripcion = `${ARTIFACT.subtitulo} Campaña de preventa con recompensas de la Serie 001.`;
+    return {
+      title: `${ARTIFACT.nombre} · ${ARTIFACT.subnombre}`,
+      description: descripcion,
+      openGraph: { title: `${ARTIFACT.nombre} — ${ARTIFACT.eslogan}`, description: descripcion, type: "website", locale: "es_MX", images: [{ url: "/artifact/portada-tarjeta.webp", width: 1600, height: 540 }] },
+      twitter: { card: "summary_large_image", title: ARTIFACT.nombre, description: descripcion, images: ["/artifact/portada-tarjeta.webp"] },
+    };
+  }
+  if (params.slug === "humans-fotolibro") {
+    const a = CAMPANA_HUMANS.ARTIFACT;
+    const descripcion = `${a.subtitulo} Campaña de preventa con recompensas. Contiene desnudo artístico.`;
+    return {
+      title: `${a.nombre} · ${a.subnombre}`,
+      description: descripcion,
+      openGraph: { title: `${a.nombre} — ${a.eslogan}`, description: descripcion, type: "website", locale: "es_MX", images: [{ url: "/humans-fotolibro/portada-tarjeta.webp", width: 1600, height: 540 }] },
+      twitter: { card: "summary_large_image", title: a.nombre, description: descripcion, images: ["/humans-fotolibro/portada-tarjeta.webp"] },
+    };
+  }
+  if (params.slug !== "gogo") return {};
+  const descripcion = "GoGo Food: plataforma de delivery local que conecta restaurantes, repartidores y consumidores. Presentación informativa del proyecto, no una oferta pública de valores.";
+  return {
+    title: `${GOGO.nombre} · ${GOGO.titulo}`,
+    description: descripcion,
+    openGraph: { title: `${GOGO.nombre} · Proyecto empresarial FoodTech`, description: descripcion, type: "website", locale: "es_MX" },
+    twitter: { card: "summary_large_image", title: GOGO.nombre, description: descripcion },
+  };
+}
+
 export default async function GrowProjectPage({ params }) {
   const { slug } = params;
+  if (slug === "gogo") return <GogoLanding fuente={fuenteGogo.variable} />;
+  if (CAMPANAS[slug]) return <CampanaLanding datos={CAMPANAS[slug]} fuentes={`${grotesca.variable} ${serif.variable}`} />;
   const { config } = await getGrowConfig();
   const normalizedSlug = slug === "identidad-visuall" ? "identidad-visual" : slug;
   const project = config.projects.find((item) => item.slug === normalizedSlug);
@@ -119,7 +162,7 @@ export default async function GrowProjectPage({ params }) {
       )}
       <section className={styles.body}>
         <p>{project.body}</p>
-        <Link href="/grow/opcion-a">← Volver a Grow</Link>
+        <Link href={project.seccion === "proyectos" ? "/grow/proyectos" : "/grow/opcion-a"}>← Volver a Grow</Link>
       </section>
     </main>
   );
