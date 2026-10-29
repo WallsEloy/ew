@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { resolveLogoReverso } from "../../lib/logosReverso";
 import styles from "./FeedModal.module.css";
 
@@ -129,9 +130,26 @@ function Holograma({ src, activo }) {
   );
 }
 
-// Vista limpia (galería de Fotografía): solo la foto completa, ajustada a su
-// propio tamaño, sin textos, botones ni reverso.
+// Vista limpia (galería de Fotografía): la foto completa, ajustada a su
+// propio tamaño y sin textos encima. Al tocarla gira y atrás muestra su ficha
+// técnica con los datos reales de la imagen (los de post.meta que tengan
+// contenido y el formato medido del archivo; nunca datos de ejemplo).
 function FotoSola({ post, index, delay }) {
+  const [volteada, setVolteada] = useState(false);
+  const [medidas, setMedidas] = useState(null);
+  const titulo = (post.caption || `Fotografía ${index + 1}`).split("#")[0].trim();
+  const referencia = post.meta?.referencia || `EW-F${String(index + 1).padStart(3, "0")}`;
+  const extension = (post.image || "").split("?")[0].split(".").pop()?.toUpperCase() || "";
+  const filas = META_EJEMPLO.map((row) => {
+    let valor = post.meta?.[row.key];
+    if (row.key === "formato" && !String(valor || "").trim() && medidas) {
+      valor = `${medidas[0]} × ${medidas[1]} px${extension ? ` · ${extension}` : ""}`;
+    }
+    return { ...row, value: recortar(valor, LIMITES.valor) };
+  }).filter((row) => row.value);
+  const etiquetas = (post.meta?.etiquetas || extraerEtiquetas(post.caption)).slice(0, LIMITES.etiquetas);
+  const girar = () => setVolteada((v) => !v);
+
   return (
     // Solo aparece con opacidad: si además subiera, el scroll inicial calcularía
     // la posición desplazada y la barra del sitio taparía el borde de arriba.
@@ -139,13 +157,54 @@ function FotoSola({ post, index, delay }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay }}
-      className={`${styles.fotoSola} ${post.enlace ? styles.fotoSolaConEnlace : ""}`}
+      className={`${styles.fotoSola} ${styles.fotoSolaConEnlace}`}
     >
-      <img
-        src={post.image}
-        alt={post.caption || `Fotografía ${index + 1}`}
-        className={styles.fotoSolaImg}
-      />
+      <div
+        className={styles.fotoGiro}
+        role="button"
+        tabIndex={0}
+        aria-pressed={volteada}
+        aria-label={volteada ? "Ver la fotografía" : "Ver la ficha técnica de la fotografía"}
+        onClick={girar}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            girar();
+          }
+        }}
+      >
+        <div className={`${styles.fotoGiroInterior} ${volteada ? styles.cardFlipped : ""}`}>
+          <img
+            src={post.image}
+            alt={post.caption || `Fotografía ${index + 1}`}
+            className={`${styles.fotoSolaImg} ${styles.fotoGiroFrente}`}
+            onLoad={(event) => setMedidas([event.currentTarget.naturalWidth, event.currentTarget.naturalHeight])}
+          />
+          {/* Reverso: la ficha técnica de la imagen */}
+          <div className={styles.fotoReverso} aria-hidden={!volteada}>
+            <img src={resolveLogoReverso(post.logoReverso)} alt="" className={styles.cardBackLogo} />
+            <div className={styles.metaBody}>
+              <p className={styles.metaEyebrow}>Ficha técnica · {referencia}</p>
+              <h4 className={styles.metaTitle} title={titulo}>{recortar(titulo, LIMITES.titulo)}</h4>
+              <dl className={styles.metaList}>
+                {filas.map((row) => (
+                  <div key={row.key} className={styles.metaRow}>
+                    <dt className={styles.metaLabel}>{row.label}</dt>
+                    <dd className={styles.metaValue}>{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+              {etiquetas.length > 0 && (
+                <ul className={styles.metaTags} aria-label="Palabras clave">
+                  {etiquetas.map((tag) => <li key={tag} className={styles.metaTag}>#{tag}</li>)}
+                </ul>
+              )}
+            </div>
+            <img src="/SVG/ew_white.svg" alt="EW" className={styles.cardBackFirma} />
+          </div>
+        </div>
+      </div>
+      <span className={styles.fotoPista}>{volteada ? "Toca la ficha para volver a la foto" : "Toca la foto para ver su ficha técnica"}</span>
       {/* Enlace al proyecto: debajo de la foto, nunca encima de ella */}
       {post.enlace && (
         <Link href={post.enlace.href} className={styles.fotoSolaEnlace}>
@@ -166,6 +225,7 @@ function FeedPost({
   galleryName,
   allowPurchase,
   allowFlip,
+  detallesAbajo = false,
 }) {
   const [liked, setLiked] = useState(post.isLiked || false);
   const [likesCount, setLikesCount] = useState(post.likes);
@@ -257,7 +317,7 @@ function FeedPost({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
       className={`${styles.postWrapper} ${
-        allowImageScroll ? styles.galleryPostWrapper : ""
+        detallesAbajo ? styles.postAbajo : allowImageScroll ? styles.galleryPostWrapper : ""
       } ${allowFlip ? "" : styles.staticPostWrapper}`}
       onClick={
         allowFlip ? () => setIsFlipped((current) => !current) : undefined
@@ -266,12 +326,19 @@ function FeedPost({
       <div className={`${styles.cardInner} ${isFlipped ? styles.cardFlipped : ""}`}>
         <div
           className={`${styles.cardFace} ${styles.cardFront} ${
-            allowImageScroll ? styles.galleryCardFront : ""
+            allowImageScroll && !detallesAbajo ? styles.galleryCardFront : ""
           }`}
           aria-hidden={isFlipped}
         >
-          {/* 1. Imagen del Post */}
-          {allowImageScroll ? (
+          {/* 1. Imagen del Post. Con los detalles abajo se ve completa y la
+              tarjeta toma su tamaño; si no, se recorre dentro de su marco. */}
+          {detallesAbajo ? (
+            <img
+              src={post.image}
+              alt={post.caption || `Publicación ${index + 1}`}
+              className={styles.postImgCompleta}
+            />
+          ) : allowImageScroll ? (
             <div ref={imageViewportRef} className={styles.imageViewport}>
               <img
                 src={post.image}
@@ -466,6 +533,7 @@ export default function FeedModal({
   allowPurchase = true,
   allowFlip = true,
   soloFoto = false,
+  detallesAbajo = false,
 }) {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(startIndex);
@@ -572,9 +640,19 @@ export default function FeedModal({
     if (!clickedInteractiveContent) onClose();
   };
 
-  return (
+  // Se pinta en <body>: dentro de la página quedaría atrapado por contenedores
+  // con transformaciones (en el celular el botón Cerrar se salía de la pantalla)
+  if (typeof document === "undefined") return null;
+  return createPortal(
     <AnimatePresence>
+      {/* Fuera del visor que se desplaza: el desenfoque del fondo hacía que el
+          botón "fijo" se fuera con el scroll y en el celular quedaba fuera de
+          la pantalla */}
+      <button key="cerrar" type="button" onClick={onClose} className={styles.closeButton}>
+        Cerrar
+      </button>
       <motion.div
+        key="visor"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -582,10 +660,6 @@ export default function FeedModal({
         onClick={handleOutsideClick}
         onPanEnd={handlePanEnd} // Detecta el final del gesto de toque/arrastre
       >
-        <button type="button" onClick={onClose} className={styles.closeButton}>
-          Cerrar
-        </button>
-
         <button
           type="button"
           className={`${styles.navButton} ${styles.navPrevious}`}
@@ -598,7 +672,9 @@ export default function FeedModal({
 
         <div
           ref={containerRef}
-          className={styles.postsContainer}
+          // Con los detalles abajo cada tarjeta mide lo que su imagen: el carril
+          // deja medio ancho de ventana a cada lado para poder centrar cualquiera
+          className={`${styles.postsContainer} ${detallesAbajo ? styles.carrilCentrado : ""}`}
           onWheel={handleDesktopWheel}
           onScroll={handleScroll}
         >
@@ -617,6 +693,7 @@ export default function FeedModal({
               galleryName={galleryName}
               allowPurchase={allowPurchase}
               allowFlip={allowFlip}
+              detallesAbajo={detallesAbajo}
             />
           ))}
         </div>
@@ -637,6 +714,7 @@ export default function FeedModal({
           </div>
         )}
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

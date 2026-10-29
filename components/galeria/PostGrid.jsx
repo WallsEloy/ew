@@ -1,9 +1,10 @@
 import styles from "./PostGrid.module.css";
 
-export default function PostGrid({ posts, onClick }) {
+// cuatroColumnas: en escritorio la cuadrícula pasa de 3 a 4 columnas (Sketch)
+export default function PostGrid({ posts, onClick, cuatroColumnas = false }) {
   return (
     // Contenedor principal de Layout en formato Grid (Cuadrícula) 
-    <div className={styles.gridContainer}>
+    <div className={`${styles.gridContainer} ${cuatroColumnas ? styles.cuatroColumnas : ""}`}>
       {posts.map((post, index) => (
         // Cada bloque/publicación dentro de la cuadrícula
         <div

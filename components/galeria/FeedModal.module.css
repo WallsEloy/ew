@@ -10,7 +10,9 @@
   ); /* 85% opacidad para diferenciar el post del fondo */
   backdrop-filter: blur(5px); /* Efecto difuminado en el fondo */
   overflow-y: auto; /* Permite hacer scroll vertical a los posts dentro del modal */
-  z-index: 1000; /* Lo pone por encima de todos los demás elementos */
+  /* Por encima del navbar (99999) y del dock inferior (100000): si no, la
+     franja del navbar tapaba el botón Cerrar */
+  z-index: 200000;
   box-sizing: border-box;
 }
 
@@ -23,7 +25,7 @@
 /* 2. BOTÓN CERRAR: Fijo en la esquina superior derecha */
 .closeButton {
   position: fixed;
-  top: 20px;
+  top: max(20px, env(safe-area-inset-top));
   right: 20px;
   background: white;
   color: black;
@@ -31,7 +33,9 @@
   padding: 8px 12px;
   border-radius: 8px; /* Bordes redondeados sutiles */
   cursor: pointer;
-  z-index: 3;
+  /* Encima del visor (200000), que ya está sobre el navbar */
+  z-index: 200001;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
 /* 3. CAPA INTERNA DE POSTS: Espacia los posts hacia abajo para que el botón cerrar no los tape */
@@ -1011,5 +1015,193 @@
 @media (min-width: 769px) {
   .fotoSolaConEnlace .fotoSolaImg {
     max-height: min(calc(80dvh - 60px), 760px);
+  }
+}
+
+/* --- VISTA CON DETALLES ABAJO (Sketch y Concept Art) ---------------------
+   La imagen se ve completa, sin recortes, y la tarjeta toma su tamaño: el
+   ancho lo marca la imagen y los detalles van debajo, con ese mismo ancho. */
+.postAbajo {
+  width: fit-content;
+  max-width: 94vw;
+  height: auto;
+  margin: 16px auto 32px;
+  /* Que la barra superior del sitio no tape el borde de arriba */
+  scroll-margin-top: 96px;
+}
+
+.postAbajo .cardInner,
+.postAbajo .cardFace {
+  width: auto;
+  height: auto;
+}
+
+/* La cara de enfrente mide lo que la imagen: el texto se ajusta a ese ancho */
+.postAbajo .cardFront {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+}
+
+.postImgCompleta {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 94vw;
+  max-height: 62dvh;
+  object-fit: contain;
+  background: #050505;
+}
+
+.postAbajo .postContent {
+  position: static;
+  width: auto;
+  max-height: none;
+  padding: 16px 18px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-left: 0;
+  border-radius: 0 0 20px 20px;
+  background: #0a0a0a;
+}
+
+.postAbajo .postTitle {
+  margin: 0 0 6px;
+}
+
+.postAbajo .actionsBar {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.postAbajo .frontProjectButton {
+  margin-top: 12px;
+}
+
+.postAbajo .frontPanelLogo,
+.postAbajo .infoPanelLogo {
+  display: none;
+}
+
+/* El reverso (ficha técnica) ocupa la tarjeta y se desplaza si no cabe */
+.postAbajo .cardBack {
+  overflow-y: auto;
+}
+
+@media (min-width: 769px) {
+  .postAbajo {
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: none;
+    height: auto;
+    margin: 0;
+  }
+
+  .postAbajo .cardInner,
+  .postAbajo .cardFace {
+    height: auto;
+  }
+
+  .postAbajo .cardFront {
+    display: flex;
+    grid-template-columns: none;
+  }
+
+  /* Alto de la imagen: la pantalla menos el espacio de los detalles */
+  .postImgCompleta {
+    max-width: min(76vw, 1100px);
+    max-height: calc(100dvh - 330px);
+    border-radius: 0;
+  }
+
+  .postAbajo .postContent {
+    overflow: visible;
+    padding: 18px 22px 16px;
+    border-left: 0;
+    border-radius: 0 0 24px 24px;
+  }
+
+  /* La ficha es angosta: una sola columna */
+  .postAbajo .metaList {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- FOTOGRAFÍA: la foto gira y atrás muestra su ficha técnica ----------- */
+.fotoGiro {
+  perspective: 1600px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fotoGiro:focus-visible {
+  outline: 2px solid #00aff0;
+  outline-offset: 6px;
+  border-radius: 20px;
+}
+
+.fotoGiroInterior {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 720ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+/* La foto marca el tamaño; el reverso la cubre exactamente */
+.fotoGiroFrente {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.fotoReverso {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  overflow-y: auto;
+  padding: 28px clamp(20px, 6%, 48px) 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  background: radial-gradient(circle at 50% 42%, #262626 0%, #080808 62%, #000 100%);
+  text-align: center;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  scrollbar-width: thin;
+}
+
+.fotoReverso .metaBody {
+  width: 100%;
+}
+
+.fotoReverso .metaList {
+  grid-template-columns: 1fr;
+}
+
+.fotoPista {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 769px) {
+  .fotoReverso {
+    border-radius: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fotoGiroInterior {
+    transition: none;
+  }
+}
+
+/* Visor con detalles abajo (Sketch, Concept Art): las tarjetas tienen anchos
+   distintos, así que el carril deja medio ancho de ventana a cada lado y
+   cualquier tarjeta —también la primera y la última— queda en el centro. */
+@media (min-width: 769px) {
+  .postsContainer.carrilCentrado {
+    padding-inline: 50vw;
+    scroll-padding-inline: 0;
   }
 }

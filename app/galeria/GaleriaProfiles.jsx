@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { menuGalerias, slugGaleria } from "../../lib/galeriaSlug";
+import { menuGalerias, seriesDeGaleria, slugGaleria } from "../../lib/galeriaSlug";
 
 // Components de la versión Galería
 import ProfileCarousel from "../../components/galeria/ProfileCarousel";
@@ -10,6 +10,7 @@ import ProfilePresentacion from "../../components/galeria/ProfilePresentacion";
 import ProfileHeader from "../../components/galeria/ProfileHeader";
 import Highlights from "../../components/galeria/Highlights";
 import PostGrid from "../../components/galeria/PostGrid";
+import SeriesGrid from "../../components/galeria/SeriesGrid";
 import SesionesFotos from "../../components/galeria/SesionesFotos";
 import FeedModal from "../../components/galeria/FeedModal";
 
@@ -32,6 +33,9 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
   const profile = profiles.find((p) => slugGaleria(p.name) === activeSlug) || profiles[0];
   const esFotografia = slugGaleria(profile.name) === "fotografia";
   const slugActivo = slugGaleria(profile.name);
+  // Galerías de dibujo: hero por capas, sin cabecera de perfil y, al abrir
+  // una imagen, la vista completa con los detalles debajo
+  const esDibujo = ["sketch", "conceptart"].includes(slugActivo);
   const menu = menuGalerias(profiles);
   const grupoActivo =
     menu.find((item) => item.tipo === "grupo" && item.miembros.some((m) => m.slug === slugActivo)) || null;
@@ -57,12 +61,13 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           bloque normal: categorías, cabecera de perfil e historias. */}
       <div
         className={`${styles.hero} ${slugGaleria(profile.name) === "humans" ? styles.heroPortadaMovil : ""} ${
-          ["sketch", "fotografia"].includes(slugGaleria(profile.name)) ? styles.heroFilaArriba : ""
+          esDibujo || esFotografia ? styles.heroFilaArriba : ""
         }`}
       >
         {/* Sketch tiene su propio hero por capas; las demás, su carrusel de portadas */}
-        {slugGaleria(profile.name) === "sketch" ? (
-          <HeroSketch name={profile.name} />
+        {esDibujo ? (
+          // Sketch usa el lápiz; Concept Art, Branding y Carteles, la pluma
+          <HeroSketch name={profile.name} lapiz={slugActivo === "sketch"} />
         ) : (
           <ProfileCarousel
             // Fotografía usa su propia portada (la cámara), en escritorio y móvil
@@ -111,7 +116,7 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           <div className={styles.heroPie}>
             {/* Cabecera del Perfil: sólo móvil (en escritorio manda el carrusel).
                 Sketch y Fotografía no la llevan: su hero hace de presentación. */}
-            {!["sketch", "fotografia"].includes(slugGaleria(profile.name)) && (
+            {!esDibujo && !esFotografia && (
               <ProfileHeader profile={profile} ocultoEnEscritorio />
             )}
 
@@ -132,10 +137,19 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           pausado={open}
           onClick={abrirFoto}
         />
+      ) : !profile.posts.length ? (
+        // Galería todavía sin imágenes (p. ej. Concept Art recién creada)
+        <p className={styles.galeriaVacia}>Muy pronto: las primeras piezas de {profile.name}.</p>
+      ) : slugActivo === "conceptart" ? (
+        // Concept Art: una tarjeta por serie (campo «Colección» de la ficha) con
+        // su primera imagen; al tocarla se abre la subpágina de la serie
+        <SeriesGrid key={profile.id} series={seriesDeGaleria(profile.posts)} base={`/galeria/${slugActivo}`} />
       ) : (
         <PostGrid
           key={profile.id}
           posts={profile.posts}
+          // Sketch: 4 columnas en escritorio
+          cuatroColumnas={slugActivo === "sketch"}
           onClick={(index) => abrirFoto(profile.posts, index)}
         />
       )}
@@ -149,6 +163,12 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
           allowImageScroll
           // En Fotografía la foto se ve completa y sin textos
           soloFoto={esFotografia}
+          // En Sketch y Concept Art, la imagen completa con los detalles abajo
+          detallesAbajo={esDibujo}
+          // En Sketch la tarjeta no gira ni lleva la ficha técnica del reverso,
+          // ni el botón «Adquirir para tu colección»
+          allowFlip={slugActivo !== "sketch"}
+          allowPurchase={slugActivo !== "sketch"}
           onClose={() => setOpen(false)} // Función para cerrar el modal
         />
       )}

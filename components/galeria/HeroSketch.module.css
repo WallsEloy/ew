@@ -62,6 +62,25 @@
   will-change: rotate, translate;
 }
 
+/* Lápiz (Sketch): mismo ancho y mismo centro que la pluma; es más alto
+   (753 × 178), así que sube lo que crece para no bajar su centro */
+.capaLapiz {
+  top: 47.96%;
+  /* Gira menos que la pluma: 10° a la izquierda y 15° a la derecha */
+  animation:
+    balancearLapiz 6s ease-in-out -2.6s infinite alternate,
+    flotar 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes balancearLapiz {
+  from {
+    rotate: -10deg;
+  }
+  to {
+    rotate: 15deg;
+  }
+}
+
 /* Dedos: x 342, y 579 sobre 1400 × 890 */
 .capaC {
   left: 24.43%;
@@ -98,7 +117,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .capaB {
+  .capaB,
+  .capaLapiz {
     animation: none;
   }
 }

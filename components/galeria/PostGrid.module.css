@@ -27,3 +27,67 @@
   grid-column: span 3; /* Rompe la regla de la cuadrícula y abarca 3 columnas */
   aspect-ratio: 16 / 9; /* Relación de aspecto panorámica más apaisada */
 }
+
+/* 5. CUATRO COLUMNAS EN ESCRITORIO (Sketch). Los horizontales ocupan la fila entera */
+@media (min-width: 769px) {
+  .cuatroColumnas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .cuatroColumnas .postHorizontal {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 6. SERIE: la tarjeta de portada lleva la marca de «varias imágenes» */
+a.postItem {
+  position: relative;
+  display: block;
+}
+
+.marcaSerie {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+a.postItem .postImage {
+  transition: transform 0.4s ease;
+}
+
+a.postItem:hover .postImage {
+  transform: scale(1.03);
+}
+
+/* 7. LISTA DE SERIES: una tarjeta por fila, a todo el ancho y como franja
+   horizontal muy baja (5:1). La imagen se recorta en
+   vertical y queda centrada. En el celular la franja es algo más alta. */
+.seriesLista {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.serieTarjeta {
+  width: 100%;
+  aspect-ratio: 5 / 1;
+}
+
+.serieTarjeta .postImage {
+  object-position: center;
+}
+
+@media (max-width: 768px) {
+  .serieTarjeta {
+    aspect-ratio: 3 / 1;
+  }
+}

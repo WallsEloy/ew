@@ -124,6 +124,25 @@
   border-radius: 8px;
 }
 
+/* Escritorio: cuadrícula de 5 columnas (los montones también, para que cada
+   uno siga ocupando una casilla). Las horizontales van a todo lo ancho y se
+   ven completas, sin recorte. */
+@media (min-width: 769px) {
+  .pilas,
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .fotoHorizontal {
+    grid-column: 1 / -1;
+    aspect-ratio: auto;
+  }
+
+  .fotoHorizontal img {
+    height: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marco,
   .foto {
