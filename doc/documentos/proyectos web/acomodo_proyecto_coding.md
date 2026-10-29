@@ -131,6 +131,21 @@ y es la que usan el hero y la portada.
 - Portada: capturas completas centradas sobre `#0a0a0b` a 1800×1125 (`portada-*.webp`) en
   `CARRUSELES_CODING["1/1"]`, para que la tarjeta 16:10 no las recorte.
 
+## 9. Plataforma para restaurantes (`1/2`)
+
+- Una base de código desplegada para varias marcas, por eso **el hero va sin logotipo**
+  (título en texto). Repos `Segundo715/mi-proyecto` (Nicho), `mi-menu` (El Jardín),
+  `mi-card` (Coffee Shop Portales, solo lealtad), `mi-restaurantetejaban`, la copia de
+  Caminos de Michoacán y `mi-menu-local-mysql` (Luigi's, hoy sobre MongoDB).
+- Lado del cliente en iPhone (390×844): menú con un platillo abierto, tarjeta y reseñas.
+  Paneles (Admin, Resta3, Empleado) en escritorio a 1.5x → 1800×1125.
+- Las credenciales de los paneles **no se guardan** en el repositorio: se usan solo en
+  scripts temporales fuera del proyecto. Las de Nicho y el admin de El Tejaban no
+  funcionaron (el admin de El Tejaban redirige al de Caminos).
+- `recordVideo` con viewport de celular deja el contenido en la esquina superior
+  izquierda del cuadro: recortar con `crop=390:844:0:0` antes de escalar.
+- No se tocó nada que cree datos (pedidos, sellos, reseñas) en los sistemas reales.
+
 ## Servidor local
 
 El repo está en OneDrive: `.next` es una junction fuera de OneDrive y el

@@ -19,6 +19,10 @@ const dm = (name, alt, width = 1800, height = 1125) => ({ image: `/Coding/Dental
 const dmMovil = (name, alt) => ({ image: `/Coding/DentalMaya/movil-${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
 // Project Lab: capturas de escritorio a 1800 px (proporción ≈ 2.1:1, la de la pantalla grabada)
 const gp = (name, alt) => ({ image: `/Coding/Gestion_Proyectos/${name}.webp`, alt, width: 1800, height: 855 });
+// Plataforma para restaurantes: paneles a 1800×1125 y menús de cliente en iPhone
+const rs = (name, alt) => ({ image: `/Coding/Restaurantes/${name}.webp`, alt, width: 1800, height: 1125 });
+const rsMovil = (name, alt) => ({ image: `/Coding/Restaurantes/movil-${name}-iphone.webp`, alt, width: 720, height: 1558, device: "iphone" });
+const rsVideo = (name, alt) => ({ video: `/Coding/Restaurantes/video/${name}.mp4`, poster: `/Coding/Restaurantes/video/${name}-poster.webp`, alt, width: 600, height: 1298, device: "iphone" });
 const gpVideo = (name, alt) => ({ video: `/Coding/Gestion_Proyectos/video/${name}.mp4`, poster: `/Coding/Gestion_Proyectos/video/${name}-poster.webp`, alt, width: 1280, height: 606 });
 
 const PROYECTOS = {
@@ -207,6 +211,133 @@ const PROYECTOS = {
         },
       },
       { items: [gp("almacenamiento", "Almacenamiento por carpetas con capacidad"), gp("integraciones", "Integraciones activas y catálogo de MCP, APIs y skills")] },
+    ],
+  },
+  // Plataforma para restaurantes: la misma base desplegada para varias marcas,
+  // por eso el hero va sin logotipo (título en texto)
+  "1/2": {
+    hero: {
+      title: "Plataforma para restaurantes",
+      category: "Software · Menú digital, lealtad y punto de venta",
+      description:
+        "Un sistema completo para restaurantes que se adapta a cada marca: menú digital con fotos, tarjeta de lealtad, reseñas, y tres paneles —administración, empleados y punto de venta—. La misma base corre hoy para seis restaurantes, cada uno con su logotipo y sus colores.",
+      meta: [
+        ["Disciplina", "Desarrollo de software"],
+        ["Tecnología", "Next.js · Supabase · MongoDB"],
+        ["Marcas", "El Tejaban · Caminos de Michoacán · El Jardín · Luigi's · Nicho · Portales"],
+        ["Desarrollador", "Eloy Walls"],
+      ],
+      background: "#141210",
+      ink: "#ffffff",
+      accent: "#e8a76a",
+    },
+    rows: [
+      {
+        story: {
+          eyebrow: "Una base, muchas marcas",
+          title: "Cada restaurante, con su propia cara.",
+          body: [
+            "La plataforma toma el **logotipo, los colores y el menú** de cada restaurante desde su configuración: el mismo código se ve azul en **El Tejaban**, terracota en **Caminos de Michoacán**, naranja en **El Jardín de Acámbaro**, rojo en **Luigi's** y magenta en **Nicho**.",
+          ],
+        },
+      },
+      { items: [rs("portada-marcas", "Menú digital de cinco restaurantes, cada uno con sus colores")] },
+      {
+        story: {
+          eyebrow: "Menú digital",
+          title: "El menú en el celular del cliente.",
+          body: [
+            "El cliente escanea el QR de la mesa y abre el menú por **categorías**: cada platillo se despliega con su **foto, precio** y el botón para agregarlo al pedido; los agotados se marcan y los favoritos acumulan *likes*. Abajo, una barra lleva a **reseñas** y a la **tarjeta de lealtad**.",
+          ],
+        },
+      },
+      { items: [rsVideo("menu-tejaban-iphone", "Grabación del menú de El Tejaban: se abre una categoría y tres platillos con su foto"), rsMovil("tejaban-platillo", "Platillo abierto en el menú de El Tejaban")] },
+      {
+        compact: true,
+        columns: 4,
+        items: [
+          rsMovil("caminos-platillo", "Menú de Caminos de Michoacán con un platillo abierto"),
+          rsMovil("jardin-platillo", "Menú de El Jardín de Acámbaro con una hamburguesa"),
+          rsMovil("luigis-platillo", "Menú de Luigi's con una pizza abierta"),
+          rsMovil("nicho-platillo", "Menú de Nicho con una hamburguesa"),
+        ],
+      },
+      {
+        story: {
+          eyebrow: "Lealtad y reseñas",
+          title: "Que el cliente vuelva.",
+          body: [
+            "La **tarjeta de lealtad** se consulta con nombre y teléfono, sin descargar nada, y suma un sello por visita hasta ganar un premio. Las **reseñas** se dejan desde el mismo menú; las malas avisan por correo al dueño antes de que se vuelvan públicas.",
+          ],
+        },
+      },
+      {
+        compact: true,
+        columns: 4,
+        items: [
+          rsMovil("tejaban-card", "Tarjeta de lealtad de El Tejaban"),
+          rsMovil("portales-card", "Tarjeta de lealtad de Coffee Shop Portales"),
+          rsMovil("caminos-review", "Reseñas de Caminos de Michoacán"),
+          rsMovil("nicho-review", "Reseñas de Nicho"),
+        ],
+      },
+      {
+        story: {
+          eyebrow: "Panel de administración",
+          title: "El negocio completo, desde un panel.",
+          body: [
+            "El dueño ve la **fidelización** de sus clientes por nivel, los puntos y las recompensas más canjeadas; administra el **menú inteligente** con su ranking de platillos más gustados, el **recetario** con costos, el **CRM**, campañas de **marketing** por canal, **automatizaciones** con IA y el inventario de **producción**.",
+          ],
+        },
+      },
+      { items: [rs("admin-fidelizacion", "Dashboard de fidelización con clientes por nivel y puntos")] },
+      { items: [rs("admin-menu", "Menú inteligente con ranking de platillos")] },
+      {
+        story: {
+          eyebrow: "Cupones",
+          title: "Recompensas que se envían solas.",
+          body: [
+            "Los **cupones automáticos** se disparan sin que nadie los mande: un postre gratis en el **cumpleaños**, un 20% para recuperar a quien lleva 15 días sin volver, un 10% de **bienvenida** en la primera compra y un regalo sorpresa al **subir de nivel**. El panel muestra cuántos se han enviado y cuáles están activos.",
+          ],
+        },
+      },
+      { items: [rs("cupones-dashboard", "Dashboard de fidelización con la sección de cupones automáticos"), { image: "/Coding/Restaurantes/cupones-tarjeta.webp", alt: "Cupones automáticos: cumpleaños, recuperación, bienvenida y ascenso de nivel", width: 569, height: 482 }] },
+      {
+        story: {
+          eyebrow: "Recetario",
+          title: "Cada platillo, con su receta.",
+          body: [
+            "El **recetario** guarda las recetas del restaurante con su foto, categoría, ingredientes y pasos de preparación, para que la cocina prepare igual cada vez. El dueño las edita desde el admin y los **empleados** las consultan desde su panel, filtradas por categoría.",
+          ],
+        },
+      },
+      { items: [rs("admin-recetario", "Recetario con fotos y categorías"), rs("receta-detalle", "Receta del Despertar del Ranchero con ingredientes y preparación")] },
+      { items: [rs("recetario-2", "Más recetas del recetario: caldo de res, churipo, morisqueta"), rs("recetario-empleado", "Recetario en el panel del empleado, filtrado por categoría")] },
+      { items: [rs("admin-marketing", "Marketing por canal con presupuesto y retorno"), rs("admin-crm", "CRM de clientes con visitas y gasto")] },
+      { items: [rs("admin-automatizaciones", "Automatizaciones con IA para clientes inactivos y ofertas"), rs("admin-produccion", "Producción e inventario con stock mínimo")] },
+      {
+        story: {
+          eyebrow: "Resta3 · Punto de venta",
+          title: "Caja, mesas y cocina en el mismo sistema.",
+          body: [
+            "**Resta3** es el panel de operación: un **TPV** con la foto de cada platillo para tomar la comanda, el estado de las **mesas**, la pantalla de **cocina** con las órdenes en preparación, domicilios, inventario, corte de caja y **reportes** de ventas.",
+          ],
+        },
+      },
+      { items: [rs("resta3-tpv-tejaban", "Punto de venta de El Tejaban con la foto de cada platillo")] },
+      { items: [rs("resta3-dashboard-tejaban", "Dashboard de Resta3 con ventas, pedidos y estado de cocina"), rs("resta3-tpv-caminos", "Punto de venta de Caminos de Michoacán")] },
+      { items: [rs("resta3-reportes", "Reportes con platillos más vendidos y ventas por categoría"), rs("resta3-cocina", "Pantalla de cocina con las órdenes de entrada")] },
+      {
+        story: {
+          eyebrow: "Empleados y versiones ligeras",
+          title: "Del mesero a la versión más sencilla.",
+          body: [
+            "Los **empleados** tienen su propio acceso para sellar visitas con el QR del cliente y atender pedidos. Para negocios más chicos hay versiones ligeras: **menú y pedidos** (El Jardín, Luigi's —esta sobre **MongoDB**—) o solo la **tarjeta de lealtad** (Coffee Shop Portales).",
+          ],
+        },
+      },
+      { items: [rs("empleado-sellar", "Panel del empleado para sellar visitas con QR"), rs("jardin-pedidos", "Pedidos activos en el panel de El Jardín")] },
+      { items: [rs("luigis-menu", "Menú inteligente del panel de Luigi's"), rs("portales-tarjetas", "Tarjetas de lealtad del panel de Coffee Shop Portales")] },
     ],
   },
 };

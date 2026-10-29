@@ -23,6 +23,13 @@ const CARRUSELES_CODING = {
     "/Coding/Gestion_Proyectos/portada-gantt.webp",
     "/Coding/Gestion_Proyectos/portada-conocimiento.webp",
   ],
+  // Plataforma para restaurantes: los menús de las marcas y los paneles
+  "1/2": [
+    "/Coding/Restaurantes/portada-marcas.webp",
+    "/Coding/Restaurantes/portada-resta3-tpv-tejaban.webp",
+    "/Coding/Restaurantes/portada-admin-fidelizacion.webp",
+    "/Coding/Restaurantes/portada-admin-recetario.webp",
+  ],
 };
 
 // Proyectos que se despliegan bajo una tarjeta de Web, por "perfil/proyecto".
