@@ -41,27 +41,15 @@ export default function Footer() {
                 <Link href="/galeria/exposiciones" className={styles.link}>
                   Exposiciones
                 </Link>
-                <ul className={styles.subLista}>
-                  <li>
-                    <Link href="/galeria/humans" className={styles.link}>
-                      Humans
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/galeria/anacronismo" className={styles.link}>
-                      Anacronismo
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/galeria/icecream" className={styles.link}>
-                      Ice Cream
-                    </Link>
-                  </li>
-                </ul>
               </li>
               <li>
                 <Link href="/galeria/sketch" className={styles.link}>
                   Sketch
+                </Link>
+              </li>
+              <li>
+                <Link href="/galeria/conceptart" className={styles.link}>
+                  Concept Art
                 </Link>
               </li>
               <li>

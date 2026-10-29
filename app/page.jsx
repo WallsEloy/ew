@@ -4,7 +4,6 @@ import LogosCarrusel from "../components/LogosCarrusel";
 import ProcesoScroll from "../components/ProcesoScroll";
 import VideoModulo from "../components/VideoModulo";
 import VisualGraphs from "../components/VisualGraphs";
-import Footer from "../components/Footer";
 import { getFocosCarrusel } from "../lib/focoCarrusel";
 import { getSlides } from "../lib/supabaseServer";
 import { getVideosHome } from "../lib/videosHomeConfig";
@@ -48,7 +47,6 @@ export default async function Home() {
       {/* Tira de logotipos que desfila (data/logosCarrusel.js) */}
       <LogosCarrusel />
       <VisualGraphs />
-      <Footer />
     </main>
   );
 }

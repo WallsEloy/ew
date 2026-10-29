@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import MobileDockSpacer from "../components/MobileDockSpacer";
+import FooterSitio from "../components/FooterSitio";
 import { getNavConfig } from "../lib/navConfig";
 import "./globals.css";
 
@@ -35,6 +36,8 @@ export default async function RootLayout({ children }) {
           className="site-mobile-nav-spacer md:hidden h-[94px]"
         />
         {children}
+        {/* El mismo footer del inicio en todo el sitio (salvo el dashboard) */}
+        <FooterSitio />
         {/* Espaciador solo móvil: reserva el alto del dock inferior fijo */}
         <MobileDockSpacer />
         {/* Celular en horizontal: el navegador no deja bloquear el giro, así que
