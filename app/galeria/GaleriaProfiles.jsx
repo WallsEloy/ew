@@ -47,8 +47,11 @@ export default function GaleriaProfiles({ profiles = [], activeSlug }) {
   const sueltas = esFotografia ? profile.posts.filter((p) => !p.sesion) : [];
 
   const abrirFoto = (posts, index) => {
-    setModalPosts(posts);
-    setStartIndex(index); // Guardar dónde hizo click el usuario
+    // Fotografía abre un feed con todas sus fotos, sea cual sea la elegida: la
+    // sigue el resto de su sesión y después las demás sesiones
+    const feed = esFotografia ? [...sueltas, ...sesiones.flatMap((s) => s.posts)] : posts;
+    setModalPosts(feed);
+    setStartIndex(esFotografia ? feed.indexOf(posts[index]) : index); // Guardar dónde hizo click el usuario
     setOpen(true); // Abrir el modal del Feed
   };
 

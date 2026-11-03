@@ -1205,3 +1205,21 @@
     scroll-padding-inline: 0;
   }
 }
+
+/* Feed de Fotografía: la foto elegida arriba y las demás hacia abajo, con scroll
+   vertical libre en celular y escritorio. Se desplaza el carril, no el visor. */
+.modalOverlay.overlayFeed {
+  overflow: hidden;
+}
+
+.postsContainer.feedVertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 80px 0 64px;
+  scroll-snap-type: none;
+  overscroll-behavior: contain;
+}

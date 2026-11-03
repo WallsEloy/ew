@@ -134,7 +134,7 @@ function Holograma({ src, activo }) {
 // propio tamaño y sin textos encima. Al tocarla gira y atrás muestra su ficha
 // técnica con los datos reales de la imagen (los de post.meta que tengan
 // contenido y el formato medido del archivo; nunca datos de ejemplo).
-function FotoSola({ post, index, delay }) {
+function FotoSola({ post, index, delay, prioritaria = false }) {
   const [volteada, setVolteada] = useState(false);
   const [medidas, setMedidas] = useState(null);
   const titulo = (post.caption || `Fotografía ${index + 1}`).split("#")[0].trim();
@@ -161,6 +161,9 @@ function FotoSola({ post, index, delay }) {
     >
       <div
         className={styles.fotoGiro}
+        // Hasta que carga reserva alto: si no, las fotos diferidas medirían cero
+        // y se cargarían todas de golpe al estar "a la vista"
+        style={medidas ? undefined : { minHeight: "50dvh" }}
         role="button"
         tabIndex={0}
         aria-pressed={volteada}
@@ -178,6 +181,7 @@ function FotoSola({ post, index, delay }) {
             src={post.image}
             alt={post.caption || `Fotografía ${index + 1}`}
             className={`${styles.fotoSolaImg} ${styles.fotoGiroFrente}`}
+            loading={prioritaria ? "eager" : "lazy"}
             onLoad={(event) => setMedidas([event.currentTarget.naturalWidth, event.currentTarget.naturalHeight])}
           />
           {/* Reverso: la ficha técnica de la imagen */}
@@ -536,7 +540,9 @@ export default function FeedModal({
   detallesAbajo = false,
 }) {
   const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(startIndex);
+  // Fotografía es un feed vertical: la foto elegida va primero y las demás
+  // siguen hacia abajo, así que el índice activo arranca en cero.
+  const [activeIndex, setActiveIndex] = useState(soloFoto ? 0 : startIndex);
 
   const scrollToPost = (index, behavior = "smooth") => {
     const safeIndex = Math.max(0, Math.min(index, posts.length - 1));
@@ -546,15 +552,15 @@ export default function FeedModal({
     if (target) {
       target.scrollIntoView({
         behavior,
-        block: isDesktop ? "center" : "start",
-        inline: isDesktop ? "center" : "nearest",
+        block: isDesktop && !soloFoto ? "center" : "start",
+        inline: isDesktop && !soloFoto ? "center" : "nearest",
       });
       setActiveIndex(safeIndex);
     }
   };
 
   useEffect(() => {
-    scrollToPost(startIndex, "auto");
+    scrollToPost(soloFoto ? 0 : startIndex, "auto");
   }, [startIndex]);
 
   useEffect(() => {
@@ -562,6 +568,14 @@ export default function FeedModal({
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowRight") scrollToPost(activeIndex + 1);
       if (event.key === "ArrowLeft") scrollToPost(activeIndex - 1);
+      if (soloFoto && event.key === "ArrowDown") {
+        event.preventDefault();
+        scrollToPost(activeIndex + 1);
+      }
+      if (soloFoto && event.key === "ArrowUp") {
+        event.preventDefault();
+        scrollToPost(activeIndex - 1);
+      }
     };
 
     const previousOverflow = document.body.style.overflow;
@@ -572,10 +586,11 @@ export default function FeedModal({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activeIndex, onClose]);
+  }, [activeIndex, onClose, soloFoto]);
 
   const handleDesktopWheel = (event) => {
-    if (!window.matchMedia("(min-width: 769px)").matches) return;
+    // En el feed vertical la rueda hace su scroll normal
+    if (soloFoto || !window.matchMedia("(min-width: 769px)").matches) return;
 
     /*
      * Con el ratón encima de una imagen que se puede recorrer, la rueda la
@@ -602,6 +617,22 @@ export default function FeedModal({
   };
 
   const handleScroll = (event) => {
+    if (soloFoto) {
+      const { scrollTop, clientHeight, children } = event.currentTarget;
+      const centro = scrollTop + clientHeight / 2;
+      let cercana = 0;
+      let menorDistancia = Infinity;
+      Array.from(children).forEach((foto, index) => {
+        const distancia = Math.abs(centro - (foto.offsetTop + foto.offsetHeight / 2));
+        if (distancia < menorDistancia) {
+          menorDistancia = distancia;
+          cercana = index;
+        }
+      });
+      setActiveIndex(cercana);
+      return;
+    }
+
     if (!window.matchMedia("(min-width: 769px)").matches) return;
 
     const containerCenter =
@@ -656,31 +687,44 @@ export default function FeedModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className={styles.modalOverlay}
+        className={`${styles.modalOverlay} ${soloFoto ? styles.overlayFeed : ""}`}
         onClick={handleOutsideClick}
         onPanEnd={handlePanEnd} // Detecta el final del gesto de toque/arrastre
       >
-        <button
-          type="button"
-          className={`${styles.navButton} ${styles.navPrevious}`}
-          onClick={() => scrollToPost(activeIndex - 1)}
-          disabled={activeIndex === 0}
-          aria-label="Ver publicación anterior"
-        >
-          ‹
-        </button>
+        {!soloFoto && (
+          <button
+            type="button"
+            className={`${styles.navButton} ${styles.navPrevious}`}
+            onClick={() => scrollToPost(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            aria-label="Ver publicación anterior"
+          >
+            ‹
+          </button>
+        )}
 
         <div
           ref={containerRef}
           // Con los detalles abajo cada tarjeta mide lo que su imagen: el carril
           // deja medio ancho de ventana a cada lado para poder centrar cualquiera
-          className={`${styles.postsContainer} ${detallesAbajo ? styles.carrilCentrado : ""}`}
+          className={`${styles.postsContainer} ${detallesAbajo ? styles.carrilCentrado : ""} ${soloFoto ? styles.feedVertical : ""}`}
           onWheel={handleDesktopWheel}
           onScroll={handleScroll}
         >
-          {posts.map((post, i) => soloFoto ? (
-            <FotoSola key={post.id} post={post} index={i} delay={i * 0.05} />
-          ) : (
+          {soloFoto ? posts.map((_, i) => {
+            // Empieza en la foto elegida y al terminar da la vuelta a las anteriores.
+            // `index` sigue siendo el original: de él sale la referencia de la ficha.
+            const original = (startIndex + i) % posts.length;
+            return (
+              <FotoSola
+                key={posts[original].id}
+                post={posts[original]}
+                index={original}
+                delay={Math.min(i, 6) * 0.05}
+                prioritaria={i < 2}
+              />
+            );
+          }) : posts.map((post, i) => (
             <FeedPost
               key={post.id}
               post={post}
@@ -698,15 +742,17 @@ export default function FeedModal({
           ))}
         </div>
 
-        <button
-          type="button"
-          className={`${styles.navButton} ${styles.navNext}`}
-          onClick={() => scrollToPost(activeIndex + 1)}
-          disabled={activeIndex === posts.length - 1}
-          aria-label="Ver publicación siguiente"
-        >
-          ›
-        </button>
+        {!soloFoto && (
+          <button
+            type="button"
+            className={`${styles.navButton} ${styles.navNext}`}
+            onClick={() => scrollToPost(activeIndex + 1)}
+            disabled={activeIndex === posts.length - 1}
+            aria-label="Ver publicación siguiente"
+          >
+            ›
+          </button>
+        )}
 
         {!soloFoto && (
           <div className={styles.counter} aria-live="polite">
